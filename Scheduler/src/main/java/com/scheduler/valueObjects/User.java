@@ -1,4 +1,4 @@
-package com.scheduler.ValueObjects;
+package com.scheduler.valueObjects;
 
 public class User {
 	private int user_id = 0;

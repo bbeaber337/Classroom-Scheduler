@@ -1,4 +1,4 @@
-package com.scheduler.ValueObjects;
+package com.scheduler.valueObjects;
 
 public class AccRequest {
 	private int accRequest_id = -1;
