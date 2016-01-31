@@ -74,7 +74,7 @@ public class excelServices extends baseJSP {
 	
 	public void addData(){
 		
-		final String FILE_PATH = "C:/Users/Brandon/Documents/Spring 2016/Capstone/Practice/excel_attempt1.xlsx";
+		final String FILE_PATH = "C:/Users/Brandon/Documents/Spring 2016/Capstone/Client Documents/PKI_Rooms.xlsx";
 		List<Class1> classList = new ArrayList<Class1>();
 		FileInputStream fis = null;
 		
@@ -124,8 +124,16 @@ public class excelServices extends baseJSP {
 									c.setCombo(cell.getStringCellValue());
 								}
 								if(cell.getColumnIndex() == 5){
-									c.setDescr(cell.getStringCellValue());
+									c.setName(cell.getStringCellValue());
 								}
+								if(cell.getColumnIndex() == 6){
+									c.setDescription(cell.getStringCellValue());
+								}
+								if(cell.getColumnIndex() == 7){
+									c.setAcadGroup(cell.getStringCellValue());
+								}
+
+
 
 
 								
@@ -140,6 +148,10 @@ public class excelServices extends baseJSP {
 							    	int j = (int) cell.getNumericCellValue();
 							    	//Set the integer value
 							        c.setClassNbr(j);
+							    }
+							    if (cell.getColumnIndex() == 8) {
+							    	int j = (int) cell.getNumericCellValue();
+							        c.setCapacity(j);
 							    }
 							    /*
 							   //Cell with index 2 
@@ -182,7 +194,10 @@ public class excelServices extends baseJSP {
 			System.out.printf("Catalog: %s\n",c.getCatalog());
 			System.out.printf("Section: %s\n",c.getSection());
 			System.out.printf("Combo: %s\n",c.getCombo());
-			System.out.printf("Class Description: %s\n\n",c.getDescr());
+			System.out.printf("Class Name: %s\n",c.getName());
+			System.out.printf("Description: %s\n",c.getDescription());
+			System.out.printf("Class Group: %s\n",c.getAcadGroup());
+			System.out.printf("Capacity: %d\n\n",c.getCapacity());
 
 		}
 		
