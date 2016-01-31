@@ -55,7 +55,7 @@ public class Class1 {
 		this.room = room;
 	}
 	
-	public String getLNamme(){
+	public String getLName(){
 		return lName;
 	}
 	public void setLName(String lName){

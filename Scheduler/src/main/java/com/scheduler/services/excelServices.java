@@ -132,6 +132,40 @@ public class excelServices extends baseJSP {
 								if(cell.getColumnIndex() == 7){
 									c.setAcadGroup(cell.getStringCellValue());
 								}
+								if(cell.getColumnIndex() == 10){
+									c.setDay(cell.getStringCellValue());
+								}
+								if(cell.getColumnIndex() == 11){
+									c.setSTime(cell.getStringCellValue());
+								}
+								if(cell.getColumnIndex() == 12){
+									c.setETime(cell.getStringCellValue());
+								}
+								if(cell.getColumnIndex() == 13){
+									c.setRoom(cell.getStringCellValue());
+								}
+								if(cell.getColumnIndex() == 16){
+									c.setFName(cell.getStringCellValue());
+								}
+								if(cell.getColumnIndex() == 15){
+									c.setLName(cell.getStringCellValue());
+								}
+								if(cell.getColumnIndex() == 18){
+									c.setSDate(cell.getStringCellValue());
+								}
+								if(cell.getColumnIndex() == 19){
+									c.setEDate(cell.getStringCellValue());
+								}
+								if(cell.getColumnIndex() == 21){
+									c.setLocation(cell.getStringCellValue());
+								}
+								if(cell.getColumnIndex() == 22){
+									c.setMode(cell.getStringCellValue());
+								}
+								if(cell.getColumnIndex() == 23){
+									c.setComp(cell.getStringCellValue());
+								}
+								
 
 
 
@@ -153,18 +187,12 @@ public class excelServices extends baseJSP {
 							    	int j = (int) cell.getNumericCellValue();
 							        c.setCapacity(j);
 							    }
-							    /*
-							   //Cell with index 2 
-							   else if (cell.getColumnIndex() == 2) {
+							    if (cell.getColumnIndex() == 9) {
 							    	int j = (int) cell.getNumericCellValue();
-							      c.setCatalog(j);
-							   }
-							   //Cell with index 3 
-							   //else if (cell.getColumnIndex() == 3) {
-							    	//int j = (int) cell.getNumericCellValue();
-							       //c.setSection(j);
+							        c.setEnrolled(j);
+							    }
 
-							 //}*/
+							   
 						 }			
 					}
 					//End row, add class
@@ -197,7 +225,20 @@ public class excelServices extends baseJSP {
 			System.out.printf("Class Name: %s\n",c.getName());
 			System.out.printf("Description: %s\n",c.getDescription());
 			System.out.printf("Class Group: %s\n",c.getAcadGroup());
-			System.out.printf("Capacity: %d\n\n",c.getCapacity());
+			System.out.printf("Capacity: %d\n",c.getCapacity());
+			System.out.printf("Enrolled: %d\n",c.getEnrolled());
+			System.out.printf("Days: %s\n",c.getDay());
+			System.out.printf("Start Time: %s\n",c.getSTime());
+			System.out.printf("End Time: %s\n",c.getETime());
+			System.out.printf("Room: %s\n",c.getRoom());
+			System.out.printf("Teacher: %s \n",c.getFName());
+			System.out.printf("Teacher: %s \n",c.getLName());
+			System.out.printf("Start Date: %s\n",c.getSDate());
+			System.out.printf("End Date: %s\n",c.getEDate());
+			System.out.printf("Location: %s\n",c.getLocation());
+			System.out.printf("Mode: %s\n",c.getMode());
+			System.out.printf("Component: %s\n\n",c.getComp());
+
 
 		}
 		
