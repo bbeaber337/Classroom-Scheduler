@@ -24,6 +24,36 @@ public class HTMLServices extends baseJSP {
 	private MyServices ms = null;
 	
 	
+	public void buildClasses() throws Exception {
+		List<Class1> items = ms.getClasses();
+		
+		StringBuilder out = new StringBuilder();
+		
+		//out.append("<table>");
+		//out.append("<tr><th>Users</th></tr>");
+		out.append("<table class=\"table\"><thead><tr><th>Class Number</th><th>Name</th><th>Subject</th><th>First Name</th><th>Last Name</th><th>Start Time</th><th>End Time</th><th>Start Date</th><th>End Date</th><th>email</th><th>Admin</th><th>Delete Account</th></tr></thead><tbody>");
+		for(Class1 c : items){
+			
+			out.append("<tr><td>" + c.getClassNbr() + "</td>");
+			out.append("<tr><td>" + c.getName() + "</td>");
+			out.append("<tr><td>" + c.getSubject() + "</td>");
+			out.append("<td>" + c.getFName() + "</td>");
+			out.append("<td>" + c.getLName() + "</td>");
+			out.append("<td>" + c.getSTime() + "</td>");
+			out.append("<td>" + c.getETime() + "</td>");
+			out.append("<td>" + c.getSDate() + "</td>");
+			out.append("<td>" + c.getEDate() + "</td>");
+			out.append("<td>" + c.getCapacity() + "</td>");
+			out.append("<td>" + c.getEnrolled() + "</td>");
+		    out.append("<td><form action='Upload.jsp' method='post' ><input type='hidden' name='editClass' value='" + c.getClassid() + "'><input type='submit' value='Edit' alt='Edit Class'/></form></td>");
+			out.append("</tr>");	
+		}
+		out.append("</tbody></table>");
+		stream.print(out.toString());
+	}
+	
+	
+	
 	public void buildUsers() throws Exception {
 		List<User> items = ms.getUsers();
 		

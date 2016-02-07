@@ -60,23 +60,7 @@ public class adminServices extends baseJSP {
 //	}
 	
 	
-	public void addAccRequest() throws Exception {
-		
-		
-		if(request.getParameter("accountRequest") != null){
-			
-			AccRequest ar = new AccRequest();
-			
-			System.out.printf("Value of FIRST NAME is: %s", request.getParameter("fName"));
-			ar.setFName(request.getParameter("fName"));
-			ar.setLName(request.getParameter("lName"));
-			ar.setUsername(request.getParameter("username"));
-			ar.setPass(request.getParameter("pass"));
-			ar.setEmail(request.getParameter("email"));
-			ar.setReasoning(request.getParameter("reasoning"));
-			ms.insertAccRequest(ar);
-		}
-	}
+
 	
 	public void addAccount() throws Exception {
 		
@@ -100,6 +84,25 @@ public class adminServices extends baseJSP {
 		}
 	}
 	
+	public void addAccRequest() throws Exception {
+		
+		
+		if(request.getParameter("accountRequest") != null){
+			
+			AccRequest ar = new AccRequest();
+			
+			System.out.printf("Value of FIRST NAME is: %s", request.getParameter("fName"));
+			ar.setFName(request.getParameter("fName"));
+			ar.setLName(request.getParameter("lName"));
+			ar.setUsername(request.getParameter("username"));
+			ar.setPass(request.getParameter("pass"));
+			ar.setEmail(request.getParameter("email"));
+			ar.setReasoning(request.getParameter("reasoning"));
+			ms.insertAccRequest(ar);
+		}
+	}
+	
+
 	
 	public void delAccRequest() throws Exception {
 		

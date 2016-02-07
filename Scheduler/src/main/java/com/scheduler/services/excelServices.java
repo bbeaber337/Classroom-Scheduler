@@ -54,7 +54,7 @@ public class excelServices extends baseJSP {
 	
 		if(request.getParameter("fileUpload") != null){
 		
-			ArrayList<Class> list = new ArrayList<Class>(); 
+			ArrayList<Class1> list = new ArrayList<Class1>(); 
 
 			Class1 classes = new Class1();
 
@@ -80,6 +80,7 @@ public class excelServices extends baseJSP {
 		final String FILE_PATH = "C:/Users/Brandon/Documents/Spring 2016/Capstone/Client Documents/PKI_Rooms.xlsx";
 		List<Class1> classList = new ArrayList<Class1>();
 		FileInputStream fis = null;
+		ms.clearClasses();
 		
 		//if(request.getParameter("fileUpload") != null){
 			
@@ -145,7 +146,7 @@ public class excelServices extends baseJSP {
 								}
 
 								if(cell.getColumnIndex() == 13){
-									c.setRoom(cell.getStringCellValue());
+									c.setFacil(cell.getStringCellValue());
 								}
 								if(cell.getColumnIndex() == 16){
 									c.setFName(cell.getStringCellValue());
@@ -190,7 +191,9 @@ public class excelServices extends baseJSP {
 							    //If this cell is a Date
 							    if(DateUtil.isCellDateFormatted(cell)){
 									if(cell.getColumnIndex() == 11){
-										//cell.setCellType(Cell.CELL_TYPE_STRING);
+										/*Converting to Strings gives weird errors
+										cell.setCellType(Cell.CELL_TYPE_STRING);*/
+										
 										//Need to convert the Dates into Strings using the format specified above
 										c.setSTime(tf.format(cell.getNumericCellValue()));
 									}
@@ -210,6 +213,7 @@ public class excelServices extends baseJSP {
 							   
 						 }			
 					}
+					ms.addClass(c);
 					//End row, add class
 					classList.add(c);
 				  }
@@ -221,8 +225,8 @@ public class excelServices extends baseJSP {
 			} catch (IOException e) {
 	            e.printStackTrace();
 	        }
-		
-			printClasses(classList);
+			
+			//printClasses(classList);
 
 		//}
 				
@@ -232,7 +236,7 @@ public class excelServices extends baseJSP {
 		
 		for(Class1 c : classList){
 			System.out.printf("Here is a Class\n");
-			System.out.printf("Class Nbr: %d\n",c.getClassNrb());
+			System.out.printf("Class Nbr: %d\n",c.getClassNbr());
 			System.out.printf("Subject: %s\n",c.getSubject());
 			System.out.printf("Catalog: %s\n",c.getCatalog());
 			System.out.printf("Section: %s\n",c.getSection());
@@ -245,7 +249,7 @@ public class excelServices extends baseJSP {
 			System.out.printf("Days: %s\n",c.getDay());
 			System.out.printf("Start Time: %s\n",c.getSTime());
 			System.out.printf("End Time: %s\n",c.getETime());
-			System.out.printf("Room: %s\n",c.getRoom());
+			System.out.printf("Room: %s\n",c.getFacil());
 			System.out.printf("Teacher: %s \n",c.getFName());
 			System.out.printf("Teacher: %s \n",c.getLName());
 			System.out.printf("Start Date: %s\n",c.getSDate());

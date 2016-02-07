@@ -20,7 +20,7 @@ public class Class1 {
 	String lName = null;
 	String sDate = null;
 	String eDate = null;
-	String room = null;
+	String facil = null;
 	String location = null;
 	String mode = null;
 	String comp = null;
@@ -48,11 +48,11 @@ public class Class1 {
 		this.location = location;
 	}
 	
-	public String getRoom(){
-		return room;
+	public String getFacil(){
+		return facil;
 	}
-	public void setRoom(String room){
-		this.room = room;
+	public void setFacil(String facil){
+		this.facil = facil;
 	}
 	
 	public String getLName(){
@@ -139,7 +139,7 @@ public class Class1 {
 		this.class_id = class_id;
 	}
 	
-	public int getClassNrb(){
+	public int getClassNbr(){
 		return classNbr;
 	}
 	public void setClassNbr(int classNbr){

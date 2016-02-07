@@ -40,6 +40,56 @@ public class MyServices {
 		return 0;
 	}
 	
+	public int clearClasses()
+	{
+		String query = "truncate classes;";
+		
+		try {
+			return conn.runUpdate(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return 0;
+	}
+	
+	public int addClass(Class1 c){
+		
+		System.out.printf("Adding Class: %s", c.getName());
+		String query = "INSERT INTO classes (classNbr, subject, catalog, section, combo, name, description, acadGroup, capacity, enrolled, day,";
+		query += " sTime, eTime, sDate, eDate, fName, lName, facil, location, mode, comp) VALUES( ";
+		query += "'" + c.getClassNbr() + "', ";
+		query += "'" + c.getSubject() + "', ";
+		query += "'" + c.getCatalog() + "', ";
+		query += "'" + c.getSection() + "', ";
+		query += "'" + c.getCombo() + "', ";
+		query += "'" + c.getName() + "', ";
+		query += "'" + c.getDescription() + "', ";
+		query += "'" + c.getAcadGroup() + "', ";
+		query += "'" + c.getCapacity() + "', ";
+		query += "'" + c.getEnrolled() + "', ";
+		query += "'" + c.getDay() + "', ";
+		query += "'" + c.getSTime() + "', ";
+		query += "'" + c.getETime() + "', ";
+		query += "'" + c.getSDate() + "', ";
+		query += "'" + c.getEDate() + "', ";
+		query += "'" + c.getFName() + "', ";
+		query += "'" + c.getLName() + "', ";
+		query += "'" + c.getFacil() + "', ";
+		query += "'" + c.getLocation() + "', ";
+		query += "'" + c.getMode() + "', ";
+		query += "'" + c.getComp() + "'";
+		query += ")";
+		
+		try {
+			return conn.runUpdate(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return 0;
+	}
+	
 	
 	public int insertAccRequest(AccRequest ar){
 					
@@ -58,6 +108,34 @@ public class MyServices {
 			e.printStackTrace();
 		}
 		return 0;
+	}
+	
+	
+	public List<Class1> getClasses() throws Exception {
+		ResultSet rs = null;
+		List<Class1> list = new ArrayList<Class1>();
+		
+		rs = conn.runQuery("SELECT classNbr, name, subject, fName, lName, sTime, eTime, sDate, eDate, capacity, enrolled FROM classes");
+		
+		if(rs != null){
+			while(rs.next()){
+				Class1 item = new Class1();
+				System.out.println(rs.getString("name"));
+				item.setClassNbr(rs.getInt("classNbr"));
+				item.setName(rs.getString("name"));
+				item.setSubject(rs.getString("subject"));
+				item.setFName(rs.getString("fName"));
+				item.setLName(rs.getString("lName"));
+				item.setSTime(rs.getString("sTime"));
+				item.setETime(rs.getString("eTime"));
+				item.setSDate(rs.getString("sDate"));
+				item.setEDate(rs.getString("eDate"));
+				item.setCapacity(rs.getInt("capacity"));
+				item.setEnrolled(rs.getInt("enrolled"));
+				list.add(item);
+			}
+		}
+		return list;
 	}
 	
 	
