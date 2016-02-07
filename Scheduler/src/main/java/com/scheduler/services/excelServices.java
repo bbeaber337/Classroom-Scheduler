@@ -80,9 +80,11 @@ public class excelServices extends baseJSP {
 		final String FILE_PATH = "C:/Users/Brandon/Documents/Spring 2016/Capstone/Client Documents/PKI_Rooms.xlsx";
 		List<Class1> classList = new ArrayList<Class1>();
 		FileInputStream fis = null;
-		ms.clearClasses();
+
 		
-		//if(request.getParameter("fileUpload") != null){
+		if(request.getParameter("fileUpload") != null){
+			
+			ms.clearClasses();
 			
 			try {
 				 fis = new FileInputStream(FILE_PATH);
@@ -228,7 +230,7 @@ public class excelServices extends baseJSP {
 			
 			//printClasses(classList);
 
-		//}
+		}
 				
 	}
 		

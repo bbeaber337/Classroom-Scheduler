@@ -100,8 +100,13 @@
 	</div>
 </div>
 </br></br></br>
-<%//File Uploader %>
-<form action="Upload.jsp" method="post" enctype="multipart/form-data">
+
+<!--  File Uploader -->
+
+<!-- Need to ensure the form  includes " enctype="multipart/form-data" " for the file to be uploaded correctly (see below Example) -->
+<!-- <form role="form" action="Upload.jsp" method="post" enctype="multipart/form-data"> -->
+
+<form role="form" action="Upload.jsp" method="post" >
 <input type="hidden" name="fileUpload" value="fileUpload">
 	<div class="form-group">	 
 		<label for="file">
@@ -112,11 +117,12 @@
 	</div>
 
 	<div class="row-md-5">				
-	<button type="submit" value="upload" class="btn btn-default" onclick="return confirm('Are you sure you want to Upload this file?  This will replace all Existing classes and classrooms.')">
+	<button type="submit" class="btn btn-default" onclick="return confirm('Are you sure you want to Upload this file?  This will replace all Existing classes and classrooms.')">
 		</t>Submit		
 	</button>
 	</div>				
 </form>
+
 
 
 </body>
