@@ -50,7 +50,7 @@
             <div id="navbar" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">                                       
 
-                    <li><a href="viewRequests.jsp">Account Requests</a></li>
+                    <li><a href="viewRequests.jsp">Create Account</a></li>
                     <li><a href="Upload.jsp">Upload Schedule</a></li>
                     
                     

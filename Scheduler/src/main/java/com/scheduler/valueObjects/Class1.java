@@ -107,7 +107,7 @@ public class Class1 {
 	public int getEnrolled(){
 		return enrolled;
 	}
-	public void setEnrolled(int enolled){
+	public void setEnrolled(int enrolled){
 		this.enrolled = enrolled;
 	}
 	
@@ -128,7 +128,7 @@ public class Class1 {
 	public String getDescription(){
 		return description;
 	}
-	public void setDescription(String desription){
+	public void setDescription(String description){
 		this.description = description;
 	}
 	

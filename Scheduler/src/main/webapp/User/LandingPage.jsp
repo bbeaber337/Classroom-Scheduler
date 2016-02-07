@@ -65,7 +65,7 @@
 	</div>
 </div>
 </br></br></br>
- <a href="RequestAccount.jsp">    Click here to request a new account</a>
+<!--   <a href="RequestAccount.jsp">    Click here to request a new account</a> -->
 
 </body>
 </html>

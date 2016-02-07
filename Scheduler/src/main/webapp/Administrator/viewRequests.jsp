@@ -52,7 +52,7 @@
             <div id="navbar" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">                                       
 
-                    <li class="active"><a href="viewRequests.jsp">Account Requests</a></li>
+                    <li class="active"><a href="viewRequests.jsp">Create Account</a></li>
                     <li><a href="Upload.jsp">Upload Schedule</a></li>
                     
                     
@@ -92,9 +92,9 @@
 	<!--  End Header -->
 	
 	
-	<h1 class="text-center">Account Requests</h1>
+	<!--   <h1 class="text-center">Account Requests</h1> -->
 	
-<%hs.buildAccRequests(); %>
+<%//hs.buildAccRequests(); %>
 
 
 		</br><h3>Create Account</h3>

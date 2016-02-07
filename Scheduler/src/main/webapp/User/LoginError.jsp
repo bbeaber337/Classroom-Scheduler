@@ -30,12 +30,7 @@
 			<p class="text-center">
 				The credentials you entered are invalid. Please return to the login page and try again.   <a href="LandingPage.jsp"> Click here </a>
 			</p>
-			
-			
-			<div>
-				If you do not have an account please submit a request to the administrators so that one may be created for you. <a href="RequestAccount.jsp"> Click here </a>
-			</div>
-			
+
 		</div>
 	</div>
 </div>

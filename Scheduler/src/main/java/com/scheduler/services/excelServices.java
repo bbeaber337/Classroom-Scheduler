@@ -3,6 +3,8 @@ package com.scheduler.services;
 import java.io.*;
 import java.sql.*;
 import java.util.*;
+import java.text.*;
+import java.text.SimpleDateFormat;
 
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -47,12 +49,12 @@ public class excelServices extends baseJSP {
 	}
 	
 	
-	
+/*	
 	public void addsData(){
 	
 		if(request.getParameter("fileUpload") != null){
 		
-			ArrayList<Class1> list = new ArrayList<Class1>(); 
+			ArrayList<Class> list = new ArrayList<Class>(); 
 
 			Class1 classes = new Class1();
 
@@ -71,6 +73,7 @@ public class excelServices extends baseJSP {
 		}
 		
 	}
+ */
 	
 	public void addData(){
 		
@@ -99,6 +102,11 @@ public class excelServices extends baseJSP {
 					Class1 c = new Class1();
 					Row row = (Row) rowIterator.next();
 					Iterator cellIterator = row.cellIterator();
+					
+					//Need to set a format in order to convert Dates into Strings
+					DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+					DateFormat tf = new SimpleDateFormat("HH:mm:ss a");
+
 					
 					//Iterating over each cell (column wise)  in a particular row.
 					while (cellIterator.hasNext()) {
@@ -135,12 +143,7 @@ public class excelServices extends baseJSP {
 								if(cell.getColumnIndex() == 10){
 									c.setDay(cell.getStringCellValue());
 								}
-								if(cell.getColumnIndex() == 11){
-									c.setSTime(cell.getStringCellValue());
-								}
-								if(cell.getColumnIndex() == 12){
-									c.setETime(cell.getStringCellValue());
-								}
+
 								if(cell.getColumnIndex() == 13){
 									c.setRoom(cell.getStringCellValue());
 								}
@@ -150,12 +153,7 @@ public class excelServices extends baseJSP {
 								if(cell.getColumnIndex() == 15){
 									c.setLName(cell.getStringCellValue());
 								}
-								if(cell.getColumnIndex() == 18){
-									c.setSDate(cell.getStringCellValue());
-								}
-								if(cell.getColumnIndex() == 19){
-									c.setEDate(cell.getStringCellValue());
-								}
+
 								if(cell.getColumnIndex() == 21){
 									c.setLocation(cell.getStringCellValue());
 								}
@@ -167,12 +165,10 @@ public class excelServices extends baseJSP {
 								}
 								
 
-
-
-
 								
 							    //The Cell Containing numeric value will contain marks
-							     
+								//cell.setCellType(org.apache.poi.ss.usermodel.Cell.CELL_TYPE_STRING);
+
 							
 						} else if (Cell.CELL_TYPE_NUMERIC == cell.getCellType()) {
 							    	
@@ -190,6 +186,25 @@ public class excelServices extends baseJSP {
 							    if (cell.getColumnIndex() == 9) {
 							    	int j = (int) cell.getNumericCellValue();
 							        c.setEnrolled(j);
+							    }
+							    //If this cell is a Date
+							    if(DateUtil.isCellDateFormatted(cell)){
+									if(cell.getColumnIndex() == 11){
+										//cell.setCellType(Cell.CELL_TYPE_STRING);
+										//Need to convert the Dates into Strings using the format specified above
+										c.setSTime(tf.format(cell.getNumericCellValue()));
+									}
+									if(cell.getColumnIndex() == 12){
+										c.setETime(tf.format(cell.getNumericCellValue()));
+									}
+									
+									if(cell.getColumnIndex() == 18){
+										//Need to convert the Dates into Strings using the format specified above
+										c.setSDate(df.format(cell.getDateCellValue()));
+									}
+									if(cell.getColumnIndex() == 19){
+										c.setEDate(df.format(cell.getDateCellValue()));
+									}
 							    }
 
 							   
