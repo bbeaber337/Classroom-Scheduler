@@ -1,9 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-  
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
   <!-- Pulling Bootstrap from Content Delivery Network / Need to download and host myself -->
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -16,13 +14,16 @@
 	<%@ page import="com.scheduler.jsp.*" %>
 	<%@ page import="java.util.*" %>
 	<%@ page import="java.sql.*" %>
-	<%@ page import="java.io.*" %>
-	
-	
 	<% HTMLServices hs = new HTMLServices(session, request, response, out); 
 		adminServices as = new adminServices(session, request, response, out);
-		as.logout();
+
 	%>
+
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
 </head>
 <body>
 
@@ -33,7 +34,8 @@
 		System.out.print(" Invalid User\n");
 		as.redirect("../User/LandingPage.jsp");
 	}%>
-	
+
+
 	<!--  Start Header -->
 	<nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
@@ -52,8 +54,7 @@
 
                     <li><a href="viewRequests.jsp">Create Account</a></li>
                     <li><a href="Upload.jsp">Upload Schedule</a></li>
-                    
-                    
+             
                  <li>   
 			<div class="btn-group">
                     <button class="btn btn-group">
@@ -74,34 +75,26 @@
 					<li class="divider">
 					</li>
 					<li>
-						<a href="viewUsers.jsp">Users</a>
+						<a href="#">Users</a>
 					</li>
 				</ul>
 				</div>
-
 				</li>
                     
                     <li><a href="../User/LandingPage.jsp?logout=true">Logout</a></li>
                 </ul>
             </div>
-        
+            
         </div>
     </nav>
     </br></br></br></br>
 	<!--  End Header -->
 	
-	
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-md-12">
-			<h3 class="text-center">
-				Administrator Homepage
-			</h3>
-		</div>
-	</div>
-</div>
-</br></br></br>
 
+<h2 class="text-center">Classrooms</h2>	
+</br></br></br></br>
+
+<%//  Build Classrooms here%>
 
 
 </body>

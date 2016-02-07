@@ -64,7 +64,7 @@
 				</button>
 				<ul class="dropdown-menu">
 					<li>
-						<a href="#">Classes</a>
+						<a href="viewClasses.jsp">Classes</a>
 					</li>
 					<li class="divider">
 					</li>
