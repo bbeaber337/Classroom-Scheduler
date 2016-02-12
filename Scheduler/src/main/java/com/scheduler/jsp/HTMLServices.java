@@ -91,17 +91,18 @@ public class HTMLServices extends baseJSP {
 
 		System.out.printf("\n\nClass ID to pull: %d\n\n", item.getClassID());
 		
+		out.append("</br></br></br></br><h2 class=\"text-center\">Edit Class</h2></br></br>");
 		out.append("<form method=\"POST\" action=\"viewClasses.jsp\">");
 		out.append("<input type=\"hidden\" name=\"submitClassEdit\" value=\"submitClassEdit\">");
-		out.append("<input type=\"hidden\" name=\"classID\" value=\"" + item.getClassID() + "\"");
+		out.append("<input type=\"hidden\" name=\"classID\" value=\"" + item.getClassID() + "\"</br></br></br>");
 		out.append("<div class=\"col-xs-3\"><label for=\"classNbr\">Class Number</label><input type=\"text\" class=\"form-control\" name=\"classNbr\" id=\"classNbr\" value='" + item.getClassNbr() + "'/></div></br></br></br>");
-		out.append("<div class=\"col-xs-3\"><label for=\"class\">Class</label><input type=\"text\" class=\"form-control\" name=\"class\" id=\"class\" value='" + item.getName() + "'/></div></br></br></br>");
+		out.append("<div class=\"col-xs-3\"><label for=\"name\">Class</label><input type=\"text\" class=\"form-control\" name=\"name\" id=\"name\" value='" + item.getName() + "'/></div></br></br></br>");
 		out.append("<div class=\"col-xs-3\"><label for=\"subject\">Subject</label><input class=\"form-control\" name=\"subject\" id=\"subject\" value='" + item.getSubject() + "'/></div></br></br></br>");
 		out.append("<div class=\"col-xs-3\"><label for=\"catalog\">Catalog</label><input class=\"form-control\" name=\"catalog\" id=\"catalog\" value='" + item.getCatalog() + "'/></div></br></br></br>");
 		out.append("<div class=\"col-xs-3\"><label for=\"section\">Section</label><input class=\"form-control\" name=\"section\" id=\"section\" value='" + item.getSection() + "'/></div></br></br></br>");
 		out.append("<div class=\"col-xs-3\"><label for=\"combo\">Combined</label><input class=\"form-control\" name=\"combo\" id=\"combo\" value='" + item.getCombo() + "'/></div></br></br></br>");
-		out.append("<div class=\"col-xs-3\"><label for=\"Description\">Combined</label><input class=\"form-control\" name=\"description\" id=\"description\" value='" + item.getDescription() + "'/></div></br></br></br>");
-		out.append("<div class=\"col-xs-3\"><label for=\"Academic Group\">Combined</label><input class=\"form-control\" name=\"acadGroup\" id=\"acadGroup\" value='" + item.getAcadGroup() + "'/></div></br></br></br>");
+		out.append("<div class=\"col-xs-3\"><label for=\"Description\">Description</label><input class=\"form-control\" name=\"description\" id=\"description\" value='" + item.getDescription() + "'/></div></br></br></br>");
+		out.append("<div class=\"col-xs-3\"><label for=\"Academic Group\">Academic Group</label><input class=\"form-control\" name=\"acadGroup\" id=\"acadGroup\" value='" + item.getAcadGroup() + "'/></div></br></br></br>");
 		out.append("<div class=\"col-xs-3\"><label for=\"Capacity\">Capacity</label><input class=\"form-control\" name=\"capacity\" id=\"capacity\" value='" + item.getCapacity() + "'/></div></br></br></br>");
 		out.append("<div class=\"col-xs-3\"><label for=\"enrolled\">Enrolled</label><input class=\"form-control\" name=\"enrolled\" id=\"enrolled\" value='" + item.getEnrolled() + "'/></div></br></br></br>");
 		out.append("<div class=\"col-xs-3\"><label for=\"day\">Days</label><input class=\"form-control\" name=\"day\" id=\"day\" value='" + item.getDay() + "'/></div></br></br></br>");
@@ -117,7 +118,7 @@ public class HTMLServices extends baseJSP {
 		out.append("<div class=\"col-xs-3\"><label for=\"comp\">Comp</label><input class=\"form-control\" name=\"comp\" id=\"comp\" value='" + item.getComp() + "'/></div></br></br></br>");
 		out.append("<div class=\"col-xs-3\"><label for=\"chairType\">Chair Type</label><input class=\"form-control\" name=\"chairType\" id=\"chairType\" value='" + item.getChairType() + "'/></div></br></br></br>");
 		out.append("<div class=\"col-xs-3\"><label for=\"boardType\">Board Type</label><input class=\"form-control\" name=\"boardType\" id=\"boardType\" value='" + item.getBoardType() + "'/></div></br></br></br>");
-		out.append("<div class=\"col-xs-3\"><label for=\"deskType\">Desk Type</label><input class=\"form-control\" name=\"deskType\" id=\"deskType\" value='" + item.getDeskType() + "'/></div></br></br></br>");
+		out.append("<div class=\"col-xs-3\"><label for=\"deskType\">Desk Type</label><input class=\"form-control\" name=\"deskType\" id=\"deskType\" value='" + item.getDeskType() + "'/></div></br></br></br></br></br>");
 		out.append("<div class=\"row-md-5\"><button type=\"submit\" class=\"btn btn-default\"></t>Save Changes</button></div></form>");
 		
 		stream.print(out.toString());

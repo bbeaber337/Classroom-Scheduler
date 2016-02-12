@@ -87,33 +87,36 @@ public class MyServices {
 	
 	public int updateClass(Class1 c) throws SQLException {
 		
-		//System.out.printf("\n\n\nAdding Class: %s\n\n\n", c.getCombo());
-		String query = "UPDATE 'classes' SET ";
-				query += " classNbr=\"" + c.getClassNbr() + "\", ";
-				query += " subject=\"" + c.getSubject() + "\", ";
-				query += " catalog=\"" + c.getCatalog() + "\", ";
-				query += " section=\"" + c.getSection() + "\", ";
-				query += " combo=\"" + c.getCombo() + "\", ";
-				query += " name=\"" + c.getName() + "\", ";
-				query += " acadGroup=\"" + c.getAcadGroup() + "\", ";
-				query += " capacity=\"" + c.getCapacity() + "\", ";
-				query += " enrolled=\"" + c.getDay() + "\", ";
-				query += " day=\"" + c.getDay() + "\", ";
-				query += " sTime=\"" + c.getSTime() + "\", ";
-				query += " eTime=\"" + c.getETime() + "\", ";
-				query += " sDate=\"" + c.getSDate() + "\", ";
-				query += " eDate=\"" + c.getEDate() + "\", ";
-				query += " fName=\"" + c.getFName() + "\", ";
-				query += " lName=\"" + c.getLName() + "\", ";
-				query += " facil=\"" + c.getFacil() + "\", ";
-				query += " location=\"" + c.getLocation() + "\", ";
-				query += " mode=\"" + c.getMode() + "\", ";
-				query += " comp=\"" + c.getComp() + "\", ";
-				query += " chairType=\"" + c.getChairType() + "\", ";
-				query += " boardType=\"" + c.getBoardType() + "\", ";
-				query += " DeskType=\"" + c.getDeskType() + "\", ";
-				query += " WHERE class_id=\"" + c.getClassID() + "\"";				
-						
+		System.out.printf("\n\n\nAdding Class: %d\n\n\n", c.getClassID());
+		String query = "UPDATE `classes` SET "
+				+ " classNbr=\"" + c.getClassNbr() + "\", "
+				+ " subject=\"" + c.getSubject() + "\", "
+				+ " catalog=\"" + c.getCatalog() + "\", "
+				+ " section=\"" + c.getSection() + "\", "
+				+ " combo=\"" + c.getCombo() + "\", "
+				+ " name=\"" + c.getName() + "\", "
+				+ " description=\"" + c.getDescription() + "\", "
+				+ " acadGroup=\"" + c.getAcadGroup() + "\", "
+				+ " capacity=\"" + c.getCapacity() + "\", "
+				+ " enrolled=\"" + c.getEnrolled() + "\", "
+				+ " day=\"" + c.getDay() + "\", "
+				+ " sTime=\"" + c.getSTime() + "\", "
+				+ " eTime=\"" + c.getETime() + "\", "
+				+ " sDate=\"" + c.getSDate() + "\", "
+				+ " eDate=\"" + c.getEDate() + "\", "
+				+ " fName=\"" + c.getFName() + "\", "
+				+ " lName=\"" + c.getLName() + "\", "
+				+ " facil=\"" + c.getFacil() + "\", "
+				+ " location=\"" + c.getLocation() + "\", "
+				+ " mode=\"" + c.getMode() + "\", "
+				+ " comp=\"" + c.getComp() + "\", "
+				+ " chairType=\"" + c.getChairType() + "\", "
+				+ " boardType=\"" + c.getBoardType() + "\", "
+				+ " DeskType=\"" + c.getDeskType() + "\" "
+				+ " WHERE class_id=\"" + c.getClassID() + "\"";			
+		
+		//String query = "UPDATE `classes` SET classNbr=\"" + c.getClassNbr() + "\" WHERE class_id=\"" + c.getClassID() + "\"";
+		
 		
 			return conn.runUpdate(query);
 
@@ -244,9 +247,9 @@ public class MyServices {
 				item.setLName(rs.getString("lName"));
 				item.setFName(rs.getString("fName"));
 				item.setFacil(rs.getString("facil"));
-				item.setFName(rs.getString("location"));
-				item.setFName(rs.getString("mode"));
-				item.setFName(rs.getString("comp"));
+				item.setLocation(rs.getString("location"));
+				item.setMode(rs.getString("mode"));
+				item.setComp(rs.getString("comp"));
 				item.setChairType(rs.getString("chairType"));
 				item.setBoardType(rs.getString("boardType"));
 				item.setDeskType(rs.getString("deskType"));

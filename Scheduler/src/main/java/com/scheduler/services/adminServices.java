@@ -154,7 +154,7 @@ public class adminServices extends baseJSP {
 		}			
 	}
 	
-	public void editClass() throws Exception {
+	public boolean editClass() throws Exception {
 		
 		int classID = 0;
 		
@@ -162,8 +162,10 @@ public class adminServices extends baseJSP {
 			//Need to convert getParameter to an integer
 			classID = Integer.parseInt(request.getParameter("editClass"));
 			hs.buildEditClass(classID);
+			
+			return true;
 		}
-		
+		return false;
 	}
 	
 	public void submitClassEdit() throws Exception {

@@ -20,7 +20,7 @@
 	<%@ page import="java.sql.*" %>
 	<% HTMLServices hs = new HTMLServices(session, request, response, out); 
 		adminServices as = new adminServices(session, request, response, out);
-		as.submitClassEdit();
+		boolean build = as.editClass();
 	%>
 
 
@@ -94,12 +94,9 @@
     </br></br></br></br>
 	<!--  End Header -->
 	
-	
-<%//if(false){%>
-	<h2 class="text-center">Edit Class</h2>
-	</br></br></br></br>	
-	
-<% as.editClass();%>
+<%//if(build){%>
+<!-- Check if a change was submitted -->
+<% as.submitClassEdit();%>
 		
 <%//} else {%>
 <h2 class="text-center">Classes</h2>
