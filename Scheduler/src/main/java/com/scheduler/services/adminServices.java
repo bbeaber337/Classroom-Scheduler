@@ -123,7 +123,7 @@ public class adminServices extends baseJSP {
 		
 		if(request.getParameter("delAccount") != null){
 			
-			//Need to convert getParameter to an integer
+			
 			username = request.getParameter("delAccount");
 			ms.deleteAccount(username);
 		}
@@ -153,16 +153,17 @@ public class adminServices extends baseJSP {
 		}			
 	}
 	
-	public boolean invalidUser() {
-		if (session.getAttribute("userLogin") == null){
-			//Redirect user
-			return true;
+	public void editClass() throws Exception {
+		
+		int classID = 0;
+		
+		if(request.getParameter("editClass") != null){
+			//Need to convert getParameter to an integer
+			classID = Integer.parseInt(request.getParameter("editClass"));
+			ms.getClassFromID(classID);
+			//hs.editClass(ms.getClassFromID(classID));
 		}
-		if (session.getAttribute("userLogin").equals(userKey)) {
-			//Valid User, Continue to page
-			return false;
-		}
-		return true;
+		
 	}
 	
 	public boolean invalidAdmin() {
@@ -176,6 +177,20 @@ public class adminServices extends baseJSP {
 		}
 		return true;
 	}
+	
+	public boolean invalidUser() {
+		if (session.getAttribute("userLogin") == null){
+			//Redirect user
+			return true;
+		}
+		if (session.getAttribute("userLogin").equals(userKey)) {
+			//Valid User, Continue to page
+			return false;
+		}
+		return true;
+	}
+	
+
 	
 	
 

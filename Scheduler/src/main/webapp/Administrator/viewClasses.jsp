@@ -93,10 +93,18 @@
     </br></br></br></br>
 	<!--  End Header -->
 	
-
+	
+<%if(false){%>
+	<h2 class="text-center">Edit Class</h2>
+	</br></br></br></br>	
+	
+	<!-- as.getClassFromID(); -->
+		
+<%} else {%>
 <h2 class="text-center">Classes</h2>
 </br></br></br></br>
-<%hs.buildClasses();%>
+<%hs.buildClasses();
+}%>
 
 
 </body>

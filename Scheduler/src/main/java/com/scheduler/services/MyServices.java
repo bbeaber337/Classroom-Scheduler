@@ -182,6 +182,48 @@ public class MyServices {
 		return list;
 	}
 	
+	public List<Class1> getClassFromID(int classID) throws Exception {
+		ResultSet rs = null;
+		List<Class1> list = new ArrayList<Class1>();
+		
+		rs = conn.runQuery("SELECT classNbr, subject, catalog, section, combo, name, description, acadGroup, capacity, enrolled, day, "
+				+ "sTime, eTime, sDate, eDate, fName, lName, facil, location, mode, comp, chairType, boardType, deskType FROM classes WHERE class_id = '" + classID +"' ");
+		
+		if(rs != null){
+			while(rs.next()){
+				Class1 item = new Class1();
+				System.out.println(rs.getString("username"));
+				item.setClassid(classID);
+				item.setClassNbr(rs.getInt("classNbr"));
+				item.setSubject(rs.getString("subject"));
+				item.setCatalog(rs.getString("catalog"));
+				item.setSection(rs.getString("section"));
+				item.setCombo(rs.getString("combo"));
+				item.setName(rs.getString("name"));
+				item.setDescription(rs.getString("description"));
+				item.setAcadGroup(rs.getString("acadGroup"));
+				item.setCapacity(rs.getInt("capacity"));
+				item.setEnrolled(rs.getInt("enrolled"));
+				item.setDay(rs.getString("day"));
+				item.setSTime(rs.getString("sTime"));
+				item.setETime(rs.getString("eTime"));
+				item.setSDate(rs.getString("sDate"));
+				item.setEDate(rs.getString("eDate"));
+				item.setLName(rs.getString("lName"));
+				item.setFName(rs.getString("fName"));
+				item.setFacil(rs.getString("facil"));
+				item.setFName(rs.getString("location"));
+				item.setFName(rs.getString("mode"));
+				item.setFName(rs.getString("comp"));
+				item.setChairType(rs.getString("chairType"));
+				item.setBoardType(rs.getString("boardType"));
+				item.setDeskType(rs.getString("deskType"));
+				list.add(item);
+			}
+		}
+		return list;
+	}
+	
 	
 	public int deleteAccRequest(String username) throws Exception {
 		

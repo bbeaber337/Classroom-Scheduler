@@ -24,8 +24,17 @@ public class Class1 {
 	String location = null;
 	String mode = null;
 	String comp = null;
+	String chairType = null;
+	String boardType = null;
+	String deskType = null;
+
 	
-	
+	public int getClassID(){
+		return class_id;
+	}
+	public void setClassID(int class_id){
+		this.class_id = class_id;
+	}
 
 	public String getComp(){
 		return comp;
@@ -180,4 +189,27 @@ public class Class1 {
 	public void setName(String name){
 		this.name = name;
 	}
+	
+	public String getChairType(){
+		return chairType;
+	}
+	public void setChairType(String chairType){
+		this.chairType = chairType;
+	}
+	
+	public String getBoardType(){
+		return boardType;
+	}
+	public void setBoardType(String boardType){
+		this.boardType = boardType;
+	}
+	
+	public String getDeskType(){
+		return deskType;
+	}
+	public void setDeskType(String deskType){
+		this.deskType = deskType;
+	}
 }
+
+
