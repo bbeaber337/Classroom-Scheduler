@@ -23,6 +23,7 @@ public class adminServices extends baseJSP {
 	
 	private dbConnector conn = null;
 	private MyServices ms = null;
+	private HTMLServices hs = null;
 	private Object adminKey = "abcWST6kks76bE73MmAA72Z3abc";
 	private Object userKey = "abcWST6kks76bE73MmAA72Z3";
 
@@ -31,7 +32,7 @@ public class adminServices extends baseJSP {
 			HttpServletResponse response, JspWriter stream) throws Exception {
 		super(session, request, response, stream);
 		ms = new MyServices();
-		
+		hs = new HTMLServices(session, request, response, stream);
 	    conn = new dbConnector();
 
 
@@ -160,8 +161,46 @@ public class adminServices extends baseJSP {
 		if(request.getParameter("editClass") != null){
 			//Need to convert getParameter to an integer
 			classID = Integer.parseInt(request.getParameter("editClass"));
-			ms.getClassFromID(classID);
-			//hs.editClass(ms.getClassFromID(classID));
+			hs.buildEditClass(classID);
+		}
+		
+	}
+	
+	public void submitClassEdit() throws Exception {
+		
+		if(request.getParameter("submitClassEdit") != null){
+
+			Class1 c = new Class1();
+			
+			System.out.printf("\n\nClass ID: %d\n\n\n",Integer.parseInt(request.getParameter("classID")) );
+			c.setClassID(Integer.parseInt(request.getParameter("classID")));
+			c.setClassNbr(Integer.parseInt(request.getParameter("classNbr")));	
+			c.setSubject(request.getParameter("subject"));
+			c.setCatalog(request.getParameter("catalog"));
+			c.setSection(request.getParameter("section"));
+			c.setCombo(request.getParameter("combo"));
+			c.setName(request.getParameter("name"));
+			c.setDescription(request.getParameter("description"));
+			c.setAcadGroup(request.getParameter("acadGroup"));
+			c.setCapacity(Integer.parseInt(request.getParameter("capacity")));
+			c.setEnrolled(Integer.parseInt(request.getParameter("enrolled")));
+			c.setDay(request.getParameter("day"));
+			c.setSTime(request.getParameter("sTime"));
+			c.setETime(request.getParameter("eTime"));
+			c.setFName(request.getParameter("fName"));
+			c.setLName(request.getParameter("lName"));
+			c.setSDate(request.getParameter("sDate"));
+			c.setEDate(request.getParameter("eDate"));
+			c.setFacil(request.getParameter("facil"));
+			c.setLocation(request.getParameter("location"));
+			c.setMode(request.getParameter("mode"));
+			c.setComp(request.getParameter("comp"));
+			c.setChairType(request.getParameter("chairType"));
+			c.setBoardType(request.getParameter("boardType"));
+			c.setDeskType(request.getParameter("deskType"));
+			
+			//c.setClassID(ms.updateClass(c));
+			System.out.printf("\n\nClass ID: %d\n\n\n",ms.updateClass(c));
 		}
 		
 	}

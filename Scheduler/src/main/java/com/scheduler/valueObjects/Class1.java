@@ -2,7 +2,7 @@ package com.scheduler.valueObjects;
 
 public class Class1 {
 
-	int class_id = 0;
+	int class_id = -1;
 	int classNbr = 0;
 	String subject = null;
 	String catalog = null;
@@ -139,13 +139,6 @@ public class Class1 {
 	}
 	public void setDescription(String description){
 		this.description = description;
-	}
-	
-	public int getClassid(){
-		return class_id;
-	}
-	public void setClassid(int class_id){
-		this.class_id = class_id;
 	}
 	
 	public int getClassNbr(){

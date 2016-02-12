@@ -20,6 +20,7 @@
 	<%@ page import="java.sql.*" %>
 	<% HTMLServices hs = new HTMLServices(session, request, response, out); 
 		adminServices as = new adminServices(session, request, response, out);
+		as.submitClassEdit();
 	%>
 
 
@@ -94,17 +95,17 @@
 	<!--  End Header -->
 	
 	
-<%if(false){%>
+<%//if(false){%>
 	<h2 class="text-center">Edit Class</h2>
 	</br></br></br></br>	
 	
-	<!-- as.getClassFromID(); -->
+<% as.editClass();%>
 		
-<%} else {%>
+<%//} else {%>
 <h2 class="text-center">Classes</h2>
 </br></br></br></br>
 <%hs.buildClasses();
-}%>
+//}%>
 
 
 </body>

@@ -48,9 +48,10 @@ public class dbConnector {
 		stmt.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
 		ResultSet rs = stmt.getGeneratedKeys();
 		
+		//New Primary Key
 		if(rs.next()){
-			int newID = rs.getInt(1);
-			return newID;
+			int newId = rs.getInt(1);
+			return newId;
 		}
 		
 		return -1;

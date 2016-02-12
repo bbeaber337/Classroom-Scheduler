@@ -40,8 +40,7 @@
 			<%//Login Form %>
 			<form role="form" action='LandingPage.jsp' method='post'>
 			<input type="hidden" name="userLogin" value="userLogin">
-				<div class="col-xs-3">
-					 
+				<div class="col-xs-3">				 
 					<label for="InputUsername">
 						Username
 					</label>

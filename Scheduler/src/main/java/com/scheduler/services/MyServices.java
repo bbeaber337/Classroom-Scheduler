@@ -53,9 +53,9 @@ public class MyServices {
 		return 0;
 	}
 	
-	public int addClass(Class1 c){
+	public int addClass(Class1 c) throws SQLException {
 		
-		System.out.printf("Adding Class: %s", c.getName());
+		//System.out.printf("\n\n\nAdding Class: %s\n\n\n", c.getCombo());
 		String query = "INSERT INTO classes (classNbr, subject, catalog, section, combo, name, description, acadGroup, capacity, enrolled, day,";
 		query += " sTime, eTime, sDate, eDate, fName, lName, facil, location, mode, comp) VALUES( ";
 		query += "'" + c.getClassNbr() + "', ";
@@ -81,13 +81,42 @@ public class MyServices {
 		query += "'" + c.getComp() + "'";
 		query += ")";
 		
-		try {
 			return conn.runUpdate(query);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+
+	}
+	
+	public int updateClass(Class1 c) throws SQLException {
 		
-		return 0;
+		//System.out.printf("\n\n\nAdding Class: %s\n\n\n", c.getCombo());
+		String query = "UPDATE 'classes' SET ";
+				query += " classNbr=\"" + c.getClassNbr() + "\", ";
+				query += " subject=\"" + c.getSubject() + "\", ";
+				query += " catalog=\"" + c.getCatalog() + "\", ";
+				query += " section=\"" + c.getSection() + "\", ";
+				query += " combo=\"" + c.getCombo() + "\", ";
+				query += " name=\"" + c.getName() + "\", ";
+				query += " acadGroup=\"" + c.getAcadGroup() + "\", ";
+				query += " capacity=\"" + c.getCapacity() + "\", ";
+				query += " enrolled=\"" + c.getDay() + "\", ";
+				query += " day=\"" + c.getDay() + "\", ";
+				query += " sTime=\"" + c.getSTime() + "\", ";
+				query += " eTime=\"" + c.getETime() + "\", ";
+				query += " sDate=\"" + c.getSDate() + "\", ";
+				query += " eDate=\"" + c.getEDate() + "\", ";
+				query += " fName=\"" + c.getFName() + "\", ";
+				query += " lName=\"" + c.getLName() + "\", ";
+				query += " facil=\"" + c.getFacil() + "\", ";
+				query += " location=\"" + c.getLocation() + "\", ";
+				query += " mode=\"" + c.getMode() + "\", ";
+				query += " comp=\"" + c.getComp() + "\", ";
+				query += " chairType=\"" + c.getChairType() + "\", ";
+				query += " boardType=\"" + c.getBoardType() + "\", ";
+				query += " DeskType=\"" + c.getDeskType() + "\", ";
+				query += " WHERE class_id=\"" + c.getClassID() + "\"";				
+						
+		
+			return conn.runUpdate(query);
+
 	}
 	
 	
@@ -115,12 +144,13 @@ public class MyServices {
 		ResultSet rs = null;
 		List<Class1> list = new ArrayList<Class1>();
 		
-		rs = conn.runQuery("SELECT classNbr, name, subject, fName, lName, sTime, eTime, sDate, eDate, capacity, enrolled FROM classes");
+		rs = conn.runQuery("SELECT class_id, classNbr, name, subject, fName, lName, sTime, eTime, sDate, eDate, capacity, enrolled FROM classes");
 		
 		if(rs != null){
 			while(rs.next()){
 				Class1 item = new Class1();
-				System.out.println(rs.getString("name"));
+				//System.out.println(rs.getString("name"));
+				item.setClassID(rs.getInt("class_id"));
 				item.setClassNbr(rs.getInt("classNbr"));
 				item.setName(rs.getString("name"));
 				item.setSubject(rs.getString("subject"));
@@ -182,18 +212,20 @@ public class MyServices {
 		return list;
 	}
 	
-	public List<Class1> getClassFromID(int classID) throws Exception {
+	public Class1 getClassFromID(int classID) throws Exception {
 		ResultSet rs = null;
-		List<Class1> list = new ArrayList<Class1>();
+		Class1 list = new Class1();
+		Class1 item = new Class1();
 		
-		rs = conn.runQuery("SELECT classNbr, subject, catalog, section, combo, name, description, acadGroup, capacity, enrolled, day, "
+		rs = conn.runQuery("SELECT class_id, classNbr, subject, catalog, section, combo, name, description, acadGroup, capacity, enrolled, day, "
 				+ "sTime, eTime, sDate, eDate, fName, lName, facil, location, mode, comp, chairType, boardType, deskType FROM classes WHERE class_id = '" + classID +"' ");
+		
 		
 		if(rs != null){
 			while(rs.next()){
-				Class1 item = new Class1();
-				System.out.println(rs.getString("username"));
-				item.setClassid(classID);
+				item = new Class1();
+				item.setClassID(classID);
+				System.out.printf("\n\nClass ID from MyServices: %d\n\n", item.getClassID());
 				item.setClassNbr(rs.getInt("classNbr"));
 				item.setSubject(rs.getString("subject"));
 				item.setCatalog(rs.getString("catalog"));
@@ -218,10 +250,11 @@ public class MyServices {
 				item.setChairType(rs.getString("chairType"));
 				item.setBoardType(rs.getString("boardType"));
 				item.setDeskType(rs.getString("deskType"));
-				list.add(item);
-			}
+				//list.add(item);
+				
+			}	
 		}
-		return list;
+		return item;
 	}
 	
 	

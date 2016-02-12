@@ -75,11 +75,12 @@ public class excelServices extends baseJSP {
 	}
  */
 	
-	public void addData(){
+	public void addData() throws Exception {
 		
 		final String FILE_PATH = "C:/Users/Brandon/Documents/Spring 2016/Capstone/Client Documents/PKI_Rooms.xlsx";
 		List<Class1> classList = new ArrayList<Class1>();
 		FileInputStream fis = null;
+		int count = 0;
 
 		
 		if(request.getParameter("fileUpload") != null){
@@ -102,6 +103,7 @@ public class excelServices extends baseJSP {
 				  //iterating over each row
 				  while (rowIterator.hasNext()) {
 					  
+					count++;
 					Class1 c = new Class1();
 					Row row = (Row) rowIterator.next();
 					Iterator cellIterator = row.cellIterator();
@@ -112,6 +114,7 @@ public class excelServices extends baseJSP {
 
 					
 					//Iterating over each cell (column wise)  in a particular row.
+					if(count > 1) {
 					while (cellIterator.hasNext()) {
 						
 						Cell cell = (Cell) cellIterator.next();
@@ -210,14 +213,14 @@ public class excelServices extends baseJSP {
 									if(cell.getColumnIndex() == 19){
 										c.setEDate(df.format(cell.getDateCellValue()));
 									}
-							    }
-
-							   
+							    }							   
 						 }			
 					}
-					ms.addClass(c);
+					
+					c.setClassID(ms.addClass(c));
 					//End row, add class
 					classList.add(c);
+				  }
 				  }
 			}
 				fis.close();
