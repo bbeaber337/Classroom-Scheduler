@@ -31,7 +31,7 @@ public class HTMLServices extends baseJSP {
 		
 		//out.append("<table>");
 		//out.append("<tr><th>Users</th></tr>");
-		out.append("<table class=\"table sortable\"><thead><tr><th>Class Number</th><th>Name</th><th>Subject</th><th>First Name</th><th>Last Name</th><th>Start Time</th><th>End Time</th><th>Start Date</th><th>End Date</th><th>Capacity</th><th>Enrolled</th><th>Edit Class</th></tr></thead><tbody>");
+		out.append("<table class=\"table sortable\"><thead><tr><th>Class Number</th><th>Name</th><th>Subject</th><th>First Name</th><th>Last Name</th><th>Start Time</th><th>End Time</th><th>Start Date</th><th>End Date</th><th>Capacity</th><th>Enrolled</th><th>Edit Class</th><th>Delete Class</th></tr></thead><tbody>");
 		for(Class1 c : items){
 			
 			out.append("<tr><td>" + c.getClassNbr() + "</td>");
@@ -46,6 +46,7 @@ public class HTMLServices extends baseJSP {
 			out.append("<td>" + c.getCapacity() + "</td>");
 			out.append("<td>" + c.getEnrolled() + "</td>");
 		    out.append("<td><form action='viewClasses.jsp' method='post' ><input type='hidden' name='editClass' value='" + c.getClassID() + "'><input type='submit' value='Edit' alt='Edit Class'/></form></td>");
+		    out.append("<td><form action='viewClasses.jsp' method='post' ><input type='hidden' name='deleteClass' value='" + c.getClassID() + "'><input type='submit' value='Delete' alt='Delete Class' onclick=\"return confirm('Are you sure you want to delete this Class?')\"/></form></td>");
 			out.append("</tr>");	
 		}
 		out.append("</tbody></table>");

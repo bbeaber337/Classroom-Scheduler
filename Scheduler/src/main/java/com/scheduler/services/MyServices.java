@@ -260,6 +260,17 @@ public class MyServices {
 		return item;
 	}
 	
+	public int deleteClass(int classID){
+		
+		String query = "DELETE FROM classes WHERE class_id='" + classID + "' ";
+		
+		try {
+			return conn.runUpdate(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
 	
 	public int deleteAccRequest(String username) throws Exception {
 		

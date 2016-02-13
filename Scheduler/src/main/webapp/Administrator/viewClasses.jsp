@@ -96,7 +96,8 @@
 	
 <%//if(build){%>
 <!-- Check if a change was submitted -->
-<% as.submitClassEdit();%>
+<% as.submitClassEdit();
+   as.deleteClass();%>
 		
 <%//} else {%>
 <h2 class="text-center">Classes</h2>

@@ -154,6 +154,17 @@ public class adminServices extends baseJSP {
 		}			
 	}
 	
+	public void deleteClass() throws Exception {
+		
+		int classID= 0;
+		if(request.getParameter("deleteClass") != null){
+			//Set the ClassID to the class to be removed
+			classID = Integer.parseInt(request.getParameter("deleteClass"));
+			ms.deleteClass(classID);
+		}
+	}
+	
+	
 	public boolean editClass() throws Exception {
 		
 		int classID = 0;
