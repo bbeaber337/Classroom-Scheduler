@@ -21,12 +21,20 @@ public class Class1 {
 	String sDate = null;
 	String eDate = null;
 	String facil = null;
-	String location = null;
+	String campus = null;
 	String mode = null;
 	String comp = null;
-	String chairType = null;
-	String boardType = null;
-	String deskType = null;
+	String classCrsAttrVal = null;
+	int classMon = 0;
+	int classTues = 0;
+	int classWed = 0;
+	int classThurs = 0;
+	int classFri = 0;
+	int classSat = 0;
+	int classSun = 0;
+	//String chairType = null;
+	//String boardType = null;
+	//String deskType = null;
 
 	
 	public int getClassID(){
@@ -36,154 +44,214 @@ public class Class1 {
 		this.class_id = class_id;
 	}
 
-	public String getComp(){
+	public String getClassComponent(){
 		return comp;
 	}
-	public void setComp(String comp){
+	public void setClassComponent(String comp){
 		this.comp = comp;
 	}
 	
-	public String getMode(){
+	public String getClassMode(){
 		return mode;
 	}
-	public void setMode(String mode){
+	public void setClassMode(String mode){
 		this.mode = mode;
 	}
 	
-	public String getLocation(){
-		return location;
+	public String getClassCampus(){
+		return campus;
 	}
-	public void setLocation(String location){
-		this.location = location;
+	public void setClassCampus(String campus){
+		this.campus = campus;
 	}
 	
-	public String getFacil(){
+	public String getClassRoom(){
 		return facil;
 	}
-	public void setFacil(String facil){
+	public void setClassRoom(String facil){
 		this.facil = facil;
 	}
 	
-	public String getLName(){
+	public String getClassInstructLast(){
 		return lName;
 	}
-	public void setLName(String lName){
+	public void setClassInstructLast(String lName){
 		this.lName = lName;
 	}
 	
-	public String getFName(){
+	public String getClassInstructFirst(){
 		return fName;
 	}
-	public void setFName(String fName){
+	public void setClassInstructFirst(String fName){
 		this.fName = fName;
 	}
 	
-	public String getEDate(){
+	public String getClassDateEnd(){
 		return eDate;
 	}
-	public void setEDate(String eDate){
+	public void setClassDateEnd(String eDate){
 		this.eDate = eDate;
 	}
 	
-	public String getSDate(){
+	public String getClassDateStart(){
 		return sDate;
 	}
-	public void setSDate(String sDate){
+	public void setClassDateStart(String sDate){
 		this.sDate = sDate;
 	}
 	
-	public String getETime(){
+	public String getClassTimeEnd(){
 		return eTime;
 	}
-	public void setETime(String eTime){
+	public void setClassTimeEnd(String eTime){
 		this.eTime = eTime;
 	}
 	
-	public String getSTime(){
+	public String getClassTimeStart(){
 		return sTime;
 	}
-	public void setSTime(String sTime){
+	public void setClassTimeStart(String sTime){
 		this.sTime = sTime;
 	}
 	
-	public String getDay(){
+	public String getClassDays(){
 		return day;
 	}
-	public void setDay(String day){
+	public void setClassDays(String day){
 		this.day = day;
 	}
 	
-	public int getEnrolled(){
+	public int getClassEnrolled(){
 		return enrolled;
 	}
-	public void setEnrolled(int enrolled){
+	public void setClassEnrolled(int enrolled){
 		this.enrolled = enrolled;
 	}
 	
-	public int getCapacity(){
+	public int getClassCapacity(){
 		return capacity;
 	}
-	public void setCapacity(int capacity){
+	public void setClassCapacity(int capacity){
 		this.capacity = capacity;
 	}
 	
-	public String getAcadGroup(){
+	public String getClassAcadGroup(){
 		return acadGroup;
 	}
-	public void setAcadGroup(String acadGroup){
+	public void setClassAcadGroup(String acadGroup){
 		this.acadGroup = acadGroup;
 	}
 	
-	public String getDescription(){
+	public String getClassDescription(){
 		return description;
 	}
-	public void setDescription(String description){
+	public void setClassDescription(String description){
 		this.description = description;
 	}
 	
-	public int getClassNbr(){
+	public int getClassNumber(){
 		return classNbr;
 	}
-	public void setClassNbr(int classNbr){
+	public void setClassNumber(int classNbr){
 		this.classNbr = classNbr;
 	}
 	
-	public String getSubject(){
+	public String getClassSubject(){
 		return subject;
 	}
-	public void setSubject(String subject){
+	public void setClassSubject(String subject){
 		this.subject = subject;
 	}
 	
-	public String getCatalog(){
+	public String getClassCatalog(){
 		return catalog;
 	}
-	public void setCatalog(String catalog){
+	public void setClassCatalog(String catalog){
 		this.catalog = catalog;
 	}
 	
-	public String getSection(){
+	public String getClassSection(){
 		return section;
 	}
-	public void setSection(String section){
+	public void setClassSection(String section){
 		this.section = section;
 	}
 	
-	public String getCombo(){
+	public String getClassCombination(){
 		return combo;
 	}
-	public void setCombo(String combo){
+	public void setClassCombination(String combo){
 		this.combo = combo;
 	}
 	
-	public String getName(){
+	public String getClassName(){
 		return name;
 	}
-	public void setName(String name){
+	public void setClassName(String name){
 		this.name = name;
 	}
 	
-	public String getChairType(){
+	public String getClassCrsAttrVal(){
+		return classCrsAttrVal;
+	}
+	public void setClassCrsAttrVal(String classCrsAttrVal){
+		this.classCrsAttrVal = classCrsAttrVal;
+	}
+	
+	public int getClassMon(){
+		return classMon;
+	}
+	public void setClassMon(int classMon){
+		this.classMon = classMon;
+	}
+	
+	public int getClassTues(){
+		return classTues;
+	}
+	public void setClassTues(int classTues){
+		this.classTues = classTues;
+	}
+	
+	public int getClassWed(){
+		return classWed;
+	}
+	public void setClassWed(int classWed){
+		this.classWed = classWed;
+	}
+	
+	public int getClassThurs(){
+		return classThurs;
+	}
+	public void setClassThurs(int classThurs){
+		this.classThurs = classThurs;
+	}
+	
+	public int getClassFri(){
+		return classFri;
+	}
+	public void setClassFri(int classFri){
+		this.classFri = classFri;
+	}
+	
+	public int getClassSat(){
+		return classSat;
+	}
+	public void setClassSat(int classSat){
+		this.classSat = classSat;
+	}
+	
+	public int getClassSun(){
+		return classSun;
+	}
+	public void setClassSun(int classSun){
+		this.classSun = classSun;
+	}
+	
+	
+	
+	
+	
+	/*public String getChairType(){
 		return chairType;
 	}
 	public void setChairType(String chairType){
@@ -202,7 +270,7 @@ public class Class1 {
 	}
 	public void setDeskType(String deskType){
 		this.deskType = deskType;
-	}
+	}*/
 }
 
 

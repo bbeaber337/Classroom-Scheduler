@@ -1,71 +1,66 @@
 -- Table for a `Account Requests`
-CREATE TABLE `classroom`.`accrequests` (
-  `accRequest_id` INT(11) NOT NULL AUTO_INCREMENT,
-  `fName` VARCHAR(45) NOT NULL,
-  `lName` VARCHAR(45) NOT NULL,
-  `email` VARCHAR(45) NOT NULL,
-  `username` VARCHAR(45) NOT NULL,
-  `pass` VARCHAR(45) NOT NULL,
-  `reasoning` VARCHAR(500) NULL,
-  PRIMARY KEY (`accRequest_id`),
-  UNIQUE INDEX `username_UNIQUE` (`username` ASC));
-  UNIQUE INDEX `accRequest_id_UNIQUE` (`username` ASC));
+--CREATE TABLE `classroom`.`accrequests` (
+--  `accRequest_id` INT(11) NOT NULL AUTO_INCREMENT,
+--  `fName` VARCHAR(45) NOT NULL,
+--  `lName` VARCHAR(45) NOT NULL,
+--  `email` VARCHAR(45) NOT NULL,
+--  `username` VARCHAR(45) NOT NULL,
+--  `pass` VARCHAR(45) NOT NULL,
+--  `reasoning` VARCHAR(500) NULL,
+--  PRIMARY KEY (`accRequest_id`),
+--  UNIQUE INDEX `username_UNIQUE` (`username` ASC));
+--  UNIQUE INDEX `accRequest_id_UNIQUE` (`username` ASC)); 
   
   
   -- Table for a `User`
   CREATE TABLE `classroom`.`users` (
-  `user_id` INT(11) NOT NULL AUTO_INCREMENT,
-  `username` VARCHAR(45) NULL ,
-  `pass` VARCHAR(45) NULL,
-  `fName` VARCHAR(45) NULL,
-  `lName` VARCHAR(45) NULL,
-  `email` VARCHAR(45) NULL,
-  `admin` INT NOT NULL DEFAULT 0,
-  PRIMARY KEY (`user_id`),
-  UNIQUE INDEX `username_UNIQUE` (`username` ASC),
-  UNIQUE INDEX `user_id_UNIQUE` (`user_id` ASC),
-  UNIQUE INDEX `email_UNIQUE` (`email` ASC));
+  `userID` INT(11) NOT NULL AUTO_INCREMENT,
+  `userName` VARCHAR(45) NULL ,
+  `userPassword` VARCHAR(45) NULL,
+  `userFirst` VARCHAR(45) NULL,
+  `userLast` VARCHAR(45) NULL,
+  `userEmail` VARCHAR(45) NULL,
+  `userAdmin` INT NOT NULL DEFAULT 0,
+  PRIMARY KEY (`userID`),
+  UNIQUE INDEX `userName_UNIQUE` (`userName` ASC),
+  UNIQUE INDEX `userID_UNIQUE` (`userID` ASC),
+  UNIQUE INDEX `userEmail_UNIQUE` (`userEmail` ASC));
 
-    -- Table for a `classes`  TEMPORARY for testing (Can be removed)
-  CREATE TABLE `classroom`.`classes` (
-  `class_id` INT(11) NOT NULL AUTO_INCREMENT,
-  `classNbr` INT(10) NOT NULL,
-  `subject` VARCHAR(10) NOT NULL,
-  `catalog` INT(10) NOT NULL,
-  `section` INT(5) NOT NULL,
-  `combo` VARCHAR(1) NULL,
-  `descr` VARCHAR(100) NOT NULL,
-  PRIMARY KEY (`class_id`),
-  UNIQUE INDEX `classNbr_UNIQUE` (`classNbr` ASC));
-  
+
       -- Table for a `classes`  FINAL
   CREATE TABLE `classroom`.`classes` (
-  `class_id` INT NOT NULL AUTO_INCREMENT,
-  `classNbr` INT NOT NULL,
-  `subject` VARCHAR(8) NULL,
-  `catalog` VARCHAR(7) NULL,
-  `section` VARCHAR(5) NULL,
-  `combo` VARCHAR(2) NOT NULL DEFAULT 'NA',
-  `name` VARCHAR(45) NOT NULL,
-  `description` VARCHAR(70) NULL,
-  `acadGroup` VARCHAR(7) NULL,
-  `capacity` INT NOT NULL DEFAULT 0,
-  `enrolled` INT NOT NULL DEFAULT 0,
-  `day` VARCHAR(5) NOT NULL,
-  `sTime` VARCHAR(45) NOT NULL,
-  `eTime` VARCHAR(45) NOT NULL,
-  `sDate` VARCHAR(45) NOT NULL,
-  `eDate` VARCHAR(45) NOT NULL,
-  `fName` VARCHAR(45) NOT NULL,
-  `lName` VARCHAR(45) NOT NULL,
-  `facil` VARCHAR(45) NULL,
-  `location` VARCHAR(10) NULL,
-  `mode` VARCHAR(3) NULL,
-  `comp` VARCHAR(7) NULL,
-  `chairType` VARCHAR(10) NOT NULL DEFAULT 'NA',
-  `boardType` VARCHAR(10) NOT NULL DEFAULT 'NA',
-  `deskType` VARCHAR(10) NOT NULL DEFAULT 'NA',
-  PRIMARY KEY (`class_id`),
-  UNIQUE INDEX `class_id_UNIQUE` (`class_id` ASC);
+  `classID` INT NOT NULL AUTO_INCREMENT,
+  `classNumber` INT NOT NULL,
+  `classSubject` VARCHAR(8) NULL,
+  `classCatalog` VARCHAR(7) NULL,
+  `classSection` VARCHAR(5) NULL,
+  `classCombination` VARCHAR(2) NOT NULL DEFAULT 'NA',
+  `className` VARCHAR(45) NOT NULL,
+  `classDescription` VARCHAR(70) NULL,
+  `classAcadGroup` VARCHAR(7) NULL,
+  `classCapacity` INT NOT NULL DEFAULT 0,
+  `classEnrolled` INT NOT NULL DEFAULT 0,
+  `classDays` VARCHAR(5) NOT NULL,
+  `classTimeStart` VARCHAR(45) NOT NULL,
+  `classTimeEnd` VARCHAR(45) NOT NULL,
+  `classDateStart` VARCHAR(45) NOT NULL,
+  `classDateEnd` VARCHAR(45) NOT NULL,
+  `classInstructFirst` VARCHAR(45) NOT NULL,
+  `classInstructLast` VARCHAR(45) NOT NULL,
+  `classRoom` VARCHAR(45) NULL,
+  `classCampus` VARCHAR(10) NULL,
+  `classMode` VARCHAR(3) NULL,
+  `classComponent` VARCHAR(7) NULL,
+  `classSession` VARCHAR(7) NULL,
+  `classCrsAttrVal` VARCHAR(7) NULL,
+  `classMon` INT NOT NULL DEFAULT 0,
+  `classTues` INT NOT NULL DEFAULT 0,
+  `classWed` INT NOT NULL DEFAULT 0,
+  `classThur` INT NOT NULL DEFAULT 0,
+  `classFri` INT NOT NULL DEFAULT 0,
+  `classSat` INT NOT NULL DEFAULT 0,
+  `classSun` INT NOT NULL DEFAULT 0,
+  PRIMARY KEY (`classID`),
+  UNIQUE INDEX `classID_UNIQUE` (`classID` ASC));
  -- Some classes have the same ClassNbr, had to remove below restriction
   --UNIQUE INDEX `classNbr_UNIQUE` (`classNbr` ASC));

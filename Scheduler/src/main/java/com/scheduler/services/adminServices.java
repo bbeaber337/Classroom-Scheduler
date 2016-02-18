@@ -70,16 +70,16 @@ public class adminServices extends baseJSP {
 			
 			User u = new User();
 			
-			u.setUsername(request.getParameter("username"));
-			u.setPass(request.getParameter("pass"));
-			u.setFName(request.getParameter("fName"));
-			u.setLName(request.getParameter("lName"));
-			u.setEmail(request.getParameter("email"));
-			System.out.printf("Value of ADMIN  is: %s", request.getParameter("admin"));
-			if(request.getParameter("admin").equals("Yes") || request.getParameter("admin").equals("yes")){
-				u.setAdmin(1);
+			u.setUserName(request.getParameter("userName"));
+			u.setUserPassword(request.getParameter("userPassword"));
+			u.setUserFirst(request.getParameter("userFirst"));
+			u.setUserLast(request.getParameter("userLast"));
+			u.setUserEmail(request.getParameter("userEmail"));
+			System.out.printf("Value of ADMIN  is: %s", request.getParameter("UserAdmin"));
+			if(request.getParameter("userAdmin").equals("Yes") || request.getParameter("userAdmin").equals("yes")){
+				u.setUserAdmin(1);
 			}else{
-				u.setAdmin(0);
+				u.setUserAdmin(0);
 			}
 			ms.addAccount(u);
 		}
@@ -87,9 +87,7 @@ public class adminServices extends baseJSP {
 	
 	public void addAccRequest() throws Exception {
 		
-		
-		if(request.getParameter("accountRequest") != null){
-			
+		if(request.getParameter("accountRequest") != null){	
 			AccRequest ar = new AccRequest();
 			
 			System.out.printf("Value of FIRST NAME is: %s", request.getParameter("fName"));
@@ -137,8 +135,8 @@ public class adminServices extends baseJSP {
 		String pass = null;
 		
 		if(request.getParameter("userLogin") != null){
-			 user = request.getParameter("username");
-			 pass = request.getParameter("pass");	
+			 user = request.getParameter("userName");
+			 pass = request.getParameter("userPassword");	
 			 
 			if(ms.validateLogin(user, pass)){
 				if(ms.adminStatus(user)){
@@ -187,30 +185,30 @@ public class adminServices extends baseJSP {
 			
 			System.out.printf("\n\nClass ID: %d\n\n\n",Integer.parseInt(request.getParameter("classID")) );
 			c.setClassID(Integer.parseInt(request.getParameter("classID")));
-			c.setClassNbr(Integer.parseInt(request.getParameter("classNbr")));	
-			c.setSubject(request.getParameter("subject"));
-			c.setCatalog(request.getParameter("catalog"));
-			c.setSection(request.getParameter("section"));
-			c.setCombo(request.getParameter("combo"));
-			c.setName(request.getParameter("name"));
-			c.setDescription(request.getParameter("description"));
-			c.setAcadGroup(request.getParameter("acadGroup"));
-			c.setCapacity(Integer.parseInt(request.getParameter("capacity")));
-			c.setEnrolled(Integer.parseInt(request.getParameter("enrolled")));
-			c.setDay(request.getParameter("day"));
-			c.setSTime(request.getParameter("sTime"));
-			c.setETime(request.getParameter("eTime"));
-			c.setFName(request.getParameter("fName"));
-			c.setLName(request.getParameter("lName"));
-			c.setSDate(request.getParameter("sDate"));
-			c.setEDate(request.getParameter("eDate"));
-			c.setFacil(request.getParameter("facil"));
-			c.setLocation(request.getParameter("location"));
-			c.setMode(request.getParameter("mode"));
-			c.setComp(request.getParameter("comp"));
-			c.setChairType(request.getParameter("chairType"));
-			c.setBoardType(request.getParameter("boardType"));
-			c.setDeskType(request.getParameter("deskType"));
+			c.setClassNumber(Integer.parseInt(request.getParameter("classNumber")));	
+			c.setClassSubject(request.getParameter("classSubject"));
+			c.setClassCatalog(request.getParameter("classCatalog"));
+			c.setClassSection(request.getParameter("classSection"));
+			c.setClassCombination(request.getParameter("classCombination"));
+			c.setClassName(request.getParameter("className"));
+			c.setClassDescription(request.getParameter("classDescription"));
+			c.setClassAcadGroup(request.getParameter("classAcadGroup"));
+			c.setClassCapacity(Integer.parseInt(request.getParameter("classCapacity")));
+			c.setClassEnrolled(Integer.parseInt(request.getParameter("classEnrolled")));
+			c.setClassDays(request.getParameter("classDays"));
+			c.setClassTimeStart(request.getParameter("classTimeStart"));
+			c.setClassTimeEnd(request.getParameter("classTimeEnd"));
+			c.setClassInstructFirst(request.getParameter("classInstructFirst"));
+			c.setClassInstructLast(request.getParameter("classInstructLast"));
+			c.setClassDateStart(request.getParameter("classDateStart"));
+			c.setClassDateEnd(request.getParameter("classDateEnd"));
+			c.setClassRoom(request.getParameter("classRoom"));
+			c.setClassCampus(request.getParameter("classCampus"));
+			c.setClassMode(request.getParameter("classMode"));
+			c.setClassComponent(request.getParameter("classComponent"));
+			//c.setChairType(request.getParameter("chairType"));
+			//c.setBoardType(request.getParameter("boardType"));
+			//c.setDeskType(request.getParameter("deskType"));
 			
 			//c.setClassID(ms.updateClass(c));
 			System.out.printf("\n\nClass ID: %d\n\n\n",ms.updateClass(c));

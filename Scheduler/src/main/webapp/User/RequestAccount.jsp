@@ -45,35 +45,35 @@
 					<label for="firstName">
 						First Name
 					</label>
-					<input type="text" class="form-control" name="fName" id="firstName" size="50" />
+					<input type="text" class="form-control" name="userFirst" id="firstName" size="50" />
 				</div></br></br></br></br>
 				
 				<div class="col-xs-3">	 
 					<label for="lastName">
 						Last Name
 					</label>
-					<input type="text" class="form-control" name="lName" id="lastName" size="50" />
+					<input type="text" class="form-control" name="userLast" id="lastName" size="50" />
 				</div></br></br></br></br>
 				
 				<div class="col-xs-3"> 
 					<label for="email">
 						Email
 					</label>
-					<input type="email" class="form-control" name="email" id="email" />
+					<input type="email" class="form-control" name="userEmail" id="email" />
 				</div></br></br></br></br>
 				
 				<div class="col-xs-3">
 					<label for="desiredUsername">
 						Desired Username
 					</label>
-					<input type="text" class="form-control" name="username" id="desiredUsername" />
+					<input type="text" class="form-control" name="userName" id="desiredUsername" />
 				</div></br></br></br></br>
 				
 				<div class="col-xs-3">
 					<label for="pass">
 						Password
 					</label>
-					<input type="password" name="pass" class="form-control" id="pass" />
+					<input type="password" name="userPassword" class="form-control" id="pass" />
 				</div></br></br></br></br>
 				
 				<div class="row-xs-3">

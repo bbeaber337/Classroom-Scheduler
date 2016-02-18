@@ -126,48 +126,48 @@ public class excelServices extends baseJSP {
 						    	//	c.setClassNbr(cell.getStringCellValue());
 						    	//}
 								if(cell.getColumnIndex() == 1){
-									c.setSubject(cell.getStringCellValue());
+									c.setClassSubject(cell.getStringCellValue());
 								}
 								if(cell.getColumnIndex() == 2){
-									c.setCatalog(cell.getStringCellValue());
+									c.setClassCatalog(cell.getStringCellValue());
 								}
 								if(cell.getColumnIndex() == 3){
-									c.setSection(cell.getStringCellValue());
+									c.setClassSection(cell.getStringCellValue());
 								}
 								if(cell.getColumnIndex() == 4){
-									c.setCombo(cell.getStringCellValue());
+									c.setClassCombination(cell.getStringCellValue());
 								}
 								if(cell.getColumnIndex() == 5){
-									c.setName(cell.getStringCellValue());
+									c.setClassName(cell.getStringCellValue());
 								}
 								if(cell.getColumnIndex() == 6){
-									c.setDescription(cell.getStringCellValue());
+									c.setClassDescription(cell.getStringCellValue());
 								}
 								if(cell.getColumnIndex() == 7){
-									c.setAcadGroup(cell.getStringCellValue());
+									c.setClassAcadGroup(cell.getStringCellValue());
 								}
 								if(cell.getColumnIndex() == 10){
-									c.setDay(cell.getStringCellValue());
+									c.setClassDays(cell.getStringCellValue());
 								}
 
 								if(cell.getColumnIndex() == 13){
-									c.setFacil(cell.getStringCellValue());
+									c.setClassRoom(cell.getStringCellValue());
 								}
 								if(cell.getColumnIndex() == 16){
-									c.setFName(cell.getStringCellValue());
+									c.setClassInstructFirst(cell.getStringCellValue());
 								}
 								if(cell.getColumnIndex() == 15){
-									c.setLName(cell.getStringCellValue());
+									c.setClassInstructLast(cell.getStringCellValue());
 								}
 
 								if(cell.getColumnIndex() == 21){
-									c.setLocation(cell.getStringCellValue());
+									c.setClassCampus(cell.getStringCellValue());
 								}
 								if(cell.getColumnIndex() == 22){
-									c.setMode(cell.getStringCellValue());
+									c.setClassMode(cell.getStringCellValue());
 								}
 								if(cell.getColumnIndex() == 23){
-									c.setComp(cell.getStringCellValue());
+									c.setClassComponent(cell.getStringCellValue());
 								}
 								
 
@@ -183,15 +183,15 @@ public class excelServices extends baseJSP {
 							    	//cast double to integer
 							    	int j = (int) cell.getNumericCellValue();
 							    	//Set the integer value
-							        c.setClassNbr(j);
+							        c.setClassNumber(j);
 							    }
 							    if (cell.getColumnIndex() == 8) {
 							    	int j = (int) cell.getNumericCellValue();
-							        c.setCapacity(j);
+							        c.setClassCapacity(j);
 							    }
 							    if (cell.getColumnIndex() == 9) {
 							    	int j = (int) cell.getNumericCellValue();
-							        c.setEnrolled(j);
+							        c.setClassEnrolled(j);
 							    }
 							    //If this cell is a Date
 							    if(DateUtil.isCellDateFormatted(cell)){
@@ -200,18 +200,18 @@ public class excelServices extends baseJSP {
 										cell.setCellType(Cell.CELL_TYPE_STRING);*/
 										
 										//Need to convert the Dates into Strings using the format specified above
-										c.setSTime(tf.format(cell.getNumericCellValue()));
+										c.setClassTimeStart(tf.format(cell.getNumericCellValue()));
 									}
 									if(cell.getColumnIndex() == 12){
-										c.setETime(tf.format(cell.getNumericCellValue()));
+										c.setClassTimeEnd(tf.format(cell.getNumericCellValue()));
 									}
 									
 									if(cell.getColumnIndex() == 18){
 										//Need to convert the Dates into Strings using the format specified above
-										c.setSDate(df.format(cell.getDateCellValue()));
+										c.setClassDateStart(df.format(cell.getDateCellValue()));
 									}
 									if(cell.getColumnIndex() == 19){
-										c.setEDate(df.format(cell.getDateCellValue()));
+										c.setClassDateEnd(df.format(cell.getDateCellValue()));
 									}
 							    }							   
 						 }			
@@ -241,27 +241,27 @@ public class excelServices extends baseJSP {
 		
 		for(Class1 c : classList){
 			System.out.printf("Here is a Class\n");
-			System.out.printf("Class Nbr: %d\n",c.getClassNbr());
-			System.out.printf("Subject: %s\n",c.getSubject());
-			System.out.printf("Catalog: %s\n",c.getCatalog());
-			System.out.printf("Section: %s\n",c.getSection());
-			System.out.printf("Combo: %s\n",c.getCombo());
-			System.out.printf("Class Name: %s\n",c.getName());
-			System.out.printf("Description: %s\n",c.getDescription());
-			System.out.printf("Class Group: %s\n",c.getAcadGroup());
-			System.out.printf("Capacity: %d\n",c.getCapacity());
-			System.out.printf("Enrolled: %d\n",c.getEnrolled());
-			System.out.printf("Days: %s\n",c.getDay());
-			System.out.printf("Start Time: %s\n",c.getSTime());
-			System.out.printf("End Time: %s\n",c.getETime());
-			System.out.printf("Room: %s\n",c.getFacil());
-			System.out.printf("Teacher: %s \n",c.getFName());
-			System.out.printf("Teacher: %s \n",c.getLName());
-			System.out.printf("Start Date: %s\n",c.getSDate());
-			System.out.printf("End Date: %s\n",c.getEDate());
-			System.out.printf("Location: %s\n",c.getLocation());
-			System.out.printf("Mode: %s\n",c.getMode());
-			System.out.printf("Component: %s\n\n",c.getComp());
+			System.out.printf("Class Nbr: %d\n",c.getClassNumber());
+			System.out.printf("Subject: %s\n",c.getClassSubject());
+			System.out.printf("Catalog: %s\n",c.getClassCatalog());
+			System.out.printf("Section: %s\n",c.getClassSection());
+			System.out.printf("Combo: %s\n",c.getClassCombination());
+			System.out.printf("Class Name: %s\n",c.getClassName());
+			System.out.printf("Description: %s\n",c.getClassDescription());
+			System.out.printf("Class Group: %s\n",c.getClassAcadGroup());
+			System.out.printf("Capacity: %d\n",c.getClassCapacity());
+			System.out.printf("Enrolled: %d\n",c.getClassEnrolled());
+			System.out.printf("Days: %s\n",c.getClassDays());
+			System.out.printf("Start Time: %s\n",c.getClassTimeStart());
+			System.out.printf("End Time: %s\n",c.getClassTimeEnd());
+			System.out.printf("Room: %s\n",c.getClassRoom());
+			System.out.printf("Teacher: %s \n",c.getClassInstructFirst());
+			System.out.printf("Teacher: %s \n",c.getClassInstructLast());
+			System.out.printf("Start Date: %s\n",c.getClassDateStart());
+			System.out.printf("End Date: %s\n",c.getClassDateEnd());
+			System.out.printf("Location: %s\n",c.getClassCampus());
+			System.out.printf("Mode: %s\n",c.getClassMode());
+			System.out.printf("Component: %s\n\n",c.getClassComponent());
 
 
 		}

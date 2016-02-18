@@ -44,14 +44,14 @@
 					<label for="InputUsername">
 						Username
 					</label>
-					<input class="form-control" name="username" id="InputUsername" />
+					<input class="form-control" name="userName" id="InputUsername" />
 				</div></br></br></br></br>
 				<div class="col-xs-3">
 					 
 					<label for="InputPass">
 						Password
 					</label>
-					<input type="password" class="form-control" name="pass" id="InputPass" />
+					<input type="password" class="form-control" name="userPassword" id="InputPass" />
 				</div></br></br></br></br></br>
 				
 				<div class="row-md-5">				
