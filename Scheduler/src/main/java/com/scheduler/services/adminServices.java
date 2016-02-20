@@ -34,9 +34,6 @@ public class adminServices extends baseJSP {
 		ms = new MyServices();
 		hs = new HTMLServices(session, request, response, stream);
 	    conn = new dbConnector();
-
-
-
 	}
 	
 	
@@ -85,6 +82,8 @@ public class adminServices extends baseJSP {
 		}
 	}
 	
+	
+	
 	public void addAccRequest() throws Exception {
 		
 		if(request.getParameter("accountRequest") != null){	
@@ -116,18 +115,18 @@ public class adminServices extends baseJSP {
 		}
 	}
 	
+	
 	public void delAccount() throws Exception {
 		
 		String username;
 		
 		if(request.getParameter("delAccount") != null){
-			
-			
+						
 			username = request.getParameter("delAccount");
 			ms.deleteAccount(username);
-		}
-		
+		}	
 	}
+	
 	
 	public void directLogin() throws Exception {
 		
@@ -152,6 +151,7 @@ public class adminServices extends baseJSP {
 		}			
 	}
 	
+	
 	public void deleteClass() throws Exception {
 		
 		int classID= 0;
@@ -170,12 +170,26 @@ public class adminServices extends baseJSP {
 		if(request.getParameter("editClass") != null){
 			//Need to convert getParameter to an integer
 			classID = Integer.parseInt(request.getParameter("editClass"));
-			hs.buildEditClass(classID);
-			
+			hs.buildEditClass(classID);	
 			return true;
 		}
 		return false;
 	}
+	
+	
+	public boolean selectClass() throws Exception {
+		
+		int classID = 0;
+		
+		if(request.getParameter("selectClass") != null){
+			//Need to convert getParameter to an integer
+			classID = Integer.parseInt(request.getParameter("selectClass"));
+			hs.buildSelectClass(classID);	
+			return true;
+		}
+		return false;
+	}
+	
 	
 	public void submitClassEdit() throws Exception {
 		

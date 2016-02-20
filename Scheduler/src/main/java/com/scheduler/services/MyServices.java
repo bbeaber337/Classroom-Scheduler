@@ -186,7 +186,7 @@ public class MyServices {
 		ResultSet rs = null;
 		List<Class1> list = new ArrayList<Class1>();
 		
-		rs = conn.runQuery("SELECT classID, classNumber, className, classSubject, classInstructFirst, classInstructLast, classTimeStart, classTimeEnd, classDateStart, classDateEnd, classCapacity, classEnrolled FROM classes");
+		rs = conn.runQuery("SELECT classID, classNumber, className, classDays, classSubject, classCatalog, classSection, classCombination, classDescription, classCampus, classAcadGroup, classInstructFirst, classInstructLast, classTimeStart, classTimeEnd, classDateStart, classDateEnd, classCapacity, classEnrolled, classRoom FROM classes");
 		
 		if(rs != null){
 			while(rs.next()){
@@ -195,6 +195,8 @@ public class MyServices {
 				item.setClassID(rs.getInt("classID"));
 				item.setClassNumber(rs.getInt("classNumber"));
 				item.setClassName(rs.getString("className"));
+				item.setClassRoom(rs.getString("classRoom"));
+				item.setClassDays(rs.getString("classDays"));
 				item.setClassSubject(rs.getString("classSubject"));
 				item.setClassInstructFirst(rs.getString("classInstructFirst"));
 				item.setClassInstructLast(rs.getString("classInstructLast"));
@@ -204,6 +206,12 @@ public class MyServices {
 				item.setClassDateEnd(rs.getString("classDateEnd"));
 				item.setClassCapacity(rs.getInt("classCapacity"));
 				item.setClassEnrolled(rs.getInt("classEnrolled"));
+				item.setClassCatalog(rs.getString("classCatalog"));
+				item.setClassSection(rs.getString("classSection"));
+				item.setClassCombination(rs.getString("classCombination"));
+				item.setClassDescription(rs.getString("classDescription"));
+				item.setClassCampus(rs.getString("classCampus"));
+				item.setClassAcadGroup(rs.getString("classAcadGroup"));
 				list.add(item);
 			}
 		}

@@ -79,7 +79,7 @@
 					<li class="divider">
 					</li>
 					<li>
-						<a href="#">Users</a>
+						<a href="viewUsers.jsp">Users</a>
 					</li>
 				</ul>
 				</div>
@@ -97,12 +97,15 @@
 <%//if(build){%>
 <!-- Check if a change was submitted -->
 <% as.submitClassEdit();
-   as.deleteClass();%>
+   as.deleteClass();
+   if(as.selectClass()){
+		   
+   } else {%>
 		
 <%//} else {%>
 <h2 class="text-center">Classes</h2>
 </br></br></br></br>
-<%hs.buildClasses();
+<%hs.buildClasses(); }
 //}%>
 
 

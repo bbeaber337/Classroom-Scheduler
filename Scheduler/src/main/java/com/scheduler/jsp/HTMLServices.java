@@ -23,28 +23,84 @@ public class HTMLServices extends baseJSP {
 	
 	private MyServices ms = null;
 	
+
+	
+	public void buildSelectClass(int classID) throws Exception {
+		String hasRoom = null;
+		Class1 item = new Class1();
+		System.out.printf("\n\nClass ID to pull: %d\n\n", classID);
+		
+		item = ms.getClassFromID(classID);
+		
+		//IF the string does not have more then 1 char we can assume it is not assigned a room (TODO: add logic to check if the room it is assigned is really a valid room by checking database)
+		//Checking is room is NULL does NOT work
+		if(item.getClassRoom().length() < 2){
+			System.out.println("Room is NULL\n\n");
+			hasRoom = "Not Assinged";
+		} else {
+			System.out.println("Room is NOT NULL\n\n");
+			hasRoom = item.getClassRoom();
+		}
+		
+		StringBuilder out = new StringBuilder();
+
+		System.out.printf("\n\nClass ID to pull: %d\n\n", item.getClassID());
+		
+		out.append("</br></br></br></br><h2 class=\"text-center\"><u>Current Room</u></h2></br></br>");
+		out.append("</br><h3 class=\"text-center\">" + hasRoom + "</h3></br></br></br>");
+		out.append("</br></br></br><h2 class=\"text-center\"><u>Available Rooms</u></h2>");
+		
+		
+		stream.print(out.toString());
+
+	}
 	
 	public void buildClasses() throws Exception {
+		String hasRoom;
+		String combo;
 		List<Class1> items = ms.getClasses();
-		
+			
 		StringBuilder out = new StringBuilder();
 		
 		//out.append("<table>");
 		//out.append("<tr><th>Users</th></tr>");
-		out.append("<table class=\"table sortable\"><thead><tr><th>Class Number</th><th>Name</th><th>Subject</th><th>First Name</th><th>Last Name</th><th>Start Time</th><th>End Time</th><th>Start Date</th><th>End Date</th><th>Capacity</th><th>Enrolled</th><th>Edit Class</th><th>Delete Class</th></tr></thead><tbody>");
+		out.append("<table class=\"table sortable\"><thead><tr><th>Change Room</th><th>Class Number</th><th>Name</th><th>Room</th><th>Subject</th><th>First Name</th><th>Last Name</th><th>Days</th><th>Start Time</th><th>End Time</th><th>Start Date</th><th>End Date</th><th>Capacity</th><th>Enrolled</th><th>Catalog</th><th>Section</th><th>Description</th><th>Campus</th><th>Academic Group</th><th>Combined</th><th>Edit Class</th><th>Delete Class</th></tr></thead><tbody>");
 		for(Class1 c : items){
 			
-			out.append("<tr><td>" + c.getClassNumber() + "</td>");
+			//IF the string does not have more then 1 char we can assume it is not assigned a room (TODO: add logic to check if the room it is assigned is really a valid room by checking database)
+			if(c.getClassRoom().length() < 2){
+				hasRoom = "Not Assinged";
+			} else {
+				hasRoom = c.getClassRoom();
+			}
+			//Check if it combined or not
+			//compareToIgnoreCase() returns 0 if true
+			if(c.getClassCombination().compareToIgnoreCase("c") == 0){
+				combo = "Yes";
+			} else {
+				combo = "No";
+			}
+			
+			out.append("<tr><td><form action='viewClasses.jsp' method='post' ><input type='hidden' name='selectClass' value='" + c.getClassID() + "'><input type='submit' value='Select' alt='Select Class'/></form></td>");
+			out.append("<td>" + c.getClassNumber() + "</td>");
 			out.append("<td>" + c.getClassName() + "</td>");
+			out.append("<td class=\"active\">" + hasRoom + "</td>");
 			out.append("<td>" + c.getClassSubject() + "</td>");
 			out.append("<td>" + c.getClassInstructFirst() + "</td>");
 			out.append("<td>" + c.getClassInstructLast() + "</td>");
+			out.append("<td>" + c.getClassDays() + "</td>");
 			out.append("<td>" + c.getClassTimeStart() + "</td>");
 			out.append("<td>" + c.getClassTimeEnd() + "</td>");
 			out.append("<td>" + c.getClassDateStart() + "</td>");
 			out.append("<td>" + c.getClassDateEnd() + "</td>");
 			out.append("<td>" + c.getClassCapacity() + "</td>");
-			out.append("<td>" + c.getClassEnrolled() + "</td>");
+			out.append("<td>" + c.getClassEnrolled() + "</td>");		
+			out.append("<td>" + c.getClassCatalog() + "</td>");
+			out.append("<td>" + c.getClassSection() + "</td>");
+			out.append("<td>" + c.getClassDescription() + "</td>");
+			out.append("<td>" + c.getClassCampus() + "</td>");
+			out.append("<td>" + c.getClassAcadGroup() + "</td>");
+			out.append("<td>" + combo + "</td>");
 		    out.append("<td><form action='viewClasses.jsp' method='post' ><input type='hidden' name='editClass' value='" + c.getClassID() + "'><input type='submit' value='Edit' alt='Edit Class'/></form></td>");
 		    out.append("<td><form action='viewClasses.jsp' method='post' ><input type='hidden' name='deleteClass' value='" + c.getClassID() + "'><input type='submit' value='Delete' alt='Delete Class' onclick=\"return confirm('Are you sure you want to delete this Class?')\"/></form></td>");
 			out.append("</tr>");	
@@ -84,12 +140,13 @@ public class HTMLServices extends baseJSP {
 	
 	public void buildEditClass(int classID) throws Exception {
 		Class1 item = new Class1();
+		String hasRoom = null;
 		System.out.printf("\n\nClass ID to pull: %d\n\n", classID);
 		
 		item = ms.getClassFromID(classID);
 		
 		StringBuilder out = new StringBuilder();
-
+		
 		System.out.printf("\n\nClass ID to pull: %d\n\n", item.getClassID());
 		
 		out.append("</br></br></br></br><h2 class=\"text-center\">Edit Class</h2></br></br>");
@@ -98,6 +155,7 @@ public class HTMLServices extends baseJSP {
 		out.append("<input type=\"hidden\" name=\"classID\" value=\"" + item.getClassID() + "\"</br></br></br>");
 		out.append("<div class=\"col-xs-3\"><label for=\"classNumber\">Class Number</label><input type=\"text\" class=\"form-control\" name=\"classNumber\" id=\"classNumber\" value='" + item.getClassNumber() + "'/></div></br></br></br>");
 		out.append("<div class=\"col-xs-3\"><label for=\"className\">Class</label><input type=\"text\" class=\"form-control\" name=\"className\" id=\"className\" value='" + item.getClassName() + "'/></div></br></br></br>");
+		out.append("<div class=\"col-xs-3\"><label for=\"classRoom\">Room</label><input class=\"form-control\" name=\"classRoom\" id=\"classRoom\" value='" + item.getClassRoom() + "'/></div></br></br></br>");
 		out.append("<div class=\"col-xs-3\"><label for=\"classSubject\">Subject</label><input class=\"form-control\" name=\"classSubject\" id=\"classSubject\" value='" + item.getClassSubject() + "'/></div></br></br></br>");
 		out.append("<div class=\"col-xs-3\"><label for=\"classCatalog\">Catalog</label><input class=\"form-control\" name=\"classCatalog\" id=\"classCatalog\" value='" + item.getClassCatalog() + "'/></div></br></br></br>");
 		out.append("<div class=\"col-xs-3\"><label for=\"classSection\">Section</label><input class=\"form-control\" name=\"classSection\" id=\"classSection\" value='" + item.getClassSection() + "'/></div></br></br></br>");
@@ -113,7 +171,6 @@ public class HTMLServices extends baseJSP {
 		out.append("<div class=\"col-xs-3\"><label for=\"classDateEnd\">End Date</label><input class=\"form-control\" name=\"classDateEnd\" id=\"classDateEnd\" value='" + item.getClassDateEnd() + "'/></div></br></br></br>");
 		out.append("<div class=\"col-xs-3\"><label for=\"classInstructFirst\">Teacher's First Name</label><input class=\"form-control\" name=\"classInstructFirst\" id=\"classInstructFirst\" value='" + item.getClassInstructFirst() + "'/></div></br></br></br>");
 		out.append("<div class=\"col-xs-3\"><label for=\"classInstructLast\">Teacher's Last Name</label><input class=\"form-control\" name=\"classInstructLast\" id=\"classInstructLast\" value='" + item.getClassInstructLast() + "'/></div></br></br></br>");
-		out.append("<div class=\"col-xs-3\"><label for=\"classRoom\">Room</label><input class=\"form-control\" name=\"classRoom\" id=\"classRoom\" value='" + item.getClassRoom() + "'/></div></br></br></br>");
 		out.append("<div class=\"col-xs-3\"><label for=\"classCampus\">Location</label><input class=\"form-control\" name=\"classCampus\" id=\"classCampus\" value='" + item.getClassCampus() + "'/></div></br></br></br>");
 		out.append("<div class=\"col-xs-3\"><label for=\"classMode\">Mode</label><input class=\"form-control\" name=\"classMode\" id=\"classMode\" value='" + item.getClassMode() + "'/></div></br></br></br>");
 		out.append("<div class=\"col-xs-3\"><label for=\"classComponent\">Comp</label><input class=\"form-control\" name=\"classComponent\" id=\"classComponent\" value='" + item.getClassComponent() + "'/></div></br></br></br>");
