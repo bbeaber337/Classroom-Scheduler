@@ -106,6 +106,7 @@ public class excelServices extends baseJSP {
 					  
 					count++;
 					Class1 c = new Class1();
+					Classroom cr = new Classroom();
 					Row row = (Row) rowIterator.next();
 					Iterator cellIterator = row.cellIterator();
 					
@@ -153,6 +154,7 @@ public class excelServices extends baseJSP {
 
 								if(cell.getColumnIndex() == 13){
 									c.setClassRoom(cell.getStringCellValue());
+									cr.setRoomName(cell.getStringCellValue());
 								}
 								if(cell.getColumnIndex() == 16){
 									c.setClassInstructFirst(cell.getStringCellValue());
@@ -160,7 +162,6 @@ public class excelServices extends baseJSP {
 								if(cell.getColumnIndex() == 15){
 									c.setClassInstructLast(cell.getStringCellValue());
 								}
-
 								if(cell.getColumnIndex() == 21){
 									c.setClassCampus(cell.getStringCellValue());
 								}
@@ -194,6 +195,11 @@ public class excelServices extends baseJSP {
 							    	int j = (int) cell.getNumericCellValue();
 							        c.setClassEnrolled(j);
 							    }
+								if(cell.getColumnIndex() == 14){
+									int j = (int) cell.getNumericCellValue();
+							        cr.setRoomCapacity(j);	
+								}
+								
 							    //If this cell is a Date
 							    if(DateUtil.isCellDateFormatted(cell)){
 									if(cell.getColumnIndex() == 11){
@@ -206,7 +212,7 @@ public class excelServices extends baseJSP {
 									if(cell.getColumnIndex() == 12){
 										c.setClassTimeEnd(tf.format(cell.getNumericCellValue()));
 									}
-									
+
 									if(cell.getColumnIndex() == 18){
 										//Need to convert the Dates into Strings using the format specified above
 										c.setClassDateStart(df.format(cell.getDateCellValue()));
@@ -217,6 +223,7 @@ public class excelServices extends baseJSP {
 							    }							   
 						 }			
 					}
+					cr.setRoomID(ms.addClassroom(cr));
 					c.setClassID(ms.addClass(c));
 					as.setDays(c);
 					//End row, add class

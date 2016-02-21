@@ -27,7 +27,7 @@
   UNIQUE INDEX `userEmail_UNIQUE` (`userEmail` ASC));
 
 
-      -- Table for a `classes`  FINAL
+      -- Table for a `classes`  
   CREATE TABLE `classroom`.`classes` (
   `classID` INT NOT NULL AUTO_INCREMENT,
   `classNumber` INT NOT NULL,
@@ -64,3 +64,18 @@
   UNIQUE INDEX `classID_UNIQUE` (`classID` ASC));
  -- Some classes have the same ClassNbr, had to remove below restriction
   --UNIQUE INDEX `classNbr_UNIQUE` (`classNbr` ASC));
+  
+  -- Table for a `classrooms`  
+  CREATE TABLE `classroom`.`classrooms` (
+  `roomID` INT NOT NULL AUTO_INCREMENT,
+  `roomCapacity` INT NULL,
+  `roomName` VARCHAR(45) NULL,
+  `roomDeskType` VARCHAR(45) NULL,
+  `roomChairType` VARCHAR(45) NULL,
+  `roomBoardType` VARCHAR(45) NULL,
+  `roomDistLearning` VARCHAR(45) NULL,
+  `roomType` VARCHAR(45) NULL,
+  `roomProjectors` INT NULL,
+  PRIMARY KEY (`roomID`),
+  UNIQUE INDEX `roomID_UNIQUE` (`roomID` ASC));
+  UNIQUE INDEX `roomName_UNIQUE` (`roomID` ASC));

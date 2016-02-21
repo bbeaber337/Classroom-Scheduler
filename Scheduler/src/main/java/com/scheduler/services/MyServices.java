@@ -184,6 +184,17 @@ public class MyServices {
 			return conn.runUpdate(query);
 	}
 	
+	
+	public int addClassroom(Classroom cr) throws SQLException {
+		
+		//System.out.printf("\n\n\nAdding Class: %s\n\n\n", c.getCombo());
+		String query = "INSERT INTO classrooms (roomCapacity, roomName) VALUES( ";
+		query += "'" + cr.getRoomCapacity() + "', ";
+		query += "'" + cr.getRoomName() + "'";
+		query += ")";		
+			return conn.runUpdate(query);
+	}
+	
 
 	public int updateClass(Class1 c) throws SQLException {
 		
