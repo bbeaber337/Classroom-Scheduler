@@ -34,7 +34,7 @@
   `classSubject` VARCHAR(8) NULL,
   `classCatalog` VARCHAR(7) NULL,
   `classSection` VARCHAR(5) NULL,
-  `classCombination` VARCHAR(2) NOT NULL DEFAULT 'NA',
+  `classCombination` VARCHAR(5) NOT NULL DEFAULT 'NA',
   `className` VARCHAR(45) NOT NULL,
   `classDescription` VARCHAR(70) NULL,
   `classAcadGroup` VARCHAR(7) NULL,

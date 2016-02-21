@@ -64,7 +64,7 @@ public class HTMLServices extends baseJSP {
 		
 		//out.append("<table>");
 		//out.append("<tr><th>Users</th></tr>");
-		out.append("<table class=\"table sortable\"><thead><tr><th>Change Room</th><th>Class Number</th><th>Name</th><th>Room</th><th>Subject</th><th>First Name</th><th>Last Name</th><th>Days</th><th>Start Time</th><th>End Time</th><th>Start Date</th><th>End Date</th><th>Capacity</th><th>Enrolled</th><th>Catalog</th><th>Section</th><th>Description</th><th>Campus</th><th>Academic Group</th><th>Combined</th><th>Edit Class</th><th>Delete Class</th></tr></thead><tbody>");
+		out.append("<table class=\"table sortable\"><thead><tr><th>Change Room</th><th>Class Number</th><th>Name</th><th>Room</th><th>Subject</th><th>First Name</th><th>Last Name</th><th>Days</th><th>Start Time</th><th>End Time</th><th>Start Date</th><th>End Date</th><th>Capacity</th><th>Enrolled</th><th>Catalog</th><th>Section</th><th>Description</th><th>Campus</th><th>Academic Group</th><th>Mode</th><th>Combined</th><th>Edit Class</th><th>Delete Class</th></tr></thead><tbody>");
 		for(Class1 c : items){
 			
 			//IF the string does not have more then 1 char we can assume it is not assigned a room (TODO: add logic to check if the room it is assigned is really a valid room by checking database)
@@ -99,6 +99,7 @@ public class HTMLServices extends baseJSP {
 			out.append("<td>" + c.getClassDescription() + "</td>");
 			out.append("<td>" + c.getClassCampus() + "</td>");
 			out.append("<td>" + c.getClassAcadGroup() + "</td>");
+			out.append("<td>" + c.getClassMode() + "</td>");
 			out.append("<td>" + combo + "</td>");
 		    out.append("<td><form action='viewClasses.jsp' method='post' ><input type='hidden' name='editClass' value='" + c.getClassID() + "'><input type='submit' value='Edit' alt='Edit Class'/></form></td>");
 		    out.append("<td><form action='viewClasses.jsp' method='post' ><input type='hidden' name='deleteClass' value='" + c.getClassID() + "'><input type='submit' value='Delete' alt='Delete Class' onclick=\"return confirm('Are you sure you want to delete this Class?')\"/></form></td>");
@@ -112,6 +113,7 @@ public class HTMLServices extends baseJSP {
 	
 	public void buildEditClass(int classID) throws Exception {
 		Class1 item = new Class1();
+		String combo;
 		String hasRoom = null;
 		System.out.printf("\n\nClass ID to pull: %d\n\n", classID);
 		
@@ -120,6 +122,12 @@ public class HTMLServices extends baseJSP {
 		StringBuilder out = new StringBuilder();
 		
 		System.out.printf("\n\nClass ID to pull: %d\n\n", item.getClassID());
+		
+		if(item.getClassCombination().compareToIgnoreCase("c") == 0){
+			combo = "Yes";
+		} else {
+			combo = "No";
+		}
 		
 		out.append("</br></br></br></br><h2 class=\"text-center\">Edit Class</h2></br></br>");
 		out.append("<form method=\"POST\" action=\"viewClasses.jsp\">");
@@ -131,9 +139,9 @@ public class HTMLServices extends baseJSP {
 		out.append("<div class=\"col-xs-3\"><label for=\"classSubject\">Subject</label><input class=\"form-control\" name=\"classSubject\" id=\"classSubject\" value='" + item.getClassSubject() + "'/></div></br></br></br>");
 		out.append("<div class=\"col-xs-3\"><label for=\"classCatalog\">Catalog</label><input class=\"form-control\" name=\"classCatalog\" id=\"classCatalog\" value='" + item.getClassCatalog() + "'/></div></br></br></br>");
 		out.append("<div class=\"col-xs-3\"><label for=\"classSection\">Section</label><input class=\"form-control\" name=\"classSection\" id=\"classSection\" value='" + item.getClassSection() + "'/></div></br></br></br>");
-		out.append("<div class=\"col-xs-3\"><label for=\"classCombination\">Combined</label><input class=\"form-control\" name=\"classCombination\" id=\"classCombination\" value='" + item.getClassCombination() + "'/></div></br></br></br>");
+		out.append("</br><div class=\"col-xs-3\"><label for=\"classCombination\">Combined</label></br><select name=\"classCombination\"><option selected value='" + item.getClassCombination() + "'>" + combo + "</option><option value=''>No</option><option value='C'>Yes</option></select></div></br></br></br>");
 		out.append("<div class=\"col-xs-3\"><label for=\"classDescription\">Description</label><input class=\"form-control\" name=\"classDescription\" id=\"classDescription\" value='" + item.getClassDescription() + "'/></div></br></br></br>");
-		out.append("<div class=\"col-xs-3\"><label for=\"classAcadGroup\">Academic Group</label><input class=\"form-control\" name=\"classAcadGroup\" id=\"classAcadGroup\" value='" + item.getClassAcadGroup() + "'/></div></br></br></br>");
+		out.append("</br><div class=\"col-xs-3\"><label for=\"classAcadGroup\">Academic Group</label></br><select name=\"classAcadGroup\"><option selected value='" + item.getClassAcadGroup() + "'>" + item.getClassAcadGroup() + "</option><option value='OMEN'>OMEN</option><option value='OMIS'>OMIS</option><option value='OMAS'>OMAS</option></select></div></br></br></br>");
 		out.append("<div class=\"col-xs-3\"><label for=\"classCapacity\">Capacity</label><input class=\"form-control\" name=\"classCapacity\" id=\"classCapacity\" value='" + item.getClassCapacity() + "'/></div></br></br></br>");
 		out.append("<div class=\"col-xs-3\"><label for=\"classEnrolled\">Enrolled</label><input class=\"form-control\" name=\"classEnrolled\" id=\"classEnrolled\" value='" + item.getClassEnrolled() + "'/></div></br></br></br>");
 		out.append("<div class=\"col-xs-3\"><label for=\"classDays\">Days</label><input class=\"form-control\" name=\"classDays\" id=\"classDays\" value='" + item.getClassDays() + "'/></div></br></br></br>");
@@ -143,13 +151,14 @@ public class HTMLServices extends baseJSP {
 		out.append("<div class=\"col-xs-3\"><label for=\"classDateEnd\">End Date</label><input class=\"form-control\" name=\"classDateEnd\" id=\"classDateEnd\" value='" + item.getClassDateEnd() + "'/></div></br></br></br>");
 		out.append("<div class=\"col-xs-3\"><label for=\"classInstructFirst\">Teacher's First Name</label><input class=\"form-control\" name=\"classInstructFirst\" id=\"classInstructFirst\" value='" + item.getClassInstructFirst() + "'/></div></br></br></br>");
 		out.append("<div class=\"col-xs-3\"><label for=\"classInstructLast\">Teacher's Last Name</label><input class=\"form-control\" name=\"classInstructLast\" id=\"classInstructLast\" value='" + item.getClassInstructLast() + "'/></div></br></br></br>");
-		out.append("<div class=\"col-xs-3\"><label for=\"classCampus\">Location</label><input class=\"form-control\" name=\"classCampus\" id=\"classCampus\" value='" + item.getClassCampus() + "'/></div></br></br></br>");
-		out.append("<div class=\"col-xs-3\"><label for=\"classMode\">Mode</label><input class=\"form-control\" name=\"classMode\" id=\"classMode\" value='" + item.getClassMode() + "'/></div></br></br></br>");
-		out.append("<div class=\"col-xs-3\"><label for=\"classComponent\">Comp</label><input class=\"form-control\" name=\"classComponent\" id=\"classComponent\" value='" + item.getClassComponent() + "'/></div></br></br></br>");
+		out.append("</br><div class=\"col-xs-3\"><label for=\"classCampus\">Campus</label></br><select name=\"classCampus\"><option selected value='" + item.getClassCampus() + "'>" + item.getClassCampus() + "</option><option value='PACIFIC'>PACIFIC</option><option value='DODGE'>DODGE</option></select></div></br></br>");
+		out.append("</br><div class=\"col-xs-3\"><label for=\"classMode\">Mode</label></br><select name=\"classMode\"><option selected value='" + item.getClassMode() + "'>" + item.getClassMode() + "</option><option value='P'>P</option><option value='DE'>DE</option></select></div></br></br></br>");
+		//out.append("<div class=\"col-xs-3\"><label for=\"classMode\">Mode</label><input class=\"form-control\" name=\"classMode\" id=\"classMode\" value='" + item.getClassMode() + "'/></div></br></br></br>");
+		out.append("<div class=\"col-xs-3\"><label for=\"classComponent\">Component</label><input class=\"form-control\" name=\"classComponent\" id=\"classComponent\" value='" + item.getClassComponent() + "'/></div></br></br></br>");
 		//out.append("<div class=\"col-xs-3\"><label for=\"chairType\">Chair Type</label><input class=\"form-control\" name=\"chairType\" id=\"chairType\" value='" + item.getChairType() + "'/></div></br></br></br>");
 		//out.append("<div class=\"col-xs-3\"><label for=\"boardType\">Board Type</label><input class=\"form-control\" name=\"boardType\" id=\"boardType\" value='" + item.getBoardType() + "'/></div></br></br></br>");
 		//out.append("<div class=\"col-xs-3\"><label for=\"deskType\">Desk Type</label><input class=\"form-control\" name=\"deskType\" id=\"deskType\" value='" + item.getDeskType() + "'/></div></br></br></br></br></br>");
-		out.append("<div class=\"row-md-5\"><button type=\"submit\" class=\"btn btn-default\"></t>Save Changes</button></div></form>");
+		out.append("</br><div class=\"row-md-5\"><button type=\"submit\" class=\"btn btn-default\"></t>Save Changes</button></div></form>");
 		
 		stream.print(out.toString());
 	}

@@ -79,39 +79,38 @@ public class adminServices extends baseJSP {
 		return false;
 	}
 	
-	public void setDays(List<Class1> classList) throws Exception {
-		
+	public void setDays(Class1 item) throws Exception {
+
 		System.out.printf("\n\nMADE IT \n\n\n");
 
-		for (Class1 item : classList) {
+		//for (Class1 item : classList) {
 			if (item != null) {
-				System.out.printf("\n\nHere is the ID: \n\n\n");
-				item.setClassID(item.getClassID());
+				//c.setClassID(item.getClassID());
 				// parse through classDays attribute checking for M T W R F S
-				System.out.printf("\n\nHere is the ID: %d\n\n\n", item.getClassID());
-				if (item.getClassDays().contains("M")) {
+
+				if (item.getClassDays().contains("M") || item.getClassDays().contains("m")) {
 					item.setClassMon(1);
 				}
-				if (item.getClassDays().contains("T")) {
+				if (item.getClassDays().contains("T") || item.getClassDays().contains("t")) {
 					item.setClassTues(1);
 				}
-				if (item.getClassDays().contains("W")) {
+				if (item.getClassDays().contains("W") || item.getClassDays().contains("w")) {
 					item.setClassWed(1);
 				}
-				if (item.getClassDays().contains("R")) {
+				if (item.getClassDays().contains("R") || item.getClassDays().contains("r")) {
 					item.setClassThurs(1);
 				}
-				if (item.getClassDays().contains("F")) {
+				if (item.getClassDays().contains("F") || item.getClassDays().contains("f")) {
 					item.setClassFri(1);
 				}
-				if (item.getClassDays().contains("S")) {
+				if (item.getClassDays().contains("S") | item.getClassDays().contains("s")) {
 					item.setClassSat(1);
 				}
 				ms.updateClassDays(item);
 			} else {
 				System.out.printf("\n\nDIDN'T WORK!\n\n\n");
 			}
-		}
+		//}
 	}
 	
 	
@@ -119,6 +118,7 @@ public class adminServices extends baseJSP {
 		
 		if(request.getParameter("submitClassEdit") != null){
 
+			
 			Class1 c = new Class1();
 			
 			System.out.printf("\n\nClass ID: %d\n\n\n",Integer.parseInt(request.getParameter("classID")) );
@@ -149,7 +149,8 @@ public class adminServices extends baseJSP {
 			//c.setDeskType(request.getParameter("deskType"));
 			
 			//c.setClassID(ms.updateClass(c));
-			System.out.printf("\n\nClass ID: %d\n\n\n",ms.updateClass(c));
+			ms.updateClass(c);
+			setDays(c);
 		}
 		
 	}

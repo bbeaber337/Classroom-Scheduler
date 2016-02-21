@@ -45,7 +45,7 @@ public class excelServices extends baseJSP {
 			HttpServletResponse response, JspWriter stream) throws Exception {
 		super(session, request, response, stream);
 		ms = new MyServices();
-		
+		as = new adminServices(session, request, response, stream);
 	    conn = new dbConnector();
 	}
 	
@@ -218,7 +218,7 @@ public class excelServices extends baseJSP {
 						 }			
 					}
 					c.setClassID(ms.addClass(c));
-
+					as.setDays(c);
 					//End row, add class
 					classList.add(c);
 				  }
@@ -232,49 +232,14 @@ public class excelServices extends baseJSP {
 	            e.printStackTrace();
 	        }		
 			//Set Mon, Tues, Wed, Thurs, Fri, and Sat for each Class			
-			setDays(classList);
+			//as.setDays(classList);
 			//System.out.printf("\nClassID : %d\n", c.getClassID());
 			
 			//printClasses(classList);
 		}			
 	}
 	
-	
-	
-	public void setDays(List<Class1> classList) throws Exception {
-		
-		System.out.printf("\n\nMADE IT \n\n\n");
 
-		for (Class1 item : classList) {
-			if (item != null) {
-				System.out.printf("\n\nHere is the ID: \n\n\n");
-				//item.setClassID(item.getClassID());
-				// parse through classDays attribute checking for M T W R F S
-				System.out.printf("\n\nHere is the ID: %d\n\n\n", item.getClassID());
-				if (item.getClassDays().contains("M")) {
-					item.setClassMon(1);
-				}
-				if (item.getClassDays().contains("T")) {
-					item.setClassTues(1);
-				}
-				if (item.getClassDays().contains("W")) {
-					item.setClassWed(1);
-				}
-				if (item.getClassDays().contains("R")) {
-					item.setClassThurs(1);
-				}
-				if (item.getClassDays().contains("F")) {
-					item.setClassFri(1);
-				}
-				if (item.getClassDays().contains("S")) {
-					item.setClassSat(1);
-				}
-				ms.updateClassDays(item);
-			} else {
-				System.out.printf("\n\nDIDN'T WORK!\n\n\n");
-			}
-		}
-	}
 		
 	public void printClasses( List<Class1> classList){
 		
