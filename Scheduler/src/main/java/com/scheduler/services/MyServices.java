@@ -167,6 +167,17 @@ public class MyServices {
 	}
 	
 
+	public int deleteDuplicates(){
+		
+		String query = "DELETE FROM classrooms WHERE roomID NOT IN (SELECT * FROM (SELECT MIN(n.roomID) FROM classrooms n GROUP BY n.roomName) x)";
+		
+		try {
+			return conn.runUpdate(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
 	
 	public int clearClasses()
 	{
@@ -209,10 +220,14 @@ public class MyServices {
 		query += "'" + c.getClassComponent() + "'";
 		query += ")";		
 			return conn.runUpdate(query);
+
 	}
 	
 	
 	public int addClassroom(Classroom cr) throws SQLException {
+		
+				
+		List<Classroom> list = new ArrayList<Classroom>();
 		
 		//System.out.printf("\n\n\nAdding Class: %s\n\n\n", c.getCombo());
 		String query = "INSERT INTO classrooms (roomCapacity, roomName) VALUES( ";
@@ -252,6 +267,7 @@ public class MyServices {
 		//String query = "UPDATE `classes` SET classNbr=\"" + c.getClassNbr() + "\" WHERE class_id=\"" + c.getClassID() + "\"";	
 			return conn.runUpdate(query);
 	}
+	
 	
 	
 	public int updateClassDays(Class1 c) throws SQLException {
