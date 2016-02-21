@@ -23,7 +23,9 @@ public class HTMLServices extends baseJSP {
 	
 	private MyServices ms = null;
 	
-
+// --------------------------------------------------------------------------------------------
+//									CLASS FUNCTIONS
+//--------------------------------------------------------------------------------------------
 	
 	public void buildSelectClass(int classID) throws Exception {
 		String hasRoom = null;
@@ -43,17 +45,15 @@ public class HTMLServices extends baseJSP {
 		}
 		
 		StringBuilder out = new StringBuilder();
-
 		System.out.printf("\n\nClass ID to pull: %d\n\n", item.getClassID());
 		
 		out.append("</br></br></br></br><h2 class=\"text-center\"><u>Current Room</u></h2></br></br>");
 		out.append("</br><h3 class=\"text-center\">" + hasRoom + "</h3></br></br></br>");
 		out.append("</br></br></br><h2 class=\"text-center\"><u>Available Rooms</u></h2>");
-		
-		
+			
 		stream.print(out.toString());
-
 	}
+	
 	
 	public void buildClasses() throws Exception {
 		String hasRoom;
@@ -79,8 +79,7 @@ public class HTMLServices extends baseJSP {
 				combo = "Yes";
 			} else {
 				combo = "No";
-			}
-			
+			}			
 			out.append("<tr><td><form action='viewClasses.jsp' method='post' ><input type='hidden' name='selectClass' value='" + c.getClassID() + "'><input type='submit' value='Select' alt='Select Class'/></form></td>");
 			out.append("<td>" + c.getClassNumber() + "</td>");
 			out.append("<td>" + c.getClassName() + "</td>");
@@ -103,37 +102,10 @@ public class HTMLServices extends baseJSP {
 			out.append("<td>" + combo + "</td>");
 		    out.append("<td><form action='viewClasses.jsp' method='post' ><input type='hidden' name='editClass' value='" + c.getClassID() + "'><input type='submit' value='Edit' alt='Edit Class'/></form></td>");
 		    out.append("<td><form action='viewClasses.jsp' method='post' ><input type='hidden' name='deleteClass' value='" + c.getClassID() + "'><input type='submit' value='Delete' alt='Delete Class' onclick=\"return confirm('Are you sure you want to delete this Class?')\"/></form></td>");
-			out.append("</tr>");	
-		}
-		out.append("</tbody></table>");
-		stream.print(out.toString());
-	}
-	
-	public void buildAccRequests() throws Exception {
-		List<AccRequest> items = ms.getAccRequests();
-		
-		StringBuilder out = new StringBuilder();
-		
-		//out.append("<table>");
-		//out.append("<tr><th>Users</th></tr>");
-		out.append(" ");
-		out.append("<table class=\"table\"><thead><tr><th>First Name</th><th>Last Name</th><th>Desired Username </th><th>Password</th><th>email</th><th>Reasoning</th></tr></thead><tbody>");
-		for(AccRequest ar : items){
-			//out.append("<form role=\"form\" action='viewRequests.jsp' method='post'><input type=\"hidden\" name=\"delAccRequest\" value=\"accountRequest\"><tr><td>" + ar.getUsername() + "</td>");
-			out.append("<td>" + ar.getLName() + "</td>");
-			out.append("<td>" + ar.getFName() + "</td>");
-			out.append("<td>" + ar.getEmail() + "</td>");
-			out.append("<td>" + ar.getPass() + "</td>");
-			out.append("<td name=\"username\">" + ar.getUsername() + "</td>");
-			out.append("<td>" + ar.getReasoning() + "</td>");
-			
-		    out.append("<td><form action='viewRequests.jsp' method='post' ><input type='hidden' name='delAccRequest' value='" + ar.getUsername() + "'><input type='submit' value='Delete' alt='Delete Request' /></form></td>");
-			//out.append("<td><button class=\"btn btn-default\"  name=\"delAccRequest\" type=\"submit\" > Delete</button></form></td> ");
-
 			out.append("</tr>");
+			System.out.printf("\nMon: %d\nTues: %d\nWed: %d\nThurs: %d\nFri: %d\nSat: %d\n\n", c.getClassMon(), c.getClassTues(), c.getClassWed(), c.getClassThurs(), c.getClassFri(), c.getClassSat());
 		}
 		out.append("</tbody></table>");
-		//out.append("</form>");
 		stream.print(out.toString());
 	}
 	
@@ -180,9 +152,13 @@ public class HTMLServices extends baseJSP {
 		out.append("<div class=\"row-md-5\"><button type=\"submit\" class=\"btn btn-default\"></t>Save Changes</button></div></form>");
 		
 		stream.print(out.toString());
-
 	}
 	
+	
+
+// --------------------------------------------------------------------------------------------
+//									USER FUNCTIONS
+//--------------------------------------------------------------------------------------------
 	
 	public void buildUsers() throws Exception {
 		List<User> items = ms.getUsers();
@@ -214,6 +190,33 @@ public class HTMLServices extends baseJSP {
 	}
 	
 	
+	public void buildAccRequests() throws Exception {
+		List<AccRequest> items = ms.getAccRequests();
+		
+		StringBuilder out = new StringBuilder();
+		
+		//out.append("<table>");
+		//out.append("<tr><th>Users</th></tr>");
+		out.append(" ");
+		out.append("<table class=\"table\"><thead><tr><th>First Name</th><th>Last Name</th><th>Desired Username </th><th>Password</th><th>email</th><th>Reasoning</th></tr></thead><tbody>");
+		for(AccRequest ar : items){
+			//out.append("<form role=\"form\" action='viewRequests.jsp' method='post'><input type=\"hidden\" name=\"delAccRequest\" value=\"accountRequest\"><tr><td>" + ar.getUsername() + "</td>");
+			out.append("<td>" + ar.getLName() + "</td>");
+			out.append("<td>" + ar.getFName() + "</td>");
+			out.append("<td>" + ar.getEmail() + "</td>");
+			out.append("<td>" + ar.getPass() + "</td>");
+			out.append("<td name=\"username\">" + ar.getUsername() + "</td>");
+			out.append("<td>" + ar.getReasoning() + "</td>");
+			
+		    out.append("<td><form action='viewRequests.jsp' method='post' ><input type='hidden' name='delAccRequest' value='" + ar.getUsername() + "'><input type='submit' value='Delete' alt='Delete Request' /></form></td>");
+			//out.append("<td><button class=\"btn btn-default\"  name=\"delAccRequest\" type=\"submit\" > Delete</button></form></td> ");
+
+			out.append("</tr>");
+		}
+		out.append("</tbody></table>");
+		//out.append("</form>");
+		stream.print(out.toString());
+	}
 
 	
 }

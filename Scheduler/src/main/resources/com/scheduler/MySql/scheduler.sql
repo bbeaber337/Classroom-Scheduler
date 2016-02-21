@@ -56,7 +56,7 @@
   `classMon` INT NOT NULL DEFAULT 0,
   `classTues` INT NOT NULL DEFAULT 0,
   `classWed` INT NOT NULL DEFAULT 0,
-  `classThur` INT NOT NULL DEFAULT 0,
+  `classThurs` INT NOT NULL DEFAULT 0,
   `classFri` INT NOT NULL DEFAULT 0,
   `classSat` INT NOT NULL DEFAULT 0,
   `classSun` INT NOT NULL DEFAULT 0,

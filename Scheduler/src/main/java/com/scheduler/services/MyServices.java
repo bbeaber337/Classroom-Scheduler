@@ -21,16 +21,136 @@ public class MyServices {
 	}
 	
 	
-	public int addAccount(User set){
+// --------------------------------------------------------------------------------------------
+//						CLASS FUNCTIONS
+//--------------------------------------------------------------------------------------------
+	
+	
+	public List<Class1> getClasses() throws Exception {
+		ResultSet rs = null;
+		List<Class1> list = new ArrayList<Class1>();
 		
-		String query = "INSERT INTO users (userName, userPassword, userFirst, userLast, userEmail, userAdmin) VALUES( ";
-		query += "'" + set.getUserName() + "', ";
-		query += "'" + set.getUserPassword() + "', ";
-		query += "'" + set.getUserFirst() + "', ";
-		query += "'" + set.getUserLast() + "', ";
-		query += "'" + set.getUserEmail() + "', ";
-		query += "'" + set.getUserAdmin() + "'";
-		query += ")";
+		//rs = conn.runQuery("SELECT classID, classNumber, className, classDays, classSubject, classCatalog, classSection, classCombination, classDescription, classCampus, classAcadGroup, classInstructFirst, classInstructLast, classTimeStart, classTimeEnd, classDateStart, classDateEnd, classCapacity, classEnrolled, classRoom FROM classes");
+		rs = conn.runQuery("SELECT classID, classNumber, classSubject, classCatalog, classSection, classCombination, className, classDescription, classAcadGroup, classCapacity, classEnrolled, classDays, classTimeStart, classTimeEnd, classDateStart, classDateEnd, "
+				+ "classInstructFirst, classInstructLast, classRoom, classCampus, classMode, classComponent, classCrsAttrVal, classMon, classTues, classWed, classThurs, classFri, classSat FROM classes");
+		
+		if(rs != null){
+			while(rs.next()){
+				Class1 item = new Class1();
+				//System.out.println(rs.getString("name"));
+				item.setClassID(rs.getInt("classID"));
+				item.setClassNumber(rs.getInt("classNumber"));
+				item.setClassSubject(rs.getString("classSubject"));
+				item.setClassCatalog(rs.getString("classCatalog"));
+				item.setClassSection(rs.getString("classSection"));
+				item.setClassCombination(rs.getString("classCombination"));
+				item.setClassName(rs.getString("className"));
+				item.setClassDescription(rs.getString("classDescription"));
+				item.setClassAcadGroup(rs.getString("classAcadGroup"));
+				item.setClassCapacity(rs.getInt("classCapacity"));
+				item.setClassEnrolled(rs.getInt("classEnrolled"));
+				item.setClassDays(rs.getString("classDays"));
+				item.setClassTimeStart(rs.getString("classTimeStart"));
+				item.setClassTimeEnd(rs.getString("classTimeEnd"));
+				item.setClassDateStart(rs.getString("classDateStart"));
+				item.setClassDateEnd(rs.getString("classDateEnd"));
+				item.setClassInstructLast(rs.getString("classInstructLast"));
+				item.setClassInstructFirst(rs.getString("classInstructFirst"));
+				item.setClassRoom(rs.getString("classRoom"));
+				item.setClassCampus(rs.getString("classCampus"));
+				item.setClassMode(rs.getString("classMode"));
+				item.setClassComponent(rs.getString("classComponent"));
+				item.setClassCrsAttrVal(rs.getString("classCrsAttrVal"));
+				item.setClassMon(rs.getInt("classMon"));
+				item.setClassTues(rs.getInt("classTues"));
+				item.setClassWed(rs.getInt("classWed"));
+				item.setClassThurs(rs.getInt("classThurs"));
+				item.setClassFri(rs.getInt("classFri"));
+				item.setClassSat(rs.getInt("classSat"));
+				/*
+				item.setClassID(rs.getInt("classID"));
+				item.setClassNumber(rs.getInt("classNumber"));
+				item.setClassName(rs.getString("className"));
+				item.setClassRoom(rs.getString("classRoom"));
+				item.setClassDays(rs.getString("classDays"));
+				item.setClassSubject(rs.getString("classSubject"));
+				item.setClassInstructFirst(rs.getString("classInstructFirst"));
+				item.setClassInstructLast(rs.getString("classInstructLast"));
+				item.setClassTimeStart(rs.getString("classTimeStart"));
+				item.setClassTimeEnd(rs.getString("classTimeEnd"));
+				item.setClassDateStart(rs.getString("classDateStart"));
+				item.setClassDateEnd(rs.getString("classDateEnd"));
+				item.setClassCapacity(rs.getInt("classCapacity"));
+				item.setClassEnrolled(rs.getInt("classEnrolled"));
+				item.setClassCatalog(rs.getString("classCatalog"));
+				item.setClassSection(rs.getString("classSection"));
+				item.setClassCombination(rs.getString("classCombination"));
+				item.setClassDescription(rs.getString("classDescription"));
+				item.setClassCampus(rs.getString("classCampus"));
+				item.setClassAcadGroup(rs.getString("classAcadGroup")); */
+				list.add(item);
+			}
+		}
+		return list;
+	}
+	
+	
+	public Class1 getClassFromID(int classID) throws Exception {
+		ResultSet rs = null;
+		//Class1 list = new Class1();
+		Class1 item = new Class1();
+		
+		rs = conn.runQuery("SELECT classID, classNumber, classSubject, classCatalog, classSection, classCombination, className, classDescription, classAcadGroup, classCapacity, classEnrolled, classDays, classTimeStart, classTimeEnd, classDateStart, classDateEnd, "
+				+ "classInstructFirst, classInstructLast, classRoom, classCampus, classMode, classComponent, classCrsAttrVal, classMon, classTues, classWed, classThurs, classFri, classSat FROM classes WHERE classID = '" + classID +"' ");
+		
+		
+		if(rs != null){
+			while(rs.next()){
+				item = new Class1();
+				item.setClassID(classID);
+				System.out.printf("\n\nClass ID from MyServices: %d\n\n", item.getClassID());
+				item.setClassNumber(rs.getInt("classNumber"));
+				item.setClassSubject(rs.getString("classSubject"));
+				item.setClassCatalog(rs.getString("classCatalog"));
+				item.setClassSection(rs.getString("classSection"));
+				item.setClassCombination(rs.getString("classCombination"));
+				item.setClassName(rs.getString("className"));
+				item.setClassDescription(rs.getString("classDescription"));
+				item.setClassAcadGroup(rs.getString("classAcadGroup"));
+				item.setClassCapacity(rs.getInt("classCapacity"));
+				item.setClassEnrolled(rs.getInt("classEnrolled"));
+				item.setClassDays(rs.getString("classDays"));
+				item.setClassTimeStart(rs.getString("classTimeStart"));
+				item.setClassTimeEnd(rs.getString("classTimeEnd"));
+				item.setClassDateStart(rs.getString("classDateStart"));
+				item.setClassDateEnd(rs.getString("classDateEnd"));
+				item.setClassInstructLast(rs.getString("classInstructLast"));
+				item.setClassInstructFirst(rs.getString("classInstructFirst"));
+				item.setClassRoom(rs.getString("classRoom"));
+				item.setClassCampus(rs.getString("classCampus"));
+				item.setClassMode(rs.getString("classMode"));
+				item.setClassComponent(rs.getString("classComponent"));
+				item.setClassCrsAttrVal(rs.getString("classCrsAttrVal"));
+				item.setClassMon(rs.getInt("classMon"));
+				item.setClassTues(rs.getInt("classTues"));
+				item.setClassWed(rs.getInt("classWed"));
+				item.setClassThurs(rs.getInt("classThurs"));
+				item.setClassFri(rs.getInt("classFri"));
+				item.setClassSat(rs.getInt("classSat"));
+				//item.setChairType(rs.getString("chairType"));
+				//item.setBoardType(rs.getString("boardType"));
+				//item.setDeskType(rs.getString("deskType"));
+				//list.add(item);	
+			}	
+			return item;
+		}
+		return null;
+	}
+	
+	
+	public int deleteClass(int classID){
+		
+		String query = "DELETE FROM classes WHERE classID='" + classID + "' ";
 		
 		try {
 			return conn.runUpdate(query);
@@ -39,6 +159,8 @@ public class MyServices {
 		}
 		return 0;
 	}
+	
+
 	
 	public int clearClasses()
 	{
@@ -115,15 +237,37 @@ public class MyServices {
 	}
 	
 	
-	public int insertAccRequest(AccRequest ar){
-					
-		String query = "INSERT INTO accRequests (fName, lName, email, username, pass, reasoning) VALUES ( ";
-		query += "'" + ar.getFName() + "', ";
-		query += "'" + ar.getLName() + "', ";
-		query += "'" + ar.getEmail() + "', ";
-		query += "'" + ar.getUsername() + "', ";
-		query += "'" + ar.getPass() + "', ";
-		query += "'" + ar.getReasoning() + "'";
+	public int updateClassDays(Class1 c) throws SQLException {
+		
+		System.out.printf("\n\n\nAdding Class: %d\n\n\n", c.getClassID());
+		String query = "UPDATE `classes` SET "
+				+ " classMon=\"" + c.getClassMon() + "\", "
+				+ " classTues=\"" + c.getClassTues() + "\", "
+				+ " classWed=\"" + c.getClassWed() + "\", "
+				+ " classThurs=\"" + c.getClassThurs() + "\", "
+				+ " classFri=\"" + c.getClassFri() + "\", "
+				+ " classSat=\"" + c.getClassSat() + "\" "
+				+ " WHERE classID=\"" + c.getClassID() + "\"";				
+		//String query = "UPDATE `classes` SET classNbr=\"" + c.getClassNbr() + "\" WHERE class_id=\"" + c.getClassID() + "\"";	
+			return conn.runUpdate(query);
+	}
+	
+
+	
+// --------------------------------------------------------------------------------------------
+//								USER FUNCTIONS
+//--------------------------------------------------------------------------------------------
+	
+	
+	public int addAccount(User set){
+		
+		String query = "INSERT INTO users (userName, userPassword, userFirst, userLast, userEmail, userAdmin) VALUES( ";
+		query += "'" + set.getUserName() + "', ";
+		query += "'" + set.getUserPassword() + "', ";
+		query += "'" + set.getUserFirst() + "', ";
+		query += "'" + set.getUserLast() + "', ";
+		query += "'" + set.getUserEmail() + "', ";
+		query += "'" + set.getUserAdmin() + "'";
 		query += ")";
 		
 		try {
@@ -133,9 +277,6 @@ public class MyServices {
 		}
 		return 0;
 	}
-	
-	
-
 	
 	
 	public List<User> getUsers() throws Exception {
@@ -158,6 +299,7 @@ public class MyServices {
 		}
 		return list;
 	}
+	
 	
 	public List<AccRequest> getAccRequests() throws Exception {
 		ResultSet rs = null;
@@ -182,116 +324,6 @@ public class MyServices {
 	}
 	
 	
-	public List<Class1> getClasses() throws Exception {
-		ResultSet rs = null;
-		List<Class1> list = new ArrayList<Class1>();
-		
-		rs = conn.runQuery("SELECT classID, classNumber, className, classDays, classSubject, classCatalog, classSection, classCombination, classDescription, classCampus, classAcadGroup, classInstructFirst, classInstructLast, classTimeStart, classTimeEnd, classDateStart, classDateEnd, classCapacity, classEnrolled, classRoom FROM classes");
-		
-		if(rs != null){
-			while(rs.next()){
-				Class1 item = new Class1();
-				//System.out.println(rs.getString("name"));
-				item.setClassID(rs.getInt("classID"));
-				item.setClassNumber(rs.getInt("classNumber"));
-				item.setClassName(rs.getString("className"));
-				item.setClassRoom(rs.getString("classRoom"));
-				item.setClassDays(rs.getString("classDays"));
-				item.setClassSubject(rs.getString("classSubject"));
-				item.setClassInstructFirst(rs.getString("classInstructFirst"));
-				item.setClassInstructLast(rs.getString("classInstructLast"));
-				item.setClassTimeStart(rs.getString("classTimeStart"));
-				item.setClassTimeEnd(rs.getString("classTimeEnd"));
-				item.setClassDateStart(rs.getString("classDateStart"));
-				item.setClassDateEnd(rs.getString("classDateEnd"));
-				item.setClassCapacity(rs.getInt("classCapacity"));
-				item.setClassEnrolled(rs.getInt("classEnrolled"));
-				item.setClassCatalog(rs.getString("classCatalog"));
-				item.setClassSection(rs.getString("classSection"));
-				item.setClassCombination(rs.getString("classCombination"));
-				item.setClassDescription(rs.getString("classDescription"));
-				item.setClassCampus(rs.getString("classCampus"));
-				item.setClassAcadGroup(rs.getString("classAcadGroup"));
-				list.add(item);
-			}
-		}
-		return list;
-	}
-	
-	public Class1 getClassFromID(int classID) throws Exception {
-		ResultSet rs = null;
-		//Class1 list = new Class1();
-		Class1 item = new Class1();
-		
-		rs = conn.runQuery("SELECT classID, classNumber, classSubject, classCatalog, classSection, classCombination, className, classDescription, classAcadGroup, classCapacity, classEnrolled, classDays, "
-				+ "classTimeStart, classTimeEnd, classDateStart, classDateEnd, classInstructFirst, classInstructLast, classRoom, classCampus, classMode, classComponent, classCrsAttrVal FROM classes WHERE classID = '" + classID +"' ");
-		
-		
-		if(rs != null){
-			while(rs.next()){
-				item = new Class1();
-				item.setClassID(classID);
-				System.out.printf("\n\nClass ID from MyServices: %d\n\n", item.getClassID());
-				item.setClassNumber(rs.getInt("classNumber"));
-				item.setClassSubject(rs.getString("classSubject"));
-				item.setClassCatalog(rs.getString("classCatalog"));
-				item.setClassSection(rs.getString("classSection"));
-				item.setClassCombination(rs.getString("classCombination"));
-				item.setClassName(rs.getString("className"));
-				item.setClassDescription(rs.getString("classDescription"));
-				item.setClassAcadGroup(rs.getString("classAcadGroup"));
-				item.setClassCapacity(rs.getInt("classCapacity"));
-				item.setClassEnrolled(rs.getInt("classEnrolled"));
-				item.setClassDays(rs.getString("classDays"));
-				item.setClassTimeStart(rs.getString("classTimeStart"));
-				item.setClassTimeEnd(rs.getString("classTimeEnd"));
-				item.setClassDateStart(rs.getString("classDateStart"));
-				item.setClassDateEnd(rs.getString("classDateEnd"));
-				item.setClassInstructLast(rs.getString("classInstructLast"));
-				item.setClassInstructFirst(rs.getString("classInstructFirst"));
-				item.setClassRoom(rs.getString("classRoom"));
-				item.setClassCampus(rs.getString("classCampus"));
-				item.setClassMode(rs.getString("classMode"));
-				item.setClassComponent(rs.getString("classComponent"));
-				item.setClassCrsAttrVal(rs.getString("classCrsAttrVal"));
-				//item.setChairType(rs.getString("chairType"));
-				//item.setBoardType(rs.getString("boardType"));
-				//item.setDeskType(rs.getString("deskType"));
-				//list.add(item);
-				
-			}	
-		}
-		return item;
-	}
-	
-
-	
-	
-	public int deleteClass(int classID){
-		
-		String query = "DELETE FROM classes WHERE classID='" + classID + "' ";
-		
-		try {
-			return conn.runUpdate(query);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return 0;
-	}
-	
-	public int deleteAccRequest(String username) throws Exception {
-		
-		String query = "DELETE FROM accRequests WHERE username='" + username +"' ";
-		
-		try {
-			return conn.runUpdate(query);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return 0;
-	}
-	
-	
 	public int deleteAccount (String username) throws Exception {
 		
 		String query = "DELETE FROM users WHERE userName='" +  username +"' ";
@@ -303,7 +335,6 @@ public class MyServices {
 		}
 		return 0;
 	}
-	
 	
 	
 	public boolean validateLogin(String user, String pass) throws Exception {
@@ -327,24 +358,50 @@ public class MyServices {
 		
 		ResultSet rs = null;
 		
-		String query = "SELECT userAdmin FROM users WHERE userName='" + user + "' ";
-		
+		String query = "SELECT userAdmin FROM users WHERE userName='" + user + "' ";		
 		rs = conn.runQuery(query);
 		
 		if(rs.next()){
 			if(rs.getInt("userAdmin") == 1){
 				return true;
 			}
-		}
-		
+		}	
 		return false;
-
-
-
 	}
 	
 
 	
+	public int insertAccRequest(AccRequest ar){
+					
+		String query = "INSERT INTO accRequests (fName, lName, email, username, pass, reasoning) VALUES ( ";
+		query += "'" + ar.getFName() + "', ";
+		query += "'" + ar.getLName() + "', ";
+		query += "'" + ar.getEmail() + "', ";
+		query += "'" + ar.getUsername() + "', ";
+		query += "'" + ar.getPass() + "', ";
+		query += "'" + ar.getReasoning() + "'";
+		query += ")";
+		
+		try {
+			return conn.runUpdate(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	
+	public int deleteAccRequest(String username) throws Exception {
+		
+		String query = "DELETE FROM accRequests WHERE username='" + username +"' ";
+		
+		try {
+			return conn.runUpdate(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
 	
 	
 	

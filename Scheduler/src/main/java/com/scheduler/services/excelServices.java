@@ -38,6 +38,7 @@ public class excelServices extends baseJSP {
 
 	private dbConnector conn = null;
 	private MyServices ms = null;
+	private adminServices as = null;
 
 
 	public excelServices(HttpSession session, HttpServletRequest request,
@@ -216,25 +217,63 @@ public class excelServices extends baseJSP {
 							    }							   
 						 }			
 					}
-					
 					c.setClassID(ms.addClass(c));
+
 					//End row, add class
 					classList.add(c);
 				  }
 				  }
 			}
-				fis.close();
-				 
+
+				fis.close();			 
 			} catch(FileNotFoundException e){
 				e.printStackTrace();
 			} catch (IOException e) {
 	            e.printStackTrace();
-	        }
+	        }		
+			//Set Mon, Tues, Wed, Thurs, Fri, and Sat for each Class			
+			setDays(classList);
+			//System.out.printf("\nClassID : %d\n", c.getClassID());
 			
 			//printClasses(classList);
+		}			
+	}
+	
+	
+	
+	public void setDays(List<Class1> classList) throws Exception {
+		
+		System.out.printf("\n\nMADE IT \n\n\n");
 
+		for (Class1 item : classList) {
+			if (item != null) {
+				System.out.printf("\n\nHere is the ID: \n\n\n");
+				//item.setClassID(item.getClassID());
+				// parse through classDays attribute checking for M T W R F S
+				System.out.printf("\n\nHere is the ID: %d\n\n\n", item.getClassID());
+				if (item.getClassDays().contains("M")) {
+					item.setClassMon(1);
+				}
+				if (item.getClassDays().contains("T")) {
+					item.setClassTues(1);
+				}
+				if (item.getClassDays().contains("W")) {
+					item.setClassWed(1);
+				}
+				if (item.getClassDays().contains("R")) {
+					item.setClassThurs(1);
+				}
+				if (item.getClassDays().contains("F")) {
+					item.setClassFri(1);
+				}
+				if (item.getClassDays().contains("S")) {
+					item.setClassSat(1);
+				}
+				ms.updateClassDays(item);
+			} else {
+				System.out.printf("\n\nDIDN'T WORK!\n\n\n");
+			}
 		}
-				
 	}
 		
 	public void printClasses( List<Class1> classList){
@@ -262,10 +301,7 @@ public class excelServices extends baseJSP {
 			System.out.printf("Location: %s\n",c.getClassCampus());
 			System.out.printf("Mode: %s\n",c.getClassMode());
 			System.out.printf("Component: %s\n\n",c.getClassComponent());
-
-
-		}
-		
+		}	
 	}
 	
 }

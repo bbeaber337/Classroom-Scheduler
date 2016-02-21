@@ -37,126 +37,15 @@ public class adminServices extends baseJSP {
 	}
 	
 	
-	public void adminLogin() {
-		System.out.printf("Setting User KEY: %s\n\n", adminKey);
-		session.setAttribute("userLogin", adminKey);
-		System.out.printf("Setting User KEY: %s\n\n", session.getAttribute("userLogin"));
-	}
-	public void userLogin() {
-		session.setAttribute("userLogin", userKey);
-	}
 	
-	public void logout() {
-		if(request.getParameter("logout") != null){
-			session.setAttribute("userLogin", null);
-		}
-	}
-//	public void userLogout() {
-//		if(request.getParameter("logout") != null){
-//			session.setAttribute("userLogin", null);
-//		}
-//	}
-	
-	
-
-	
-	public void addAccount() throws Exception {
-		
-		
-		if(request.getParameter("addAccount") != null){
-			
-			User u = new User();
-			
-			u.setUserName(request.getParameter("userName"));
-			u.setUserPassword(request.getParameter("userPassword"));
-			u.setUserFirst(request.getParameter("userFirst"));
-			u.setUserLast(request.getParameter("userLast"));
-			u.setUserEmail(request.getParameter("userEmail"));
-			System.out.printf("Value of ADMIN  is: %s", request.getParameter("UserAdmin"));
-			if(request.getParameter("userAdmin").equals("Yes") || request.getParameter("userAdmin").equals("yes")){
-				u.setUserAdmin(1);
-			}else{
-				u.setUserAdmin(0);
-			}
-			ms.addAccount(u);
-		}
-	}
-	
-	
-	
-	public void addAccRequest() throws Exception {
-		
-		if(request.getParameter("accountRequest") != null){	
-			AccRequest ar = new AccRequest();
-			
-			System.out.printf("Value of FIRST NAME is: %s", request.getParameter("fName"));
-			ar.setFName(request.getParameter("fName"));
-			ar.setLName(request.getParameter("lName"));
-			ar.setUsername(request.getParameter("username"));
-			ar.setPass(request.getParameter("pass"));
-			ar.setEmail(request.getParameter("email"));
-			ar.setReasoning(request.getParameter("reasoning"));
-			ms.insertAccRequest(ar);
-		}
-	}
-	
-
-	
-	public void delAccRequest() throws Exception {
-		
-		String user = null;
-		//int id;
-		
-		if(request.getParameter("delAccRequest") != null){
-						
-			user = request.getParameter("delAccRequest");
-			 //username = request.getParameter("delAccRequest");
-			ms.deleteAccRequest(user);
-		}
-	}
-	
-	
-	public void delAccount() throws Exception {
-		
-		String username;
-		
-		if(request.getParameter("delAccount") != null){
-						
-			username = request.getParameter("delAccount");
-			ms.deleteAccount(username);
-		}	
-	}
-	
-	
-	public void directLogin() throws Exception {
-		
-		String user = null;
-		String pass = null;
-		
-		if(request.getParameter("userLogin") != null){
-			 user = request.getParameter("userName");
-			 pass = request.getParameter("userPassword");	
-			 
-			if(ms.validateLogin(user, pass)){
-				if(ms.adminStatus(user)){
-					adminLogin();
-					redirect("/Scheduler/Administrator/AdminHomepage.jsp");
-				}else{
-					userLogin();
-					redirect("UserHomepage.jsp");
-				}
-			}else{
-				redirect("LoginError.jsp");
-			}
-		}			
-	}
-	
-	
+// --------------------------------------------------------------------------------------------
+//										CLASS FUNCTIONS
+// --------------------------------------------------------------------------------------------
 	public void deleteClass() throws Exception {
-		
-		int classID= 0;
-		if(request.getParameter("deleteClass") != null){
-			//Set the ClassID to the class to be removed
+
+		int classID = 0;
+		if (request.getParameter("deleteClass") != null) {
+			// Set the ClassID to the class to be removed
 			classID = Integer.parseInt(request.getParameter("deleteClass"));
 			ms.deleteClass(classID);
 		}
@@ -188,6 +77,41 @@ public class adminServices extends baseJSP {
 			return true;
 		}
 		return false;
+	}
+	
+	public void setDays(List<Class1> classList) throws Exception {
+		
+		System.out.printf("\n\nMADE IT \n\n\n");
+
+		for (Class1 item : classList) {
+			if (item != null) {
+				System.out.printf("\n\nHere is the ID: \n\n\n");
+				item.setClassID(item.getClassID());
+				// parse through classDays attribute checking for M T W R F S
+				System.out.printf("\n\nHere is the ID: %d\n\n\n", item.getClassID());
+				if (item.getClassDays().contains("M")) {
+					item.setClassMon(1);
+				}
+				if (item.getClassDays().contains("T")) {
+					item.setClassTues(1);
+				}
+				if (item.getClassDays().contains("W")) {
+					item.setClassWed(1);
+				}
+				if (item.getClassDays().contains("R")) {
+					item.setClassThurs(1);
+				}
+				if (item.getClassDays().contains("F")) {
+					item.setClassFri(1);
+				}
+				if (item.getClassDays().contains("S")) {
+					item.setClassSat(1);
+				}
+				ms.updateClassDays(item);
+			} else {
+				System.out.printf("\n\nDIDN'T WORK!\n\n\n");
+			}
+		}
 	}
 	
 	
@@ -229,6 +153,121 @@ public class adminServices extends baseJSP {
 		}
 		
 	}
+
+	
+	
+	
+	
+// --------------------------------------------------------------------------------------------
+// 										USER FUNCTIONS
+// --------------------------------------------------------------------------------------------
+	
+	public void adminLogin() {
+		System.out.printf("Setting User KEY: %s\n\n", adminKey);
+		session.setAttribute("userLogin", adminKey);
+		System.out.printf("Setting User KEY: %s\n\n", session.getAttribute("userLogin"));
+	}
+	public void userLogin() {
+		session.setAttribute("userLogin", userKey);
+	}
+	
+	public void logout() {
+		if(request.getParameter("logout") != null){
+			session.setAttribute("userLogin", null);
+		}
+	}
+	
+	
+	public void addAccount() throws Exception {
+		
+		
+		if(request.getParameter("addAccount") != null){
+			
+			User u = new User();
+			
+			u.setUserName(request.getParameter("userName"));
+			u.setUserPassword(request.getParameter("userPassword"));
+			u.setUserFirst(request.getParameter("userFirst"));
+			u.setUserLast(request.getParameter("userLast"));
+			u.setUserEmail(request.getParameter("userEmail"));
+			System.out.printf("Value of ADMIN  is: %s", request.getParameter("UserAdmin"));
+			if(request.getParameter("userAdmin").equals("Yes") || request.getParameter("userAdmin").equals("yes")){
+				u.setUserAdmin(1);
+			}else{
+				u.setUserAdmin(0);
+			}
+			ms.addAccount(u);
+		}
+	}
+	
+	
+	
+	public void addAccRequest() throws Exception {
+		
+		if(request.getParameter("accountRequest") != null){	
+			AccRequest ar = new AccRequest();
+			
+			System.out.printf("Value of FIRST NAME is: %s", request.getParameter("fName"));
+			ar.setFName(request.getParameter("fName"));
+			ar.setLName(request.getParameter("lName"));
+			ar.setUsername(request.getParameter("username"));
+			ar.setPass(request.getParameter("pass"));
+			ar.setEmail(request.getParameter("email"));
+			ar.setReasoning(request.getParameter("reasoning"));
+			ms.insertAccRequest(ar);
+		}
+	}
+
+	
+	public void delAccount() throws Exception {
+		
+		String username;
+		
+		if(request.getParameter("delAccount") != null){
+						
+			username = request.getParameter("delAccount");
+			ms.deleteAccount(username);
+		}	
+	}
+	
+	
+	public void delAccRequest() throws Exception {
+		
+		String user = null;
+		//int id;
+		
+		if(request.getParameter("delAccRequest") != null){
+						
+			user = request.getParameter("delAccRequest");
+			 //username = request.getParameter("delAccRequest");
+			ms.deleteAccRequest(user);
+		}
+	}
+	
+	
+	public void directLogin() throws Exception {
+		
+		String user = null;
+		String pass = null;
+		
+		if(request.getParameter("userLogin") != null){
+			 user = request.getParameter("userName");
+			 pass = request.getParameter("userPassword");	
+			 
+			if(ms.validateLogin(user, pass)){
+				if(ms.adminStatus(user)){
+					adminLogin();
+					redirect("/Scheduler/Administrator/AdminHomepage.jsp");
+				}else{
+					userLogin();
+					redirect("UserHomepage.jsp");
+				}
+			}else{
+				redirect("LoginError.jsp");
+			}
+		}			
+	}
+	
 	
 	public boolean invalidAdmin() {
 		if (session.getAttribute("userLogin") == null){
@@ -241,6 +280,7 @@ public class adminServices extends baseJSP {
 		}
 		return true;
 	}
+	
 	
 	public boolean invalidUser() {
 		if (session.getAttribute("userLogin") == null){
