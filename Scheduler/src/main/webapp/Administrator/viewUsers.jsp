@@ -71,12 +71,12 @@
 					<li class="divider">
 					</li>
 					<li>
-						<a href="#">Classrooms</a>
+						<a href="viewClassrooms.jsp">Classrooms</a>
 					</li>
 					<li class="divider">
 					</li>
 					<li>
-						<a href="#">Users</a>
+						<a href="viewUsers.jsp">Users</a>
 					</li>
 				</ul>
 				</div>

@@ -74,6 +74,33 @@ public class MyServices {
 	}
 	
 	
+	public List<Classroom> getClassrooms() throws Exception {
+		ResultSet rs = null;
+		List<Classroom> list = new ArrayList<Classroom>();
+		
+		//rs = conn.runQuery("SELECT classID, classCapacity, classEnrolled, classRoom FROM classes");
+		rs = conn.runQuery("SELECT roomID, roomCapacity, roomName, roomChairType, roomDeskType, roomBoardType, roomDistLearning, "
+				+ "roomType, roomProjectors FROM classrooms");
+		
+		if(rs != null){
+			while(rs.next()){
+				Classroom item = new Classroom();
+				//System.out.println(rs.getString("name"));
+				item.setRoomID(rs.getInt("roomID"));
+				item.setRoomCapacity(rs.getInt("roomCapacity"));
+				item.setRoomName(rs.getString("roomName"));
+				item.setRoomChairType(rs.getString("roomChairType"));
+				item.setRoomDeskType(rs.getString("roomDeskType"));
+				item.setRoomBoardType(rs.getString("roomBoardType"));
+				item.setRoomDistLearning(rs.getString("roomDistLearning"));
+				item.setRoomType(rs.getString("roomType"));
+				item.setRoomProjectors(rs.getInt("roomProjectors"));
+				list.add(item);
+			}
+		}
+		return list;
+	}
+	
 	public Class1 getClassFromID(int classID) throws Exception {
 		ResultSet rs = null;
 		//Class1 list = new Class1();

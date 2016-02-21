@@ -111,6 +111,40 @@ public class HTMLServices extends baseJSP {
 	}
 	
 	
+	public void buildClassrooms() throws Exception {
+
+		String chairTemp;
+		List<Classroom> items = ms.getClassrooms();
+			
+		StringBuilder out = new StringBuilder();
+		
+		out.append("<table class=\"table sortable\"><thead><tr><th>Select</th><th>Room</th><th>Capacity</th><th>Type</th><th>Chair Type</th><th>Desk Type</th><th>Board Type</th><th>Distance Learning</th><th>Number of Projectors</th><th>Edit</th><th>Delete</th></tr></thead><tbody>");
+		for(Classroom cr : items){
+		
+			if(cr.getRoomChairType() == null){
+				chairTemp = "Not Set";
+			} else {
+				chairTemp  = cr.getRoomChairType();
+			}
+			
+			out.append("<tr><td><form action='viewClasses.jsp' method='post' ><input type='hidden' name='selectClassroom' value='" + cr.getRoomID() + "'><input type='submit' value='Select' alt='Select Classroom'/></form></td>");
+			out.append("<td>" + cr.getRoomName() + "</td>");
+			out.append("<td>" + cr.getRoomCapacity() + "</td>");
+			out.append("<td>" + cr.getRoomType() + "</td>");
+			out.append("<td>" + chairTemp + "</td>");
+			out.append("<td>" + cr.getRoomDeskType() + "</td>");
+			out.append("<td>" + cr.getRoomBoardType() + "</td>");
+			out.append("<td>" + cr.getRoomDistLearning() + "</td>");
+			out.append("<td>" + cr.getRoomProjectors() + "</td>");
+		    out.append("<td><form action='viewClasses.jsp' method='post' ><input type='hidden' name='editClassoom' value='" + cr.getRoomID() + "'><input type='submit' value='Edit' alt='Edit Classroom'/></form></td>");
+		    out.append("<td><form action='viewClasses.jsp' method='post' ><input type='hidden' name='deleteClassroom' value='" + cr.getRoomID() + "'><input type='submit' value='Delete' alt='Delete Classroom' onclick=\"return confirm('Are you sure you want to delete this Classroom?')\"/></form></td>");
+			out.append("</tr>");
+		}
+		out.append("</tbody></table>");
+		stream.print(out.toString());
+	}
+	
+	
 	public void buildEditClass(int classID) throws Exception {
 		Class1 item = new Class1();
 		String combo;
