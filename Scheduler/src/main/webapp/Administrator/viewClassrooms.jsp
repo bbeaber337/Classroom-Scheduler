@@ -16,7 +16,7 @@
 	<%@ page import="java.sql.*" %>
 	<% HTMLServices hs = new HTMLServices(session, request, response, out); 
 		adminServices as = new adminServices(session, request, response, out);
-
+		boolean build = as.editClassroom();
 	%>
 
 
@@ -91,10 +91,16 @@
 	<!--  End Header -->
 	
 
-<h2 class="text-center">Classrooms</h2>	
+<!-- Check if a change was submitted -->
+<% as.submitClassroomEdit();
+   as.deleteClassroom();
+%>
+		
+<%//} else {%>
+<h2 class="text-center">Classrooms</h2>
 </br></br></br></br>
-
-<%hs.buildClassrooms();%>
+<%hs.buildClassrooms(); 
+//}%>
 
 
 </body>

@@ -52,6 +52,17 @@ public class adminServices extends baseJSP {
 	}
 	
 	
+	public void deleteClassroom() throws Exception {
+
+		int roomID = 0;
+		if (request.getParameter("deleteClassroom") != null) {
+			// Set the ClassID to the class to be removed
+			roomID = Integer.parseInt(request.getParameter("deleteClassroom"));
+			ms.deleteClassroom(roomID);
+		}
+	}
+	
+	
 	public boolean editClass() throws Exception {
 		
 		int classID = 0;
@@ -60,6 +71,20 @@ public class adminServices extends baseJSP {
 			//Need to convert getParameter to an integer
 			classID = Integer.parseInt(request.getParameter("editClass"));
 			hs.buildEditClass(classID);	
+			return true;
+		}
+		return false;
+	}
+	
+	
+	public boolean editClassroom() throws Exception {
+		
+		int classroomID = 0;
+		
+		if(request.getParameter("editClassroom") != null){
+			//Need to convert getParameter to an integer
+			classroomID = Integer.parseInt(request.getParameter("editClassroom"));
+			hs.buildEditClassroom(classroomID);	
 			return true;
 		}
 		return false;
@@ -156,7 +181,29 @@ public class adminServices extends baseJSP {
 	}
 
 	
-	
+	public void submitClassroomEdit() throws Exception {
+		
+		if(request.getParameter("submitClassroomEdit") != null){
+
+			
+			Classroom cr = new Classroom();
+			
+			System.out.printf("\n\nClassroom ID: %d\n\n\n",Integer.parseInt(request.getParameter("roomID")) );
+			
+			cr.setRoomID(Integer.parseInt(request.getParameter("roomID")));
+			cr.setRoomCapacity(Integer.parseInt(request.getParameter("roomCapacity")));	
+			cr.setRoomName(request.getParameter("roomName"));	
+			cr.setRoomType(request.getParameter("roomType"));
+			cr.setRoomChairType(request.getParameter("roomChairType"));
+			cr.setRoomDeskType(request.getParameter("roomDeskType"));
+			cr.setRoomBoardType(request.getParameter("roomBoardType"));
+			cr.setRoomDistLearning(request.getParameter("roomDistLearning"));
+			cr.setRoomProjectors(Integer.parseInt(request.getParameter("roomProjectors")));	
+			
+			ms.updateClassroom(cr);
+		}
+		
+	}
 	
 	
 // --------------------------------------------------------------------------------------------

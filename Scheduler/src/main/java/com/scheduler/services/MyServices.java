@@ -154,9 +154,52 @@ public class MyServices {
 	}
 	
 	
+	public Classroom getClassroomFromID(int classroomID) throws Exception {
+		ResultSet rs = null;
+		//Class1 list = new Class1();
+		Classroom item = new Classroom();
+		
+		rs = conn.runQuery("SELECT * FROM classrooms WHERE roomID = '" + classroomID +"' ");
+		
+		
+		if(rs != null){
+			while(rs.next()){
+				item = new Classroom();
+				item.setRoomID(classroomID);
+				System.out.printf("\n\nClassroom ID from MyServices: %d\n\n", item.getRoomID());
+				item.setRoomCapacity(rs.getInt("roomCapacity"));
+				item.setRoomName(rs.getString("roomName"));
+				item.setRoomDeskType(rs.getString("roomDeskType"));
+				item.setRoomBoardType(rs.getString("roomBoardType"));
+				item.setRoomChairType(rs.getString("roomChairType"));
+				item.setRoomType(rs.getString("roomType"));
+				item.setRoomDistLearning(rs.getString("roomDistLearning"));
+				item.setRoomProjectors(rs.getInt("roomProjectors"));
+				//list.add(item);	
+			}	
+			return item;
+		}
+		return null;
+	}
+	
+	
 	public int deleteClass(int classID){
 		
 		String query = "DELETE FROM classes WHERE classID='" + classID + "' ";
+		
+		try {
+			return conn.runUpdate(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	
+	
+	public int deleteClassroom(int roomID){
+		
+		String query = "DELETE FROM classrooms WHERE roomID='" + roomID + "' ";
 		
 		try {
 			return conn.runUpdate(query);
@@ -280,6 +323,23 @@ public class MyServices {
 				+ " classComponent=\"" + c.getClassComponent() + "\" "
 				+ " WHERE classID=\"" + c.getClassID() + "\"";				
 		//String query = "UPDATE `classes` SET classNbr=\"" + c.getClassNbr() + "\" WHERE class_id=\"" + c.getClassID() + "\"";	
+			return conn.runUpdate(query);
+	}
+	
+	
+	public int updateClassroom(Classroom cr) throws SQLException {
+		
+		System.out.printf("\n\n\nAdding Classroom: %d\n\n\n", cr.getRoomID());
+		String query = "UPDATE `classrooms` SET "
+				+ " roomName=\"" + cr.getRoomName() + "\", "
+				+ " roomCapacity=\"" + cr.getRoomCapacity() + "\", "
+				+ " roomType=\"" + cr.getRoomType() + "\", "
+				+ " roomChairType=\"" + cr.getRoomChairType() + "\", "
+				+ " roomDeskType=\"" + cr.getRoomDeskType() + "\", "
+				+ " roomBoardType=\"" + cr.getRoomBoardType() + "\", "
+				+ " roomDistLearning=\"" + cr.getRoomDistLearning() + "\", "
+				+ " roomProjectors=\"" + cr.getRoomProjectors() + "\" "
+				+ " WHERE roomID=\"" + cr.getRoomID() + "\"";				
 			return conn.runUpdate(query);
 	}
 	

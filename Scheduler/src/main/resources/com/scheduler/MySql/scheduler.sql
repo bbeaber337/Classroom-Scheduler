@@ -70,12 +70,12 @@
   `roomID` INT NOT NULL AUTO_INCREMENT,
   `roomCapacity` INT NULL,
   `roomName` VARCHAR(45) NULL,
-  `roomDeskType` VARCHAR(45) NULL,
-  `roomChairType` VARCHAR(45) NULL,
-  `roomBoardType` VARCHAR(45) NULL,
+  `roomDeskType` VARCHAR(45) NULL DEFAULT 'Any' ,
+  `roomChairType` VARCHAR(45) NULL DEFAULT 'Any' ,
+  `roomBoardType` VARCHAR(45) NULL DEFAULT 'Any' ,
   `roomDistLearning` VARCHAR(45) NULL,
-  `roomType` VARCHAR(45) NULL,
-  `roomProjectors` INT NULL,
+  `roomType` VARCHAR(45) NULL  DEFAULT 'Any' ,
+  `roomProjectors` INT NULL DEFAULT 0,
   PRIMARY KEY (`roomID`),
   UNIQUE INDEX `roomID_UNIQUE` (`roomID` ASC));
   UNIQUE INDEX `roomName_UNIQUE` (`roomID` ASC));

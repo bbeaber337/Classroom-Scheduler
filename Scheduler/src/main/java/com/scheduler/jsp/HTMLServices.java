@@ -54,7 +54,7 @@ public class HTMLServices extends baseJSP {
 		stream.print(out.toString());
 	}
 	
-	
+	//Build Classes
 	public void buildClasses() throws Exception {
 		String hasRoom;
 		String combo;
@@ -111,6 +111,7 @@ public class HTMLServices extends baseJSP {
 	}
 	
 	
+	//Build Classrooms
 	public void buildClassrooms() throws Exception {
 
 		String typeTemp;
@@ -153,7 +154,7 @@ public class HTMLServices extends baseJSP {
 			}
 
 			
-			out.append("<tr><td><form action='viewClasses.jsp' method='post' ><input type='hidden' name='selectClassroom' value='" + cr.getRoomID() + "'><input type='submit' value='Select' alt='Select Classroom'/></form></td>");
+			out.append("<tr><td><form action='viewClassrooms.jsp' method='post' ><input type='hidden' name='selectClassroom' value='" + cr.getRoomID() + "'><input type='submit' value='Select' alt='Select Classroom'/></form></td>");
 			out.append("<td>" + cr.getRoomName() + "</td>");
 			out.append("<td>" + cr.getRoomCapacity() + "</td>");
 			out.append("<td>" + typeTemp + "</td>");
@@ -162,8 +163,8 @@ public class HTMLServices extends baseJSP {
 			out.append("<td>" + boardTemp + "</td>");
 			out.append("<td>" + dlTemp + "</td>");
 			out.append("<td>" + cr.getRoomProjectors() + "</td>");
-		    out.append("<td><form action='viewClasses.jsp' method='post' ><input type='hidden' name='editClassoom' value='" + cr.getRoomID() + "'><input type='submit' value='Edit' alt='Edit Classroom'/></form></td>");
-		    out.append("<td><form action='viewClasses.jsp' method='post' ><input type='hidden' name='deleteClassroom' value='" + cr.getRoomID() + "'><input type='submit' value='Delete' alt='Delete Classroom' onclick=\"return confirm('Are you sure you want to delete this Classroom?')\"/></form></td>");
+		    out.append("<td><form action='viewClassrooms.jsp' method='post' ><input type='hidden' name='editClassroom' value='" + cr.getRoomID() + "'><input type='submit' value='Edit' alt='Edit Classroom'/></form></td>");
+		    out.append("<td><form action='viewClassrooms.jsp' method='post' ><input type='hidden' name='deleteClassroom' value='" + cr.getRoomID() + "'><input type='submit' value='Delete' alt='Delete Classroom' onclick=\"return confirm('Are you sure you want to delete this Classroom?')\"/></form></td>");
 			out.append("</tr>");
 		}
 		out.append("</tbody></table>");
@@ -218,6 +219,34 @@ public class HTMLServices extends baseJSP {
 		//out.append("<div class=\"col-xs-3\"><label for=\"chairType\">Chair Type</label><input class=\"form-control\" name=\"chairType\" id=\"chairType\" value='" + item.getChairType() + "'/></div></br></br></br>");
 		//out.append("<div class=\"col-xs-3\"><label for=\"boardType\">Board Type</label><input class=\"form-control\" name=\"boardType\" id=\"boardType\" value='" + item.getBoardType() + "'/></div></br></br></br>");
 		//out.append("<div class=\"col-xs-3\"><label for=\"deskType\">Desk Type</label><input class=\"form-control\" name=\"deskType\" id=\"deskType\" value='" + item.getDeskType() + "'/></div></br></br></br></br></br>");
+		out.append("</br><div class=\"row-md-5\"><button type=\"submit\" class=\"btn btn-default\"></t>Save Changes</button></div></form>");
+		
+		stream.print(out.toString());
+	}
+	
+	
+	public void buildEditClassroom(int classroomID) throws Exception {
+		Classroom item = new Classroom();
+		
+		item = ms.getClassroomFromID(classroomID);
+		
+		StringBuilder out = new StringBuilder();
+		
+		System.out.printf("\n\nClassroom ID to pull: %d\n\n", item.getRoomID());
+		
+		
+		out.append("</br></br></br></br><h2 class=\"text-center\">Edit Class</h2></br></br>");
+		out.append("<form method=\"POST\" action=\"viewClassrooms.jsp\">");
+		out.append("<input type=\"hidden\" name=\"submitClassroomEdit\" value=\"submitClassroomEdit\">");
+		out.append("<input type=\"hidden\" name=\"roomID\" value=\"" + item.getRoomID() + "\"</br></br></br>");
+		out.append("<div class=\"col-xs-3\"><label for=\"roomName\">Room</label><input class=\"form-control\" name=\"roomName\" id=\"roomName\" value='" + item.getRoomName() + "'/></div></br></br></br>");
+		out.append("<div class=\"col-xs-3\"><label for=\"roomCapacity\">Capacity</label><input type=\"text\" class=\"form-control\" name=\"roomCapacity\" id=\"roomCapacity\" value='" + item.getRoomCapacity() + "'/></div></br></br></br>");
+		out.append("</br><div class=\"col-xs-3\"><label for=\"roomDeskType\">Desk Type</label></br><select name=\"roomDeskType\"><option selected value='" + item.getRoomDeskType() + "'>" + item.getRoomDeskType() + "</option><option value='Desks'>Desks</option><option value='Tables'>Tables</option><option value='Lab'>Lab</option><option value='Any'>Any</option></select></div></br></br></br>");
+		out.append("</br><div class=\"col-xs-3\"><label for=\"roomBoardType\">Board Type</label></br><select name=\"roomBoardType\"><option selected value='" + item.getRoomBoardType() + "'>" + item.getRoomBoardType() + "</option><option value='Whiteboard'>Whiteboard</option><option value='S'>S</option><option value='Any'>Any</option></select></div></br></br></br>");
+		out.append("</br><div class=\"col-xs-3\"><label for=\"roomChairType\">Chair Type</label></br><select name=\"roomChairType\"><option selected value='" + item.getRoomChairType() + "'>" + item.getRoomChairType() + "</option><option value='Soft Seats'>Soft Seats</option><option value='Hard Seats'>Hard Seats</option><option value='Any'>Any</option></select></div></br></br></br>");
+		out.append("</br><div class=\"col-xs-3\"><label for=\"roomType\">Room Type</label></br><select name=\"roomType\"><option selected value='" + item.getRoomType() + "'>" + item.getRoomType() + "</option><option value='Lecture'>Lecture</option><option value='Lab'>Lab</option><option value='Any'>Any</option></select></div></br></br></br>");
+		out.append("<div class=\"col-xs-3\"><label for=\"roomDistLearning\">Distance Learning</label><input class=\"form-control\" name=\"roomDistLearning\" id=\"roomDistLearning\" value='" + item.getRoomDistLearning() + "'/></div></br></br></br>");
+		out.append("<div class=\"col-xs-3\"><label for=\"roomProjectors\">Projectors</label><input class=\"form-control\" name=\"roomProjectors\" id=\"roomProjectors\" value='" + item.getRoomProjectors() + "'/></div></br></br></br>");
 		out.append("</br><div class=\"row-md-5\"><button type=\"submit\" class=\"btn btn-default\"></t>Save Changes</button></div></form>");
 		
 		stream.print(out.toString());
