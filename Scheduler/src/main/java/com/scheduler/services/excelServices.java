@@ -78,6 +78,7 @@ public class excelServices extends baseJSP {
 	
 	public void addData() throws Exception {
 		
+		//Need to pull file path from uploaded file
 		final String FILE_PATH = "C:/Users/Brandon/Documents/Spring 2016/Capstone/Client Documents/PKI_Rooms.xlsx";
 		List<Class1> classList = new ArrayList<Class1>();
 		List<Classroom> classroomList = new ArrayList<Classroom>();
@@ -87,7 +88,11 @@ public class excelServices extends baseJSP {
 		
 		if(request.getParameter("fileUpload") != null){
 			
+			//Clear all current class information
 			ms.clearClasses();
+			
+			//Clear all classroom information
+			ms.clearClassrooms();
 			
 			try {
 				 fis = new FileInputStream(FILE_PATH);
@@ -226,8 +231,11 @@ public class excelServices extends baseJSP {
 					}
 					cr.setRoomID(ms.addClassroom(cr));
 					c.setClassID(ms.addClass(c));
+					
+					//Set Mon-Sat attributes
 					as.setDays(c);
-					//End row, add class
+					
+					//End row, add class and classroom
 					classList.add(c);
 					classroomList.add(cr);
 				  }
@@ -240,11 +248,10 @@ public class excelServices extends baseJSP {
 			} catch (IOException e) {
 	            e.printStackTrace();
 	        }		
-			//Set Mon, Tues, Wed, Thurs, Fri, and Sat for each Class			
-			//as.setDays(classList);
-			//System.out.printf("\nClassID : %d\n", c.getClassID());
+
+			//Delete duplicate classrooms
 			ms.deleteDuplicates();
-			//printClasses(classList);
+		
 		}			
 	}
 	

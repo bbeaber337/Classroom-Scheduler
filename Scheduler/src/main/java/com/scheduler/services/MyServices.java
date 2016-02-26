@@ -30,7 +30,7 @@ public class MyServices {
 		ResultSet rs = null;
 		List<Class1> list = new ArrayList<Class1>();
 		
-		//rs = conn.runQuery("SELECT classID, classNumber, className, classDays, classSubject, classCatalog, classSection, classCombination, classDescription, classCampus, classAcadGroup, classInstructFirst, classInstructLast, classTimeStart, classTimeEnd, classDateStart, classDateEnd, classCapacity, classEnrolled, classRoom FROM classes");
+		// Not using '*' because we are not pulling every field
 		rs = conn.runQuery("SELECT classID, classNumber, classSubject, classCatalog, classSection, classCombination, className, classDescription, classAcadGroup, classCapacity, classEnrolled, classDays, classTimeStart, classTimeEnd, classDateStart, classDateEnd, "
 				+ "classInstructFirst, classInstructLast, classRoom, classCampus, classMode, classComponent, classCrsAttrVal, classMon, classTues, classWed, classThurs, classFri, classSat FROM classes");
 		
@@ -179,9 +179,24 @@ public class MyServices {
 		return 0;
 	}
 	
+	
 	public int clearClasses()
 	{
 		String query = "truncate classes;";
+		
+		try {
+			return conn.runUpdate(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return 0;
+	}
+	
+	
+	public int clearClassrooms()
+	{
+		String query = "truncate classrooms;";
 		
 		try {
 			return conn.runUpdate(query);
