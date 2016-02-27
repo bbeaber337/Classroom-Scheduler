@@ -79,3 +79,27 @@
   PRIMARY KEY (`roomID`),
   UNIQUE INDEX `roomID_UNIQUE` (`roomID` ASC));
   UNIQUE INDEX `roomName_UNIQUE` (`roomID` ASC));
+  
+    -- Table for a `Instructors` 
+  CREATE TABLE `instructors`.`new_table` (
+  `instructID` INT NOT NULL,
+  `instructFirst` VARCHAR(45) NULL,
+  `instructLast` VARCHAR(45) NULL,
+  `instructBoard` VARCHAR(45) NULL DEFAULT 'Any',
+  `instructDesk` VARCHAR(45) NULL DEFAULT 'Any',
+  `instructChair` VARCHAR(45) NULL DEFAULT 'Any',
+  `instructComment` VARCHAR(250) NULL,
+  PRIMARY KEY (`instructID`),
+  UNIQUE INDEX `instrucID_UNIQUE` (`instructID` ASC));
+  
+      -- Table for a `Conflicts` 
+  CREATE TABLE `classroom`.`conflicts` (
+  `conflictID` INT NOT NULL,
+  `conflictClass1` VARCHAR(45) NULL,
+  `conflictClass2` VARCHAR(45) NULL,
+  `conflictType` VARCHAR(45) NULL,
+  `conflictValue1` VARCHAR(45) NULL,
+  `conflictValue2` VARCHAR(45) NULL,
+  UNIQUE INDEX `conflictID_UNIQUE` (`conflictID` ASC),
+  PRIMARY KEY (`conflictID`));
+
