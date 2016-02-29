@@ -81,7 +81,7 @@
   UNIQUE INDEX `roomName_UNIQUE` (`roomID` ASC));
   
     -- Table for a `Instructors` 
-  CREATE TABLE `instructors`.`new_table` (
+  CREATE TABLE `classroom`.`instructors` (
   `instructID` INT NOT NULL,
   `instructFirst` VARCHAR(45) NULL,
   `instructLast` VARCHAR(45) NULL,
