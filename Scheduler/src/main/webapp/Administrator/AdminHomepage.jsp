@@ -20,6 +20,7 @@
 	
 	
 	<% HTMLServices hs = new HTMLServices(session, request, response, out); 
+		
 		adminServices as = new adminServices(session, request, response, out);
 		as.logout();
 	%>
