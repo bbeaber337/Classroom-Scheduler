@@ -1,9 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-  
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
   <!-- Pulling Bootstrap from Content Delivery Network / Need to download and host myself -->
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -16,14 +14,17 @@
 	<%@ page import="com.scheduler.jsp.*" %>
 	<%@ page import="java.util.*" %>
 	<%@ page import="java.sql.*" %>
-	<%@ page import="java.io.*" %>
-	
-	
 	<% HTMLServices hs = new HTMLServices(session, request, response, out); 
-		
 		adminServices as = new adminServices(session, request, response, out);
-		as.logout();
+		//Check if account was deleted
+		as.delAccount();
 	%>
+
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
 </head>
 <body>
 
@@ -34,23 +35,15 @@
 		System.out.print(" Invalid User\n");
 		as.redirect("../User/LandingPage.jsp");
 	}%>
-	
+
+
 	<!--  Start Header -->
 	<%@ include file="AdminMenu.jspf" %>
 	<!--  End Header -->
 	
-	
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-md-12">
-			<h3 class="text-center">
-				Administrator Homepage
-			</h3>
-		</div>
-	</div>
-</div>
-</br></br></br>
 
+<h2 class="text-center">Current Conflicts</h2>	
+</br></br></br></br>
 
 
 </body>

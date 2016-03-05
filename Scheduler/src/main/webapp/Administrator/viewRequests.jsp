@@ -37,58 +37,7 @@
 	}%>
 
 	<!--  Start Header -->
-	<nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" style="float:none" href="AdminHomepage.jsp">Administrator Homepage</a>
-            </div>
-            
-            <div id="navbar" class="collapse navbar-collapse">
-                <ul class="nav navbar-nav">                                       
-
-                    <li class="active"><a href="viewRequests.jsp">Create Account</a></li>
-                    <li><a href="Upload.jsp">Upload Schedule</a></li>
-                    
-                    
-                 <li>   
-			<div class="btn-group">
-                    <button class="btn btn-group">
-					View
-				</button> 
-				<button data-toggle="dropdown" class="btn btn-default dropdown-toggle">
-					<span class="caret"></span>
-				</button>
-				<ul class="dropdown-menu">
-					<li>
-						<a href="viewClasses.jsp">Classes</a>
-					</li>
-					<li class="divider">
-					</li>
-					<li>
-						<a href="viewClassrooms.jsp">Classrooms</a>
-					</li>
-					<li class="divider">
-					</li>
-					<li>
-						<a href="viewUsers.jsp">Users</a>
-					</li>
-				</ul>
-				</div>
-				</li>
-                    
-                    <li><a href="../User/LandingPage.jsp?logout=true">Logout</a></li>
-                </ul>
-            </div>
-            
-        </div>
-    </nav>
-    </br></br></br></br>
+	<%@ include file="AdminMenu.jspf" %>
 	<!--  End Header -->
 	
 	
