@@ -31,7 +31,7 @@ public class adminServices extends baseJSP {
 	public adminServices(HttpSession session, HttpServletRequest request,
 			HttpServletResponse response, JspWriter stream) throws Exception {
 		super(session, request, response, stream);
-		ms = new MyServices();
+		ms = new MyServices(session, request, response, stream);
 		hs = new HTMLServices(session, request, response, stream);
 	    conn = new dbConnector();
 	}
@@ -342,9 +342,32 @@ public class adminServices extends baseJSP {
 		return true;
 	}
 	
+	public boolean validateSemester() {
+		if (session.getAttribute("semester") == null){
+			//Redirect user
+			return false;
+		} 
+		return true;
+	}
+	
 
 	
+	public void selectSemester() {
+
+		if (request.getParameter("semester") != null) {
+
+			System.out.printf("Setting Semester: %s\n\n", request.getParameter("semester"));
+			session.setAttribute("semester", request.getParameter("semester"));
+			System.out.printf("Setting Semester: %s\n\n", session.getAttribute("semester"));
+
+		}
+			
+	}
 	
+	public String getSemester() {
+		String semester = session.getAttribute("semester").toString();
+		return semester;
+	}
 
 
 	

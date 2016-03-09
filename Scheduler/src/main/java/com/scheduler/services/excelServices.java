@@ -44,7 +44,7 @@ public class excelServices extends baseJSP {
 	public excelServices(HttpSession session, HttpServletRequest request,
 			HttpServletResponse response, JspWriter stream) throws Exception {
 		super(session, request, response, stream);
-		ms = new MyServices();
+		ms = new MyServices(session, request, response, stream);
 		as = new adminServices(session, request, response, stream);
 	    conn = new dbConnector();
 	}

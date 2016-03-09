@@ -23,21 +23,54 @@
 		
 		adminServices as = new adminServices(session, request, response, out);
 		as.logout();
+		as.selectSemester();
 	%>
 </head>
 <body>
 
-	<%System.out.print("Checking Login Status\n");
+	<%System.out.print("Ensuring a Semester was selected\n");
 	//Always going to redirct unless current session key equals the adminKey
 	//Even if this is set to the userKey the page will NOT be displayed
-	if(as.invalidAdmin() ){
-		System.out.print(" Invalid User\n");
-		as.redirect("../User/LandingPage.jsp");
-	}%>
-	
+	if(as.validateSemester()){
+		System.out.print(" Semester Choosen\n");%>
+		<%@ include file="AdminMenu.jspf" %>
+	<%} else {%>
 	<!--  Start Header -->
-	<%@ include file="AdminMenu.jspf" %>
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+       <div class="container">
+           <div class="navbar-header">
+               <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                   <span class="sr-only">Toggle navigation</span>
+                   <span class="icon-bar"></span>
+                   <span class="icon-bar"></span>
+                   <span class="icon-bar"></span>
+               </button>
+               <a class="navbar-brand" style="float:none" href="AdminHomepage.jsp">Administrator Homepage</a>
+         </div>
+         
+         <div id="navbar" class="collapse navbar-collapse">
+             <ul class="nav navbar-nav">                                       
+
+                 <li><a href="viewRequests.jsp">Create Account</a></li>
+                 
+                 <li class="dropdown">
+                 <a class="dropdown-toggle" aria-haspopup="true"
+                 role="button" data-toggle="dropdown">View<span class="caret"></span></a>
+                 <ul class="dropdown-menu">
+                 <li><a href="viewUsers.jsp">Users</a></li>
+                 </ul>
+                 </li>
+          
+                 
+                 <li><a href="../User/LandingPage.jsp?logout=true">Logout</a></li>
+             </ul>
+         </div>
+         
+     </div>
+ </nav>
+ </br></br></br></br>
 	<!--  End Header -->
+	<%} %>
 	
 	
 <div class="container-fluid">
@@ -51,7 +84,40 @@
 </div>
 </br></br></br>
 
-
+<div class="col-md-12">
+			<div class="row">
+			
+			<form role="form" action='AdminHomepage.jsp' method='post'>
+			<input type="hidden" name="semester" value="spring">
+				<div class="col-md-4">
+					<button type="submit" class="btn btn-default" value="spring">
+						Spring
+					</button>
+				</div>
+				</form>
+				
+			<form role="form" action='AdminHomepage.jsp' method='post'>
+			<input type="hidden" name="semester" value="fall">
+				<div class="col-md-4">
+					 
+					<button type="submit" class="btn btn-default" value="fall">
+						Fall
+					</button>
+				</div>
+			</form>
+			
+			<form role="form" action='AdminHomepage.jsp' method='post'>
+			<input type="hidden" name="semester" value="summer">
+				<div class="col-md-4">
+					 
+					<button type="submit" class="btn btn-default" value="summer">
+						Summer
+					</button>
+			</div>
+			</form>
+			
+	</div>
+</div>
 
 </body>
 </html>

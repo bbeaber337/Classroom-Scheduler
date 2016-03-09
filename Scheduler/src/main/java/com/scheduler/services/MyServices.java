@@ -12,11 +12,13 @@ import com.scheduler.valueObjects.*;
 import com.scheduler.jsp.*;
 
 
-public class MyServices {
+public class MyServices extends baseJSP {
 
 	private dbConnector conn = null;
+	//String semester = session.getAttribute("semester").toString();
 	
-	public MyServices(){
+	public MyServices(HttpSession session, HttpServletRequest request, HttpServletResponse response, JspWriter stream) throws Exception {
+		super(session, request, response, stream);
 		conn = new dbConnector();
 	}
 	
@@ -30,9 +32,11 @@ public class MyServices {
 		ResultSet rs = null;
 		List<Class1> list = new ArrayList<Class1>();
 		
+		String semester = session.getAttribute("semester").toString();
+		
 		// Not using '*' because we are not pulling every field
 		rs = conn.runQuery("SELECT classID, classNumber, classSubject, classCatalog, classSection, classCombination, className, classDescription, classAcadGroup, classCapacity, classEnrolled, classDays, classTimeStart, classTimeEnd, classDateStart, classDateEnd, "
-				+ "classInstructFirst, classInstructLast, classRoom, classCampus, classMode, classComponent, classCrsAttrVal, classMon, classTues, classWed, classThurs, classFri, classSat FROM classes");
+				+ "classInstructFirst, classInstructLast, classRoom, classCampus, classMode, classComponent, classCrsAttrVal, classMon, classTues, classWed, classThurs, classFri, classSat FROM " + semester + "classes");
 		
 		if(rs != null){
 			while(rs.next()){
@@ -78,9 +82,11 @@ public class MyServices {
 		ResultSet rs = null;
 		List<Classroom> list = new ArrayList<Classroom>();
 		
+		String semester = session.getAttribute("semester").toString();
+		
 		//rs = conn.runQuery("SELECT classID, classCapacity, classEnrolled, classRoom FROM classes");
 		rs = conn.runQuery("SELECT roomID, roomCapacity, roomName, roomChairType, roomDeskType, roomBoardType, roomDistLearning, "
-				+ "roomType, roomProjectors FROM classrooms");
+				+ "roomType, roomProjectors FROM " + semester + "classrooms");
 		
 		if(rs != null){
 			while(rs.next()){
@@ -106,8 +112,10 @@ public class MyServices {
 		//Class1 list = new Class1();
 		Class1 item = new Class1();
 		
+		String semester = session.getAttribute("semester").toString();
+		
 		rs = conn.runQuery("SELECT classID, classNumber, classSubject, classCatalog, classSection, classCombination, className, classDescription, classAcadGroup, classCapacity, classEnrolled, classDays, classTimeStart, classTimeEnd, classDateStart, classDateEnd, "
-				+ "classInstructFirst, classInstructLast, classRoom, classCampus, classMode, classComponent, classCrsAttrVal, classMon, classTues, classWed, classThurs, classFri, classSat FROM classes WHERE classID = '" + classID +"' ");
+				+ "classInstructFirst, classInstructLast, classRoom, classCampus, classMode, classComponent, classCrsAttrVal, classMon, classTues, classWed, classThurs, classFri, classSat FROM " + semester + "classes WHERE classID = '" + classID +"' ");
 		
 		
 		if(rs != null){
@@ -158,9 +166,9 @@ public class MyServices {
 		ResultSet rs = null;
 		//Class1 list = new Class1();
 		Classroom item = new Classroom();
+		String semester = session.getAttribute("semester").toString();
 		
-		rs = conn.runQuery("SELECT * FROM classrooms WHERE roomID = '" + classroomID +"' ");
-		
+		rs = conn.runQuery("SELECT * FROM " + semester + "classrooms WHERE roomID = '" + classroomID +"' ");
 		
 		if(rs != null){
 			while(rs.next()){
@@ -185,7 +193,9 @@ public class MyServices {
 	
 	public int deleteClass(int classID){
 		
-		String query = "DELETE FROM classes WHERE classID='" + classID + "' ";
+		String semester = session.getAttribute("semester").toString();
+		
+		String query = "DELETE FROM " + semester + "classes WHERE classID='" + classID + "' ";
 		
 		try {
 			return conn.runUpdate(query);
@@ -199,7 +209,9 @@ public class MyServices {
 	
 	public int deleteClassroom(int roomID){
 		
-		String query = "DELETE FROM classrooms WHERE roomID='" + roomID + "' ";
+		String semester = session.getAttribute("semester").toString();
+		
+		String query = "DELETE FROM " + semester + "classrooms WHERE roomID='" + roomID + "' ";
 		
 		try {
 			return conn.runUpdate(query);
@@ -212,7 +224,9 @@ public class MyServices {
 
 	public int deleteDuplicates(){
 		
-		String query = "DELETE FROM classrooms WHERE roomID NOT IN (SELECT * FROM (SELECT MIN(n.roomID) FROM classrooms n GROUP BY n.roomName) x)";
+		String semester = session.getAttribute("semester").toString();
+		
+		String query = "DELETE FROM " + semester + "classrooms WHERE roomID NOT IN (SELECT * FROM (SELECT MIN(n.roomID) FROM classrooms n GROUP BY n.roomName) x)";
 		
 		try {
 			return conn.runUpdate(query);
@@ -223,9 +237,11 @@ public class MyServices {
 	}
 	
 	
-	public int clearClasses()
-	{
-		String query = "truncate classes;";
+	public int clearClasses() {
+		
+		String semester = session.getAttribute("semester").toString();
+		
+		String query = "truncate " + semester + "classes;";
 		
 		try {
 			return conn.runUpdate(query);
@@ -239,7 +255,9 @@ public class MyServices {
 	
 	public int clearClassrooms()
 	{
-		String query = "truncate classrooms;";
+		String semester = session.getAttribute("semester").toString();
+		
+		String query = "truncate " + semester + "classrooms;";
 		
 		try {
 			return conn.runUpdate(query);
@@ -252,8 +270,10 @@ public class MyServices {
 	
 	public int addClass(Class1 c) throws SQLException {
 		
+		String semester = session.getAttribute("semester").toString();
+		
 		//System.out.printf("\n\n\nAdding Class: %s\n\n\n", c.getCombo());
-		String query = "INSERT INTO classes (classNumber, classSubject, classCatalog, classSection, classCombination, className, classDescription, classAcadGroup, classCapacity, classEnrolled, classDays,";
+		String query = "INSERT INTO " + semester + "classes (classNumber, classSubject, classCatalog, classSection, classCombination, className, classDescription, classAcadGroup, classCapacity, classEnrolled, classDays,";
 		query += " classTimeStart, classTimeEnd, classDateStart, classDateEnd, classInstructFirst, classInstructLast, classRoom, classCampus, classMode, classComponent) VALUES( ";
 		query += "'" + c.getClassNumber() + "', ";
 		query += "'" + c.getClassSubject() + "', ";
@@ -284,11 +304,12 @@ public class MyServices {
 	
 	public int addClassroom(Classroom cr) throws SQLException {
 		
+		String semester = session.getAttribute("semester").toString();
 				
 		List<Classroom> list = new ArrayList<Classroom>();
 		
 		//System.out.printf("\n\n\nAdding Class: %s\n\n\n", c.getCombo());
-		String query = "INSERT INTO classrooms (roomCapacity, roomName) VALUES( ";
+		String query = "INSERT INTO " + semester + "classrooms (roomCapacity, roomName) VALUES( ";
 		query += "'" + cr.getRoomCapacity() + "', ";
 		query += "'" + cr.getRoomName() + "'";
 		query += ")";		
@@ -298,8 +319,10 @@ public class MyServices {
 
 	public int updateClass(Class1 c) throws SQLException {
 		
+		String semester = session.getAttribute("semester").toString();
+		
 		System.out.printf("\n\n\nAdding Class: %d\n\n\n", c.getClassID());
-		String query = "UPDATE `classes` SET "
+		String query = "UPDATE `" + semester + "classes` SET "
 				+ " classNumber=\"" + c.getClassNumber() + "\", "
 				+ " classSubject=\"" + c.getClassSubject() + "\", "
 				+ " classCatalog=\"" + c.getClassCatalog() + "\", "
@@ -329,8 +352,10 @@ public class MyServices {
 	
 	public int updateClassroom(Classroom cr) throws SQLException {
 		
+		String semester = session.getAttribute("semester").toString();
+		
 		System.out.printf("\n\n\nAdding Classroom: %d\n\n\n", cr.getRoomID());
-		String query = "UPDATE `classrooms` SET "
+		String query = "UPDATE `" + semester + "classrooms` SET "
 				+ " roomName=\"" + cr.getRoomName() + "\", "
 				+ " roomCapacity=\"" + cr.getRoomCapacity() + "\", "
 				+ " roomType=\"" + cr.getRoomType() + "\", "
@@ -347,8 +372,10 @@ public class MyServices {
 	
 	public int updateClassDays(Class1 c) throws SQLException {
 		
+		String semester = session.getAttribute("semester").toString();
+		
 		System.out.printf("\n\n\nAdding Class: %d\n\n\n", c.getClassID());
-		String query = "UPDATE `classes` SET "
+		String query = "UPDATE `" + semester + "classes` SET "
 				+ " classMon=\"" + c.getClassMon() + "\", "
 				+ " classTues=\"" + c.getClassTues() + "\", "
 				+ " classWed=\"" + c.getClassWed() + "\", "

@@ -18,7 +18,7 @@ public class HTMLServices extends baseJSP {
 	
 	public HTMLServices(HttpSession session, HttpServletRequest request, HttpServletResponse response, JspWriter stream) throws Exception {
 		super(session, request, response, stream);
-		ms = new MyServices();
+		ms = new MyServices(session, request, response, stream);
 	}
 	
 	private MyServices ms = null;

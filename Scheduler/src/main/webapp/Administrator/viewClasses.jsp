@@ -31,6 +31,7 @@
 </head>
 <body>
 
+<!-- Begin Validation -->
 	<%System.out.print("Checking Login Status\n");
 	//Always going to redirct unless current session key equals the adminKey
 	//Even if this is set to the userKey the page will NOT be displayed
@@ -38,7 +39,15 @@
 		System.out.print(" Invalid User\n");
 		as.redirect("../User/LandingPage.jsp");
 	}%>
-
+	
+		<%System.out.print("Ensuring a Semester was selected\n");
+	//Always going to redirct unless current session key equals the adminKey
+	//Even if this is set to the userKey the page will NOT be displayed
+	if(!as.validateSemester()){
+		System.out.print(" Need to select a semester \n");
+		as.redirect("AdminHomepage.jsp");
+	}%>
+<!-- End Validation -->
 
 	<!--  Start Header -->
 	<%@ include file="AdminMenu.jspf" %>
@@ -52,8 +61,17 @@
 		   
    } else {%>
 		
-<%//} else {%>
-<h2 class="text-center">Classes</h2>
+<%String semester = session.getAttribute("semester").toString();
+if(semester.equals("summer")){%>
+<h2 class="text-center">Summer Classes</h2>
+
+<%} else if (semester.equals("spring")){%>
+<h2 class="text-center">Spring Classes</h2>
+
+<%} else {%>
+<h2 class="text-center">Fall Classes</h2>
+<%} %>
+
 </br></br></br></br>
 <%hs.buildClasses(); }
 //}%>
