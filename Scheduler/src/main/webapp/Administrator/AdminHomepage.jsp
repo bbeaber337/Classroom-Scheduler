@@ -59,8 +59,7 @@
                  <ul class="dropdown-menu">
                  <li><a href="viewUsers.jsp">Users</a></li>
                  </ul>
-                 </li>
-          
+                 </li>        
                  
                  <li><a href="../User/LandingPage.jsp?logout=true">Logout</a></li>
              </ul>
