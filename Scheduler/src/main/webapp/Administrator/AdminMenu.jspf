@@ -24,7 +24,7 @@
                  <li><a href="viewConflicts.jsp">Conflicts</a></li>
                  <li><a href="viewClassrooms.jsp">Classrooms</a></li>
                  <li><a href="viewTeachers.jsp">Teachers</a></li>
-                 <li><a href="viewSemesters.jsp">Semesters</a></li>
+                 <!--  <li><a href="viewSemesters.jsp">Semesters</a></li>-->
                  <li><a href="viewUsers.jsp">Users</a></li>
                  </ul>
                  </li>
