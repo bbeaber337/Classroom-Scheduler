@@ -364,12 +364,5 @@ public class adminServices extends baseJSP {
 			
 	}
 	
-	public String getSemester() {
-		String semester = session.getAttribute("semester").toString();
-		return semester;
-	}
-
-
-	
 
 }
