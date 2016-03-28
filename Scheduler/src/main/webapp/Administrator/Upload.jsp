@@ -21,7 +21,6 @@
 		HTMLServices hs = new HTMLServices(session, request, response, out); 
 		adminServices as = new adminServices(session, request, response, out);
 		excelServices es = new excelServices(session, request, response, out);
-		es.addData();
 	%>
 </head>
 <body>
@@ -41,7 +40,9 @@
 	if(!as.validateSemester()){
 		System.out.print(" Need to select a semester \n");
 		as.redirect("AdminHomepage.jsp");
-	}%>
+	}
+	es.addData();
+	%>
 <!-- End Validation -->
 
 	

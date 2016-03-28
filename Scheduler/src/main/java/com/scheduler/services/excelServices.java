@@ -254,10 +254,10 @@ public class excelServices extends baseJSP {
 										cell.setCellType(Cell.CELL_TYPE_STRING);*/
 										
 										//Need to convert the Dates into Strings using the format specified above
-										c.setClassTimeStart(tf.format(cell.getNumericCellValue()));
+										c.setClassTimeStart(tf.format(cell.getDateCellValue()));
 									}
 									if(cell.getColumnIndex() == 12){
-										c.setClassTimeEnd(tf.format(cell.getNumericCellValue()));
+										c.setClassTimeEnd(tf.format(cell.getDateCellValue()));
 									}
 
 									if(cell.getColumnIndex() == 18){
