@@ -159,7 +159,7 @@ public class excelServices extends baseJSP {
 					
 					//Need to set a format in order to convert Dates into Strings
 					DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-					DateFormat tf = new SimpleDateFormat("HH:mm:ss a");
+					DateFormat tf = new SimpleDateFormat("hh:mm:ss a");
 
 					
 					//Iterating over each cell (column wise)  in a particular row.
