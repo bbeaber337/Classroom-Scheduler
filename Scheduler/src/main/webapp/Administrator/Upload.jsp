@@ -14,11 +14,11 @@
 	<%@ page import="com.scheduler.services.*" %>
 	<%@ page import="com.scheduler.valueObjects.*" %>
 	<%@ page import="com.scheduler.jsp.*" %>
-	<%@ page import="java.util.*" %>
-	<%@ page import="java.sql.*" %>
+	<%@ page import="java.io.*,java.util.*" %>
 	
 	
-	<% HTMLServices hs = new HTMLServices(session, request, response, out); 
+	<% 
+		HTMLServices hs = new HTMLServices(session, request, response, out); 
 		adminServices as = new adminServices(session, request, response, out);
 		excelServices es = new excelServices(session, request, response, out);
 		es.addData();
@@ -66,14 +66,13 @@
 <!-- Need to ensure the form  includes " enctype="multipart/form-data" " for the file to be uploaded correctly (see below Example) -->
 <!-- <form role="form" action="Upload.jsp" method="post" enctype="multipart/form-data"> -->
 
-<form role="form" action="Upload.jsp" method="post" >
+<form role="form" action="Upload.jsp" method="post" enctype="multipart/form-data">
 <input type="hidden" name="fileUpload" value="fileUpload">
 	<div class="form-group">	 
 		<label for="file">
 			File input
 		</label>
 		<input type="file" name="file" />
-		</br>
 	</div>
 
 	<div class="row-md-5">				

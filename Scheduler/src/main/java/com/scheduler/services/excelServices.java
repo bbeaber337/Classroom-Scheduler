@@ -21,6 +21,7 @@ import org.apache.commons.io.*;
 
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -33,7 +34,7 @@ import com.scheduler.valueObjects.*;
 import com.scheduler.jsp.*;
 import com.scheduler.dbconnector.*;
 
-
+@MultipartConfig
 public class excelServices extends baseJSP {
 
 	private dbConnector conn = null;
@@ -81,20 +82,61 @@ public class excelServices extends baseJSP {
 		final String FILE_PATH = "C:/Users/Brandon/Documents/Spring 2016/Capstone/Client Documents/PKI_Rooms.xlsx";
 		List<Class1> classList = new ArrayList<Class1>();
 		List<Classroom> classroomList = new ArrayList<Classroom>();
-		FileInputStream fis = null;
+		InputStream fis = null;
 		int count = 0;
-
 		
-		if(request.getParameter("fileUpload") != null){
+		/*
+		// testing that parameters are coming through
+		if(this.request.getMethod().equalsIgnoreCase("post")){
+			System.out.println("Printing ExcelServices request parameters:");
+			Enumeration<String> parameterNames = this.request.getParameterNames();
+			while (parameterNames.hasMoreElements()){
+				String paramName = parameterNames.nextElement();
+				System.out.print(paramName);
+				System.out.print("\n");
+				
+				String[] paramValues = this.request.getParameterValues(paramName);
+				for (int i = 0; i < paramValues.length; i++) {
+					String paramValue = paramValues[i];
+					System.out.print("\t" + paramValue);
+					System.out.print("\n");
+				}
+			}
+			System.out.println("Done printing Parameters");
+		}
+
+		if(!ServletFileUpload.isMultipartContent(this.request)){
+			System.out.println("Is not a multipart request");
+			return;
+		}
+		*/
+		
+		if(this.request.getMethod().equalsIgnoreCase("post")){
 			
 			//Clear all current class information
 			ms.clearClasses();
 			
 			//Clear all classroom information
 			ms.clearClassrooms();
-			
 			try {
-				 fis = new FileInputStream(FILE_PATH);
+				List<FileItem> items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
+				for (FileItem item: items){
+					if (item.isFormField()) {
+						String fieldName = item.getFieldName();
+						String fieldValue = item.getString();
+					}
+					else {
+						String fieldName = item.getFieldName();
+						String fileName = FilenameUtils.getName(item.getName());
+						fis = item.getInputStream();
+					}
+				}
+				/*
+				Part filePart = this.request.getPart("file");
+				String fileName = filePart.getSubmittedFileName();
+				fis = filePart.getInputStream();
+				System.out.println("Successfully got filestream");
+				*/
 				 
 				// Using XSSF for xlsx format, for xls use HSSF
 				Workbook workbook = new XSSFWorkbook(fis);

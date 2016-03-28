@@ -28,6 +28,15 @@
 </head>
 <body>
 
+<!-- Begin Validation -->
+	<%System.out.print("Checking Login Status\n");
+	//Always going to redirct unless current session key equals the adminKey
+	//Even if this is set to the userKey the page will NOT be displayed
+	if(as.invalidAdmin() ){
+		System.out.print(" Invalid User\n");
+		as.redirect("../User/LandingPage.jsp");
+	}%>
+	
 	<%System.out.print("Ensuring a Semester was selected\n");
 	//Always going to redirct unless current session key equals the adminKey
 	//Even if this is set to the userKey the page will NOT be displayed
