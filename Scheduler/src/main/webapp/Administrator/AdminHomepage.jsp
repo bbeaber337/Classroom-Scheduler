@@ -70,6 +70,8 @@
                  </ul>
                  </li>        
                  
+             </ul>
+             <ul class="nav navbar-nav pull-right">
                  <li><a href="../User/LandingPage.jsp?logout=true">Logout</a></li>
              </ul>
          </div>
@@ -98,7 +100,7 @@
 			<form role="form" action='AdminHomepage.jsp' method='post'>
 			<input type="hidden" name="semester" value="spring">
 				<div class="col-md-4">
-					<button type="submit" class="btn btn-default" value="spring">
+					<button type="submit" class="btn btn-default center-block" value="spring">
 						Spring
 					</button>
 				</div>
@@ -108,7 +110,7 @@
 			<input type="hidden" name="semester" value="fall">
 				<div class="col-md-4">
 					 
-					<button type="submit" class="btn btn-default" value="fall">
+					<button type="submit" class="btn btn-default center-block" value="fall">
 						Fall
 					</button>
 				</div>
@@ -118,7 +120,7 @@
 			<input type="hidden" name="semester" value="summer">
 				<div class="col-md-4">
 					 
-					<button type="submit" class="btn btn-default" value="summer">
+					<button type="submit" class="btn btn-default center-block" value="summer">
 						Summer
 					</button>
 			</div>

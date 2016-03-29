@@ -36,14 +36,6 @@
 		System.out.print(" Invalid User\n");
 		as.redirect("../User/LandingPage.jsp");
 	}%>
-	
-		<%System.out.print("Ensuring a Semester was selected\n");
-	//Always going to redirct unless current session key equals the adminKey
-	//Even if this is set to the userKey the page will NOT be displayed
-	if(!as.validateSemester()){
-		System.out.print(" Need to select a semester \n");
-		as.redirect("AdminHomepage.jsp");
-	}%>
 <!-- End Validation -->
 
 
