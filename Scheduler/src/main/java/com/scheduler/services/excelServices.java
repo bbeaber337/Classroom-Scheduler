@@ -288,7 +288,9 @@ public class excelServices extends baseJSP {
 				e.printStackTrace();
 			} catch (IOException e) {
 	            e.printStackTrace();
-	        }		
+	        } catch (Exception e){
+	        	e.printStackTrace();
+	        }
 
 			//Delete duplicate classrooms
 			ms.deleteDuplicates();
