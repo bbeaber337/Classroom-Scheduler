@@ -8,6 +8,10 @@ import java.text.SimpleDateFormat;
 
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.usermodel.*;
+import org.apache.poi.hssf.util.*;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.util.*;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -51,30 +55,90 @@ public class excelServices extends baseJSP {
 	}
 	
 	
-/*	
-	public void addsData(){
 	
-		if(request.getParameter("fileUpload") != null){
+	public void exportData() throws Exception {
 		
-			ArrayList<Class1> list = new ArrayList<Class1>(); 
-
-			Class1 classes = new Class1();
-
-		 	try
-	        	{
-	            	//String file = request.getParameter("file");	
-	            	Part filePart = request.getPart("file"); // Retrieves <input type="file" name="file">
-	    			String fileName = filePart.getSubmittedFileName();
-	    			InputStream fileContent = filePart.getInputStream();
-	    			System.out.printf("Uploaded File: %s \n",fileName);
-
-	        	} catch(Exception e) {
-	        		e.printStackTrace();
-	        	}
+		if(request.getParameter("export") != null){
+			
+		HSSFWorkbook wb = new HSSFWorkbook();
+		HSSFSheet classSheet = wb.createSheet("Classes");
+		
+		/*//Get Data
+		List<Class1> c = new ArrayList<Class1>();
+		List<Classroom> cr = new ArrayList<Classroom>();
+		c = ms.getClasses();
+		cr = ms.getClassrooms(); */
+		
+		//Set Heading
+		Row headerRow = classSheet.createRow(0);
+		headerRow.createCell(0).setCellValue("Class Nbr");
+		headerRow.createCell(1).setCellValue("Subject");
+		headerRow.createCell(2).setCellValue("Catalog");
+		headerRow.createCell(3).setCellValue("Section");
+		headerRow.createCell(4).setCellValue("Comb Sect");
+		headerRow.createCell(5).setCellValue("Descr");
+		headerRow.createCell(6).setCellValue("Descr");
+		headerRow.createCell(7).setCellValue("Acad Group");
+		headerRow.createCell(8).setCellValue("Cap Enrl");
+		headerRow.createCell(9).setCellValue("Tot Enrl");
+		headerRow.createCell(10).setCellValue("Pat");
+		headerRow.createCell(11).setCellValue("Mtg Start");
+		headerRow.createCell(12).setCellValue("Mtg End");
+		headerRow.createCell(13).setCellValue("Facil ID");
+		headerRow.createCell(14).setCellValue("Capacity");
+		headerRow.createCell(15).setCellValue("Last");
+		headerRow.createCell(16).setCellValue("First Name");
+		headerRow.createCell(17).setCellValue("Role");
+		headerRow.createCell(18).setCellValue("Start Date");
+		headerRow.createCell(19).setCellValue("End Date");
+		headerRow.createCell(20).setCellValue("Session");
+		headerRow.createCell(21).setCellValue("Location");
+		headerRow.createCell(22).setCellValue("CrsAtr Val");
+		headerRow.createCell(23).setCellValue("Component");
+		
+		//Set Heading Style
+		for(int i = 0; i < 24; i++){
+			CellStyle headingStyle = wb.createCellStyle();
+			Font font = wb.createFont();
+			font.setBold(true);
+			font.setFontName("Arial Unicode MS");
+			font.setFontHeightInPoints((short) 10);
+			headingStyle.setFont(font);	
+			headingStyle.setBorderBottom(HSSFCellStyle.BORDER_DOUBLE);
+			headingStyle.setBorderTop(HSSFCellStyle.BORDER_DOUBLE);
+			headingStyle.setBorderRight(HSSFCellStyle.BORDER_DOUBLE);
+			headingStyle.setBorderLeft(HSSFCellStyle.BORDER_DOUBLE);
+			headingStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
+			headingStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+			//headingStyle.setFillBackgroundColor(HSSFColor.GREY_80_PERCENT.index);
+			headerRow.getCell(i).setCellStyle(headingStyle);
 		}
 		
+		//Cell sectionHeaderCell = headerRow.createCell(3);
+		
+		//Row counter
+		int row = 1;
+		
+		/*
+		for(Class1 item : c){
+			Row dataRow = classSheet.createRow(row);
+			
+			Cell dataClassNbrCell = dataRow.createCell(0);
+			dataClassNbrCell.setCellValue(item.getClassNumber());
+			
+			Cell dataSubjectCell = dataRow.createCell(1);
+			dataSubjectCell.setCellValue(item.getClassSubject());
+			
+			row = row+1;
+		} */
+		
+
+		FileOutputStream fOut = new FileOutputStream(new File("C:\\myDownloads\\PKI.xls"));
+		wb.write(fOut);
+		fOut.close();
+		wb.close();
+		}
 	}
- */
 	
 	public void addData() throws Exception {
 		
@@ -298,7 +362,7 @@ public class excelServices extends baseJSP {
 		}			
 	}
 	
-
+	
 		
 	public void printClasses( List<Class1> classList){
 		
