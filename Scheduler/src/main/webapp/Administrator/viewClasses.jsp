@@ -7,9 +7,12 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
   
+  <link rel="stylesheet" type="text/css" href="../DataTables/datatables.min.css"/>
+  <script type="text/javascript" src="../DataTables/datatables.min.js"></script>
+  
   <!-- For sortable table -->
-  <script src="sortable.min.js"></script>
-  <link rel="stylesheet" href="sortable-theme-bootstrap.css" />
+  <!-- <script src="sortable.min.js"></script>-->
+  <!-- <link rel="stylesheet" href="sortable-theme-bootstrap.css" />-->
 
 <title>Insert title here</title>
 
@@ -50,7 +53,7 @@
 <!-- End Validation -->
 
 	<!--  Start Header -->
-	<%@ include file="AdminMenu.jspf" %>
+	<%@ include file="/WEB-INF/AdminMenu.jspf" %>
 	<!--  End Header -->
 	
 <%//if(build){%>
@@ -75,6 +78,40 @@ if(semester.equals("summer")){%>
 </br></br></br></br>
 <%hs.buildClasses(); }
 //}%>
+<script>
+$(document).ready( function () {
+    $('#classTable').DataTable({
+        "lengthMenu": [[25, 50, 100, -1], [25, 50, 100, "All"]],
+        "ajax" : "../API/Classlist.jsp",
+        "columns": [
+                    { "data": "Change_Room" },
+                    { "data": "Class_Number" },
+                    { "data": "Name" },
+                    { "data": "Room" },
+                    { "data": "Subject" },
+                    { "data": "First_Name" },
+                    { "data": "Last_Name" },
+                    { "data": "Days" },
+                    { "data": "Start_Time" },
+                    { "data": "End_Time" },
+                    { "data": "Start_Date" },
+                    { "data": "End_Date" },
+                    { "data": "Capacity" },
+                    { "data": "Enrolled" },
+                    { "data": "Catalog" },
+                    { "data": "Section" },
+                    { "data": "Description" },
+                    { "data": "Campus" },
+                    { "data": "Academic_Group" },
+                    { "data": "Mode" },
+                    { "data": "Combined" },
+                    { "data": "Edit_Class" },
+                    { "data": "Delete_Class" }
+                ],
+                "scrollX": true
+    });
+} );
+</script>
 
 
 </body>
