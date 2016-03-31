@@ -8,11 +8,14 @@ import java.text.SimpleDateFormat;
 
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.xssf.usermodel.*;
+import org.apache.poi.xssf.util.*;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.hssf.util.*;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.*;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
@@ -60,14 +63,14 @@ public class excelServices extends baseJSP {
 		
 		if(request.getParameter("export") != null){
 			
-		HSSFWorkbook wb = new HSSFWorkbook();
-		HSSFSheet classSheet = wb.createSheet("Classes");
+		XSSFWorkbook wb = new XSSFWorkbook();
+		XSSFSheet classSheet = wb.createSheet("Classes");
 		
-		/*//Get Data
+		//Get Data
 		List<Class1> c = new ArrayList<Class1>();
-		List<Classroom> cr = new ArrayList<Classroom>();
+		//List<Classroom> cr = new ArrayList<Classroom>();
 		c = ms.getClasses();
-		cr = ms.getClassrooms(); */
+		//cr = ms.getClassrooms(); 
 		
 		//Set Heading
 		Row headerRow = classSheet.createRow(0);
@@ -93,23 +96,24 @@ public class excelServices extends baseJSP {
 		headerRow.createCell(19).setCellValue("End Date");
 		headerRow.createCell(20).setCellValue("Session");
 		headerRow.createCell(21).setCellValue("Location");
-		headerRow.createCell(22).setCellValue("CrsAtr Val");
-		headerRow.createCell(23).setCellValue("Component");
+		headerRow.createCell(22).setCellValue("Mode");
+		headerRow.createCell(23).setCellValue("CrsAtr Val");
+		headerRow.createCell(24).setCellValue("Component");
 		
 		//Set Heading Style
-		for(int i = 0; i < 24; i++){
+		for(int i = 0; i < 25; i++){
 			CellStyle headingStyle = wb.createCellStyle();
 			Font font = wb.createFont();
 			font.setBold(true);
 			font.setFontName("Arial Unicode MS");
 			font.setFontHeightInPoints((short) 10);
 			headingStyle.setFont(font);	
-			headingStyle.setBorderBottom(HSSFCellStyle.BORDER_DOUBLE);
-			headingStyle.setBorderTop(HSSFCellStyle.BORDER_DOUBLE);
-			headingStyle.setBorderRight(HSSFCellStyle.BORDER_DOUBLE);
-			headingStyle.setBorderLeft(HSSFCellStyle.BORDER_DOUBLE);
-			headingStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-			headingStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+			headingStyle.setBorderBottom(XSSFCellStyle.BORDER_DOUBLE);
+			headingStyle.setBorderTop(XSSFCellStyle.BORDER_DOUBLE);
+			headingStyle.setBorderRight(XSSFCellStyle.BORDER_DOUBLE);
+			headingStyle.setBorderLeft(XSSFCellStyle.BORDER_DOUBLE);
+			//headingStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
+			//headingStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
 			//headingStyle.setFillBackgroundColor(HSSFColor.GREY_80_PERCENT.index);
 			headerRow.getCell(i).setCellStyle(headingStyle);
 		}
@@ -119,26 +123,58 @@ public class excelServices extends baseJSP {
 		//Row counter
 		int row = 1;
 		
-		/*
+		
 		for(Class1 item : c){
+		
+			//String className = item.getClassName();
+			
+			System.out.printf("\nClass Name is %s\n",item.getClassName());
 			Row dataRow = classSheet.createRow(row);
 			
+			dataRow.createCell(0).setCellValue(item.getClassNumber());
+			dataRow.createCell(1).setCellValue(item.getClassSubject());
+			dataRow.createCell(2).setCellValue(item.getClassCatalog());
+			dataRow.createCell(3).setCellValue(item.getClassSection());
+			dataRow.createCell(4).setCellValue(item.getClassCombination());
+			dataRow.createCell(5).setCellValue(item.getClassName());
+			dataRow.createCell(6).setCellValue(item.getClassDescription());
+			dataRow.createCell(7).setCellValue(item.getClassAcadGroup());
+			dataRow.createCell(8).setCellValue(item.getClassEnrolled());
+			dataRow.createCell(9).setCellValue(item.getClassCapacity());
+			dataRow.createCell(10).setCellValue(item.getClassDays());
+			dataRow.createCell(11).setCellValue(item.getClassTimeStart());
+			dataRow.createCell(12).setCellValue(item.getClassTimeEnd());
+			dataRow.createCell(13).setCellValue(item.getClassRoom());
+			//Need to get Room Capacity here
+			dataRow.createCell(15).setCellValue(item.getClassInstructLast());
+			dataRow.createCell(16).setCellValue(item.getClassInstructFirst());
+			dataRow.createCell(17).setCellValue(item.getClassRole());
+			dataRow.createCell(18).setCellValue(item.getClassDateStart());
+			dataRow.createCell(19).setCellValue(item.getClassDateEnd());
+			dataRow.createCell(20).setCellValue(item.getClassSession());
+			dataRow.createCell(21).setCellValue(item.getClassCampus());
+			dataRow.createCell(22).setCellValue(item.getClassMode());
+			dataRow.createCell(23).setCellValue(item.getClassCrsAttrVal());
+			dataRow.createCell(24).setCellValue(item.getClassComponent());
+			
+		/*
 			Cell dataClassNbrCell = dataRow.createCell(0);
 			dataClassNbrCell.setCellValue(item.getClassNumber());
 			
 			Cell dataSubjectCell = dataRow.createCell(1);
 			dataSubjectCell.setCellValue(item.getClassSubject());
-			
+			*/
 			row = row+1;
-		} */
+		} 
 		
-
-		FileOutputStream fOut = new FileOutputStream(new File("C:\\myDownloads\\PKI.xls"));
+		FileOutputStream fOut = new FileOutputStream(new File("C:\\myDownloads\\PKI.xlsx"));
 		wb.write(fOut);
 		fOut.close();
 		wb.close();
 		}
 	}
+	
+	
 	
 	public void addData() throws Exception {
 		
@@ -273,6 +309,9 @@ public class excelServices extends baseJSP {
 								if(cell.getColumnIndex() == 15){
 									c.setClassInstructLast(cell.getStringCellValue());
 								}
+								if(cell.getColumnIndex() == 17){
+									c.setClassRole(cell.getStringCellValue());
+								}
 								if(cell.getColumnIndex() == 21){
 									c.setClassCampus(cell.getStringCellValue());
 								}
@@ -280,6 +319,9 @@ public class excelServices extends baseJSP {
 									c.setClassMode(cell.getStringCellValue());
 								}
 								if(cell.getColumnIndex() == 23){
+									c.setClassCrsAttrVal(cell.getStringCellValue());
+								}
+								if(cell.getColumnIndex() == 24){
 									c.setClassComponent(cell.getStringCellValue());
 								}
 								

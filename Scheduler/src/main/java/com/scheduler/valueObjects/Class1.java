@@ -18,6 +18,7 @@ public class Class1 {
 	String eTime = null;
 	String fName = null;
 	String lName = null;
+	String role = null;
 	String sDate = null;
 	String eDate = null;
 	String facil = null;
@@ -25,6 +26,7 @@ public class Class1 {
 	String mode = null;
 	String comp = null;
 	String classCrsAttrVal = null;
+	int session = 0;
 	int classMon = 0;
 	int classTues = 0;
 	int classWed = 0;
@@ -43,6 +45,14 @@ public class Class1 {
 	public void setClassID(int class_id){
 		this.class_id = class_id;
 	}
+	
+	public int getClassSession(){
+		return session;
+	}
+	public void setClassSession(int session){
+		this.session = session;
+	}
+
 
 	public String getClassComponent(){
 		return comp;
@@ -77,6 +87,13 @@ public class Class1 {
 	}
 	public void setClassInstructLast(String lName){
 		this.lName = lName;
+	}
+	
+	public String getClassRole(){
+		return role;
+	}
+	public void setClassRole(String role){
+		this.role = role;
 	}
 	
 	public String getClassInstructFirst(){

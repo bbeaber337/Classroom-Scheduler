@@ -36,7 +36,7 @@ public class MyServices extends baseJSP {
 		
 		// Not using '*' because we are not pulling every field
 		rs = conn.runQuery("SELECT classID, classNumber, classSubject, classCatalog, classSection, classCombination, className, classDescription, classAcadGroup, classCapacity, classEnrolled, classDays, classTimeStart, classTimeEnd, classDateStart, classDateEnd, "
-				+ "classInstructFirst, classInstructLast, classRoom, classCampus, classMode, classComponent, classCrsAttrVal, classMon, classTues, classWed, classThurs, classFri, classSat FROM " + semester + "classes");
+				+ "classInstructFirst, classInstructLast, classRole, classSession, classRoom, classCampus, classMode, classComponent, classCrsAttrVal, classMon, classTues, classWed, classThurs, classFri, classSat FROM " + semester + "classes");
 		
 		if(rs != null){
 			while(rs.next()){
@@ -60,6 +60,7 @@ public class MyServices extends baseJSP {
 				item.setClassDateEnd(rs.getString("classDateEnd"));
 				item.setClassInstructLast(rs.getString("classInstructLast"));
 				item.setClassInstructFirst(rs.getString("classInstructFirst"));
+				item.setClassRole(rs.getString("classRole"));
 				item.setClassRoom(rs.getString("classRoom"));
 				item.setClassCampus(rs.getString("classCampus"));
 				item.setClassMode(rs.getString("classMode"));
@@ -71,6 +72,7 @@ public class MyServices extends baseJSP {
 				item.setClassThurs(rs.getInt("classThurs"));
 				item.setClassFri(rs.getInt("classFri"));
 				item.setClassSat(rs.getInt("classSat"));
+				item.setClassSession(rs.getInt("classSession"));
 				list.add(item);
 			}
 		}
@@ -115,7 +117,7 @@ public class MyServices extends baseJSP {
 		String semester = session.getAttribute("semester").toString();
 		
 		rs = conn.runQuery("SELECT classID, classNumber, classSubject, classCatalog, classSection, classCombination, className, classDescription, classAcadGroup, classCapacity, classEnrolled, classDays, classTimeStart, classTimeEnd, classDateStart, classDateEnd, "
-				+ "classInstructFirst, classInstructLast, classRoom, classCampus, classMode, classComponent, classCrsAttrVal, classMon, classTues, classWed, classThurs, classFri, classSat FROM " + semester + "classes WHERE classID = '" + classID +"' ");
+				+ "classInstructFirst, classInstructLast, classRoom, classSession, classCampus, classMode, classComponent, classCrsAttrVal, classMon, classTues, classWed, classThurs, classFri, classSat FROM " + semester + "classes WHERE classID = '" + classID +"' ");
 		
 		
 		if(rs != null){
@@ -151,6 +153,7 @@ public class MyServices extends baseJSP {
 				item.setClassThurs(rs.getInt("classThurs"));
 				item.setClassFri(rs.getInt("classFri"));
 				item.setClassSat(rs.getInt("classSat"));
+				item.setClassSession(rs.getInt("classSession"));
 				//item.setChairType(rs.getString("chairType"));
 				//item.setBoardType(rs.getString("boardType"));
 				//item.setDeskType(rs.getString("deskType"));
@@ -274,7 +277,7 @@ public class MyServices extends baseJSP {
 		
 		//System.out.printf("\n\n\nAdding Class: %s\n\n\n", c.getCombo());
 		String query = "INSERT INTO " + semester + "classes (classNumber, classSubject, classCatalog, classSection, classCombination, className, classDescription, classAcadGroup, classCapacity, classEnrolled, classDays,";
-		query += " classTimeStart, classTimeEnd, classDateStart, classDateEnd, classInstructFirst, classInstructLast, classRoom, classCampus, classMode, classComponent) VALUES( ";
+		query += " classTimeStart, classTimeEnd, classDateStart, classDateEnd, classSession, classInstructFirst, classInstructLast, classRole, classRoom, classCampus, classMode, classCrsAttrVal, classComponent) VALUES( ";
 		query += "'" + c.getClassNumber() + "', ";
 		query += "'" + c.getClassSubject() + "', ";
 		query += "'" + c.getClassCatalog() + "', ";
@@ -290,11 +293,14 @@ public class MyServices extends baseJSP {
 		query += "'" + c.getClassTimeEnd() + "', ";
 		query += "'" + c.getClassDateStart() + "', ";
 		query += "'" + c.getClassDateEnd() + "', ";
+		query += "'" + c.getClassSession() + "', ";
 		query += "'" + c.getClassInstructFirst() + "', ";
 		query += "'" + c.getClassInstructLast() + "', ";
+		query += "'" + c.getClassRole() + "', ";
 		query += "'" + c.getClassRoom() + "', ";
 		query += "'" + c.getClassCampus() + "', ";
 		query += "'" + c.getClassMode() + "', ";
+		query += "'" + c.getClassCrsAttrVal() + "', ";
 		query += "'" + c.getClassComponent() + "'";
 		query += ")";		
 			return conn.runUpdate(query);
