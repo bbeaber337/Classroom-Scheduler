@@ -68,7 +68,7 @@ public class HTMLServices extends baseJSP {
 		
 		//out.append("<table>");
 		//out.append("<tr><th>Users</th></tr>");
-		out.append("<table id=\"classTable\" class=\"table table-striped \"><thead><tr><th>Change Room</th><th>Class Number</th><th>Name</th><th>Room</th><th>Subject</th><th>First Name</th><th>Last Name</th><th>Days</th><th>Start Time</th><th>End Time</th><th>Start Date</th><th>End Date</th><th>Capacity</th><th>Enrolled</th><th>Catalog</th><th>Section</th><th>Description</th><th>Campus</th><th>Academic Group</th><th>Mode</th><th>Combined</th><th>Edit Class</th><th>Delete Class</th></tr></thead><tbody>");
+		out.append("<table id=\"classTable\" class=\"table table-striped table-bordered \"><thead><tr><th>Change Room</th><th>Class Number</th><th>Name</th><th>Room</th><th>Subject</th><th>First Name</th><th>Last Name</th><th>Days</th><th>Start Time</th><th>End Time</th><th>Start Date</th><th>End Date</th><th>Capacity</th><th>Enrolled</th><th>Catalog</th><th>Section</th><th>Description</th><th>Campus</th><th>Academic Group</th><th>Mode</th><th>Combined</th><th>Edit Class</th><th>Delete Class</th></tr></thead><tbody>");
 		/* 
 		   for(Class1 c : items){
 		 
