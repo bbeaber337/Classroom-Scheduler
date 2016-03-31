@@ -179,7 +179,6 @@ public class excelServices extends baseJSP {
 	public void addData() throws Exception {
 		
 		//Need to pull file path from uploaded file
-		final String FILE_PATH = "C:/Users/Brandon/Documents/Spring 2016/Capstone/Client Documents/PKI_Rooms.xlsx";
 		List<Class1> classList = new ArrayList<Class1>();
 		List<Classroom> classroomList = new ArrayList<Classroom>();
 		InputStream fis = null;
@@ -394,7 +393,9 @@ public class excelServices extends baseJSP {
 				e.printStackTrace();
 			} catch (IOException e) {
 	            e.printStackTrace();
-	        }		
+	        } catch (Exception e){
+	        	e.printStackTrace();
+	        }
 
 			//Delete duplicate classrooms
 			ms.deleteDuplicates();

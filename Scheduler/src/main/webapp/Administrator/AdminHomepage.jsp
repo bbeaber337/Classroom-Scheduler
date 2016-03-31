@@ -43,7 +43,7 @@
 	//Even if this is set to the userKey the page will NOT be displayed
 	if(as.validateSemester()){
 		System.out.print(" Semester Choosen\n");%>
-		<%@ include file="AdminMenu.jspf" %>
+		<%@ include file="/WEB-INF/AdminMenu.jspf" %>
 	<%} else {%>
 	<!--  Start Header -->
 	<nav class="navbar navbar-inverse navbar-fixed-top">

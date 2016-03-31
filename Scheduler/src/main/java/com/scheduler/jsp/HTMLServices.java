@@ -5,6 +5,10 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import javax.json.Json;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -56,16 +60,18 @@ public class HTMLServices extends baseJSP {
 	
 	//Build Classes
 	public void buildClasses() throws Exception {
-		String hasRoom;
-		String combo;
-		List<Class1> items = ms.getClasses();
+		//String hasRoom;
+		//String combo;
+		//List<Class1> items = ms.getClasses();
 			
 		StringBuilder out = new StringBuilder();
 		
 		//out.append("<table>");
 		//out.append("<tr><th>Users</th></tr>");
-		out.append("<table class=\"table sortable\"><thead><tr><th>Change Room</th><th>Class Number</th><th>Name</th><th>Room</th><th>Subject</th><th>First Name</th><th>Last Name</th><th>Days</th><th>Start Time</th><th>End Time</th><th>Start Date</th><th>End Date</th><th>Capacity</th><th>Enrolled</th><th>Catalog</th><th>Section</th><th>Description</th><th>Campus</th><th>Academic Group</th><th>Mode</th><th>Combined</th><th>Edit Class</th><th>Delete Class</th></tr></thead><tbody>");
-		for(Class1 c : items){
+		out.append("<table id=\"classTable\" class=\"table table-striped \"><thead><tr><th>Change Room</th><th>Class Number</th><th>Name</th><th>Room</th><th>Subject</th><th>First Name</th><th>Last Name</th><th>Days</th><th>Start Time</th><th>End Time</th><th>Start Date</th><th>End Date</th><th>Capacity</th><th>Enrolled</th><th>Catalog</th><th>Section</th><th>Description</th><th>Campus</th><th>Academic Group</th><th>Mode</th><th>Combined</th><th>Edit Class</th><th>Delete Class</th></tr></thead><tbody>");
+		/* 
+		   for(Class1 c : items){
+		 
 			
 			//IF the string does not have more then 1 char we can assume it is not assigned a room (TODO: add logic to check if the room it is assigned is really a valid room by checking database)
 			if(c.getClassRoom().length() < 2){
@@ -106,10 +112,64 @@ public class HTMLServices extends baseJSP {
 			out.append("</tr>");
 			System.out.printf("\nMon: %d\nTues: %d\nWed: %d\nThurs: %d\nFri: %d\nSat: %d\n\n", c.getClassMon(), c.getClassTues(), c.getClassWed(), c.getClassThurs(), c.getClassFri(), c.getClassSat());
 		}
+		*/
 		out.append("</tbody></table>");
 		stream.print(out.toString());
 	}
 	
+	//Build list of classes in JSON format
+	public void buildClassesJSON() throws Exception{
+		String hasRoom;
+		String combo;
+		List<Class1> items = ms.getClasses();
+		//String json = new Gson().toJson(items);
+		JsonArrayBuilder classBuilder = Json.createArrayBuilder();
+		for (Class1 c : items){
+			//IF the string does not have more then 1 char we can assume it is not assigned a room (TODO: add logic to check if the room it is assigned is really a valid room by checking database)
+			if(c.getClassRoom().length() < 2){
+				hasRoom = "Not Assinged";
+			} else {
+				hasRoom = c.getClassRoom();
+			}
+			//Check if it combined or not
+			//compareToIgnoreCase() returns 0 if true
+			if(c.getClassCombination().compareToIgnoreCase("c") == 0){
+				combo = "Yes";
+			} else {
+				combo = "No";
+			}
+
+			classBuilder.add( Json.createObjectBuilder()
+			.add("Change_Room", "<form action='viewClasses.jsp' method='post' ><input type='hidden' name='selectClass' value='" + c.getClassID() + "'><input type='submit' value='Select' alt='Select Class'/></form>")
+			.add( "Class_Number", c.getClassNumber())			
+			.add(  "Name", c.getClassName())
+			.add(  "Room", hasRoom )
+			.add(  "Subject", c.getClassSubject() )
+			.add(  "First_Name", c.getClassInstructFirst() )
+			.add(  "Last_Name", c.getClassInstructLast() )
+			.add(  "Days", c.getClassDays() )
+			.add(  "Start_Time", c.getClassTimeStart() )
+			.add(  "End_Time", c.getClassTimeEnd() )
+			.add(  "Start_Date", c.getClassDateStart() )
+			.add(  "End_Date", c.getClassDateEnd() )
+			.add(  "Capacity", c.getClassCapacity() )
+			.add(  "Enrolled", c.getClassEnrolled() )		
+			.add(  "Catalog", c.getClassCatalog() )
+			.add(  "Section", c.getClassSection() )
+			.add(  "Description", c.getClassDescription() )
+			.add(  "Campus", c.getClassCampus() )
+			.add(  "Academic_Group", c.getClassAcadGroup() )
+			.add(  "Mode", c.getClassMode() )
+			.add(  "Combined", combo )
+			.add(  "Edit_Class", "<form action='viewClasses.jsp' method='post' ><input type='hidden' name='editClass' value='" + c.getClassID() + "'><input type='submit' value='Edit' alt='Edit Class'/></form>")
+			.add(  "Delete_Class", "<form action='viewClasses.jsp' method='post' ><input type='hidden' name='deleteClass' value='" + c.getClassID() + "'><input type='submit' value='Delete' alt='Delete Class' onclick=\"return confirm('Are you sure you want to delete this Class?')\"/></form>"));
+		}
+		JsonObject json = Json.createObjectBuilder()
+				.add("data", classBuilder).build();
+	    System.out.println("Printing JSON...");
+	    System.out.print(json.toString());
+	    stream.print(json.toString());
+	}
 	
 	//Build Classrooms
 	public void buildClassrooms() throws Exception {

@@ -40,7 +40,7 @@
 
 
 	<!--  Start Header -->
-	<%@ include file="AdminMenu.jspf" %>
+	<%@ include file="/WEB-INF/AdminMenu.jspf" %>
 	<!--  End Header -->
 	
 

@@ -47,7 +47,7 @@
 
 	
 	<!--  Start Header -->
-	<%@ include file="AdminMenu.jspf" %>
+	<%@ include file="/WEB-INF/AdminMenu.jspf" %>
 	<!--  End Header -->
 	
 	
@@ -73,7 +73,7 @@
 		<label for="file">
 			File input
 		</label>
-		<input type="file" name="file" />
+		<input type="file" name="file" required/>
 	</div>
 
 	<div class="row-md-5">				
