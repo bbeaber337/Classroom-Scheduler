@@ -356,6 +356,24 @@ public class MyServices extends baseJSP {
 	}
 	
 	
+	public int getClassroomCapacity(String cr) throws SQLException {
+		ResultSet rs = null;
+		int cap = 0;
+		
+		String semester = session.getAttribute("semester").toString();
+		
+		rs = conn.runQuery("SELECT roomCapacity FROM " + semester + "classrooms WHERE roomName = '" + cr +"' ");
+		
+		if(rs != null){
+			while(rs.next()){
+				cap = rs.getInt("roomCapacity");
+			}
+		}
+		return cap;
+		
+	}
+	
+	
 	public int updateClassroom(Classroom cr) throws SQLException {
 		
 		String semester = session.getAttribute("semester").toString();

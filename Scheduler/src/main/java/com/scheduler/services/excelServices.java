@@ -65,6 +65,7 @@ public class excelServices extends baseJSP {
 			
 		XSSFWorkbook wb = new XSSFWorkbook();
 		XSSFSheet classSheet = wb.createSheet("Classes");
+		CreationHelper createHelper = wb.getCreationHelper();
 		
 		//Get Data
 		List<Class1> c = new ArrayList<Class1>();
@@ -122,13 +123,19 @@ public class excelServices extends baseJSP {
 		
 		//Row counter
 		int row = 1;
-		
+
+		//SimpleDateFormat sdfIn = new SimpleDateFormat("h:mm:ss AM/PM");
 		
 		for(Class1 item : c){
 		
-			//String className = item.getClassName();
+			int cap = ms.getClassroomCapacity(item.getClassRoom());
+			//Long startTime = sdfIn.parse(item.getClassTimeStart()).getTime();
+			//Long endTime = sdfIn.parse(item.getClassTimeEnd()).getTime();
 			
-			System.out.printf("\nClass Name is %s\n",item.getClassName());
+			CellStyle time = wb.createCellStyle();
+			time.setDataFormat(createHelper.createDataFormat().getFormat("h:mm:ss AM/PM"));
+			
+			
 			Row dataRow = classSheet.createRow(row);
 			
 			dataRow.createCell(0).setCellValue(item.getClassNumber());
@@ -142,10 +149,16 @@ public class excelServices extends baseJSP {
 			dataRow.createCell(8).setCellValue(item.getClassEnrolled());
 			dataRow.createCell(9).setCellValue(item.getClassCapacity());
 			dataRow.createCell(10).setCellValue(item.getClassDays());
-			dataRow.createCell(11).setCellValue(item.getClassTimeStart());
-			dataRow.createCell(12).setCellValue(item.getClassTimeEnd());
+			Cell cellTStart = dataRow.createCell(11);
+			cellTStart.setCellValue(item.getClassTimeStart());
+			cellTStart.setCellStyle(time);
+			cellTStart.setCellType(Cell.CELL_TYPE_NUMERIC);
+			Cell cellTEnd = dataRow.createCell(12);
+			cellTEnd.setCellType(Cell.CELL_TYPE_NUMERIC);
+			cellTEnd.setCellValue(item.getClassTimeEnd());
+			cellTEnd.setCellStyle(time);
 			dataRow.createCell(13).setCellValue(item.getClassRoom());
-			//Need to get Room Capacity here
+			dataRow.createCell(14).setCellValue(cap);
 			dataRow.createCell(15).setCellValue(item.getClassInstructLast());
 			dataRow.createCell(16).setCellValue(item.getClassInstructFirst());
 			dataRow.createCell(17).setCellValue(item.getClassRole());
@@ -258,7 +271,7 @@ public class excelServices extends baseJSP {
 					
 					//Need to set a format in order to convert Dates into Strings
 					DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-					DateFormat tf = new SimpleDateFormat("hh:mm:ss a");
+					DateFormat tf = new SimpleDateFormat("h:mm:ss a");
 
 					
 					//Iterating over each cell (column wise)  in a particular row.
@@ -388,7 +401,8 @@ public class excelServices extends baseJSP {
 				  }
 			}
 
-				fis.close();			 
+				fis.close();
+				workbook.close();
 			} catch(FileNotFoundException e){
 				e.printStackTrace();
 			} catch (IOException e) {

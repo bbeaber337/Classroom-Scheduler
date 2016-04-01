@@ -90,6 +90,12 @@ public class adminServices extends baseJSP {
 		return false;
 	}
 	
+	public int getClassroomCapacity(String cr) throws Exception {
+		
+		int cap = ms.getClassroomCapacity(cr);
+		return cap;
+	}
+	
 	
 	public boolean selectClass() throws Exception {
 		
