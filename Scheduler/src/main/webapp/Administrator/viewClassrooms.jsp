@@ -1,33 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-
-  <!-- Pulling Bootstrap from Content Delivery Network / Need to download and host myself -->
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-
-<title>Insert title here</title>
-
-	<%@ page import="com.scheduler.services.*" %>
+    pageEncoding="ISO-8859-1"%>	<%@ page import="com.scheduler.services.*" %>
 	<%@ page import="com.scheduler.valueObjects.*" %>
 	<%@ page import="com.scheduler.jsp.*" %>
 	<%@ page import="java.util.*" %>
 	<%@ page import="java.sql.*" %>
-	<% HTMLServices hs = new HTMLServices(session, request, response, out); 
+	<% if (request.getParameter("classroomID") != null){
+		 response.setContentType("application/json");
+	   }
+	    HTMLServices hs = new HTMLServices(session, request, response, out); 
 		adminServices as = new adminServices(session, request, response, out);
 		boolean build = as.editClassroom();
 	%>
-
-
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
-</head>
-<body>
-
-<!-- Begin Validation -->
+<%-- Begin Validation --%>
 	<%System.out.print("Checking Login Status\n");
 	//Always going to redirct unless current session key equals the adminKey
 	//Even if this is set to the userKey the page will NOT be displayed
@@ -43,12 +27,77 @@
 		System.out.print(" Need to select a semester \n");
 		as.redirect("AdminHomepage.jsp");
 	}%>
-<!-- End Validation -->
+<%-- End Validation --%>
+
+ <% if (request.getParameter("classroomID") != null){
+	 hs.buildClasslistByClassroom(request.getParameter("classroomID")); 
+     } else {%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+  <!-- Pulling Bootstrap from Content Delivery Network / Need to download and host myself -->
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<title>Insert title here</title>
+
+
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+<script>
+	function ajaxCallback(json){
+		function generateDiv(c){
+			return c;
+		}
+		for (var i = 0; i < json.data.length; i++){
+			var class1 = json.data[i];
+			var row = $('#WeekTable > tbody').find('tr:eq('+class1.Start.toString()+')');
+			if (class1.Sun !== 0){
+				row.find('td:eq(0)').append(class1.Class_Number + " " + class1.Time + "<br>");
+			}
+			if (class1.Mon == 1){
+				row.find('td:eq(1)').append(class1.Class_Number + " " + class1.Time + "<br>");
+			}
+			if (class1.Tues == 1){
+				row.find('td:eq(2)').append(class1.Class_Number + " " + class1.Time + "<br>");
+			}
+			if (class1.Wed == 1){
+				row.find('td:eq(3)').append(class1.Class_Number + " " + class1.Time + "<br>");
+			}
+			if (class1.Thur == 1){
+				row.find('td:eq(4)').append(class1.Class_Number + " " + class1.Time + "<br>");
+			}
+			if (class1.Fri == 1){
+				row.find('td:eq(5)').append(class1.Class_Number + " " + class1.Time + "<br>");
+			}
+			if (class1.Sat == 1){
+				row.find('td:eq(6)').append(class1.Class_Number + " " + class1.Time + "<br>");
+			}
+		};
+		window.scrollTo(0,0);
+	}
+	
+	function getSchedule(roomID, roomName){
+		$('#WeekTable > tbody > tr > td').empty();
+		$('#WeekTable').show();
+		$('#WeekTableHeader').html(roomName + " Schedule");
+		$.getJSON('viewClassrooms.jsp', {classroomID : roomID}, function (data) {ajaxCallback(data);});
+	}
+</script>
+</head>
+<body>
+
+
 
 
 	<!--  Start Header -->
 	<%@ include file="/WEB-INF/AdminMenu.jspf" %>
 	<!--  End Header -->
+	
+	<%@ include file="/WEB-INF/WeekTable.jspf" %>
 	
 
 <!-- Check if a change was submitted -->
@@ -73,3 +122,4 @@ if(semester.equals("summer")){%>
 
 </body>
 </html>
+<%}%>

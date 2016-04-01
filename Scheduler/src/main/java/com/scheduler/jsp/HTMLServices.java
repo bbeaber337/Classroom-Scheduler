@@ -2,6 +2,9 @@ package com.scheduler.jsp;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -140,8 +143,8 @@ public class HTMLServices extends baseJSP {
 			}
 
 			classBuilder.add( Json.createObjectBuilder()
-			.add("Change_Room", "<form action='viewClasses.jsp' method='post' ><input type='hidden' name='selectClass' value='" + c.getClassID() + "'><input type='submit' value='Select' alt='Select Class'/></form>")
-			.add( "Class_Number", c.getClassNumber())			
+			.add(  "Change_Room", "<form action='viewClasses.jsp' method='post' ><input type='hidden' name='selectClass' value='" + c.getClassID() + "'><input type='submit' value='Select' alt='Select Class'/></form>")
+			.add(  "Class_Number", c.getClassNumber())			
 			.add(  "Name", c.getClassName())
 			.add(  "Room", hasRoom )
 			.add(  "Subject", c.getClassSubject() )
@@ -166,8 +169,6 @@ public class HTMLServices extends baseJSP {
 		}
 		JsonObject json = Json.createObjectBuilder()
 				.add("data", classBuilder).build();
-	    System.out.println("Printing JSON...");
-	    System.out.print(json.toString());
 	    stream.print(json.toString());
 	}
 	
@@ -214,7 +215,7 @@ public class HTMLServices extends baseJSP {
 			}
 
 			
-			out.append("<tr><td><form action='viewClassrooms.jsp' method='post' ><input type='hidden' name='selectClassroom' value='" + cr.getRoomID() + "'><input type='submit' value='Select' alt='Select Classroom'/></form></td>");
+			out.append("<tr><td><form onsubmit=\"getSchedule(" + cr.getRoomID() + " , '" + cr.getRoomName() + "');return false;\" ><input type='submit' value='Select' alt='Select Classroom'/></form></td>");
 			out.append("<td>" + cr.getRoomName() + "</td>");
 			out.append("<td>" + cr.getRoomCapacity() + "</td>");
 			out.append("<td>" + typeTemp + "</td>");
@@ -376,5 +377,67 @@ public class HTMLServices extends baseJSP {
 		stream.print(out.toString());
 	}
 
+// --------------------------------------------------------------------------------------------
+//	WEEK SCHEDULER FUNCTIONS
+//--------------------------------------------------------------------------------------------
+	public void buildWeekJSON(List<Class1> items) throws Exception{
+		SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss a");
+		Calendar dayStart = Calendar.getInstance();
+		dayStart.setTime(df.parse("07:00:00 AM"));
+		String combo;
+		//String json = new Gson().toJson(items);
+		JsonArrayBuilder classBuilder = Json.createArrayBuilder();
+		for (Class1 c : items){
+			if(c.getClassCombination().compareToIgnoreCase("c") == 0){
+				combo = "Yes";
+			} else {
+				combo = "No";
+			}
+			/*
+			 * classid as int
+			 * day as int
+			 * start as int
+			 * duration as int
+			 * classnumber as string
+			 * time as string
+			 */
+			Calendar start = Calendar.getInstance();
+			start.setTime(df.parse(c.getClassTimeStart()));
+			Calendar end = Calendar.getInstance();
+			end.setTime(df.parse(c.getClassTimeEnd()));
+			
+			classBuilder.add( Json.createObjectBuilder()
+			.add(  "Class_Id", c.getClassID())
+			.add(  "Start", (int)((start.getTimeInMillis() - dayStart.getTimeInMillis()) / (60000 * 15)))
+			.add(  "Duration",  (int)((end.getTimeInMillis() - start.getTimeInMillis()) / (60000 * 15)))
+			.add(  "Class_Number", c.getClassSubject() + c.getClassNumber() )
+			.add(  "Time", c.getClassTimeStart() + " - " + c.getClassTimeEnd() )
+			.add(  "Sun", c.getClassSun())
+			.add(  "Mon", c.getClassMon())
+			.add(  "Tue", c.getClassTues())
+			.add(  "Wed", c.getClassWed())
+			.add(  "Thur", c.getClassThurs())
+			.add(  "Fri", c.getClassFri())
+			.add(  "Sat", c.getClassSat()));
+		}
+		JsonObject json = Json.createObjectBuilder()
+				.add("data", classBuilder).build();
+	    stream.print(json.toString());
+	}
+	/*
+	public List<Class1> getClasslistByTeacher(int teacherID) throws Exception{
+	}
+	*/
 	
+	public void buildClasslistByClassroom(String classroomID) throws Exception{
+		List<Class1> allClasses = ms.getClasses();
+		Classroom classroom = ms.getClassroomFromID(Integer.parseInt(classroomID));
+		List<Class1> returnList = new ArrayList<Class1>();
+		for (Class1 c : allClasses){
+			if (classroom.getRoomName().equals(c.getClassRoom())){
+				returnList.add(c);
+			}
+		}
+		buildWeekJSON(returnList);
+	}
 }
