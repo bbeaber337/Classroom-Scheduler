@@ -265,6 +265,10 @@ public class Class1 {
 	}
 	
 	
+	@Override
+	public boolean equals( Object object ) {
+		return this.class_id == ((Class1)object).getClassID();
+	}
 	
 	
 	
