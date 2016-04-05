@@ -50,36 +50,52 @@ public class validateClassroom {
 					currClasses.remove(class1);
 				}
 				
-				// Here is where we go through and actually check for issues
 				// First loop goes through updated classes
 				for( Class1 class1 : classes ) {
+					
+					
+					/*** Check for schedule conflict ***/
 					// Second loop goes through current classes
 					for( Class1 class2: currClasses ) {
 						
-						/*** Check for schedule conflict ***/
 						if( checkTime( class1, class2 ) ) {
-							// TODO: Checks for time conflicts
+							// TODO: Create time conflict entry in database
 						}
 					}
+					
+					/*** Query for current classroom ***/
+					Classroom classroom = getClassrooms(semester, conn, class1.getClassRoom()).get(0);
+					
+					
+					/*** Check room capacity with class ***/
+					// TODO: Need to support combined classes total size check
+					if( class1.getClassCapacity() > classroom.getRoomCapacity() ) {
+						// TODO: Create capacity conflict entry in database
+					}
+					
 				}
 				
 			} else {
 				// TODO: Do we need to worry about this?!?
+				// I don't think so, it will fall through to the null return.
 			}
 		}
-		
-		
-		
 		
 		
 		return null;
 	}
 	
-	private List<Classroom> getClassrooms( String semester, dbConnector conn ) throws SQLException {
+	private List<Classroom> getClassrooms( String semester, dbConnector conn, String classroom ) throws SQLException {
 		ResultSet rs = null;
 		List<Classroom> list = new ArrayList<Classroom>();
 		
-		rs = conn.runQuery("SELECT * FROM " + semester + "classerooms");
+		String query = "SELECT * FROM " + semester + "classerooms";
+		
+		if( classroom != null ) {
+			query += " WHERE classRoom ='" + classroom + "'";
+		}
+		
+		rs = conn.runQuery(query);		
 		
 		if(rs != null){
 			while(rs.next()){
