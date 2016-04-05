@@ -51,8 +51,16 @@ public class validateClassroom {
 				}
 				
 				// Here is where we go through and actually check for issues
+				// First loop goes through updated classes
 				for( Class1 class1 : classes ) {
-					
+					// Second loop goes through current classes
+					for( Class1 class2: currClasses ) {
+						
+						/*** Check for schedule conflict ***/
+						if( checkTime( class1, class2 ) ) {
+							// TODO: Checks for time conflicts
+						}
+					}
 				}
 				
 			} else {
@@ -140,7 +148,7 @@ public class validateClassroom {
 		return list;
 	}
 	
-	private boolean checkTime( Class1 class1, Class1 class2 ) throws ParseException {
+	private boolean checkTime( Class1 class1, Class1 class2 ) {
 		if( class1.getClassMon() == class2.getClassMon() || 
 				class1.getClassTues() == class2.getClassTues() ||
 				class1.getClassWed() == class2.getClassWed() ||
@@ -149,17 +157,31 @@ public class validateClassroom {
 			
 			SimpleDateFormat sdfIn = new SimpleDateFormat("hh:mm:ss aa");
 			
-			Long start1 = sdfIn.parse(class1.getClassTimeStart()).getTime();
-			Long start2 = sdfIn.parse(class2.getClassTimeStart()).getTime();
-			Long end1 = sdfIn.parse(class1.getClassTimeEnd()).getTime();
-			Long end2 = sdfIn.parse(class2.getClassTimeEnd()).getTime();
+			Long start1, start2, end1, end2;
+			start1 = start2 = end1 = end2 = 0L;
+			
+			try {
+				start1 = sdfIn.parse(class1.getClassTimeStart()).getTime();
+				start2 = sdfIn.parse(class2.getClassTimeStart()).getTime();
+				end1 = sdfIn.parse(class1.getClassTimeEnd()).getTime();
+				end2 = sdfIn.parse(class2.getClassTimeEnd()).getTime();
+			} catch( ParseException e ) {
+				System.out.println("Error parsing date comparison in validateClassroom\n" + e.getMessage());
+				return false;
+			}
 
 			// They have class on at least one day
 			if( start1 == start2 || end1 == end2 ) {
+				// If they either start or end at the same time
 				return true;
-			} else if( false ) {
-				// TODO: Need to finish
+			} else if( start1 < start2 && start2 < end1 ) {
+				// If class2 starts between the start and end time of class1
+				return true;
+			} else if( start1 < end2 ) {
+				// If class1 starts between the start and end time of class2
+				return true;
 			}
+			
 		}
 		
 		return false;
