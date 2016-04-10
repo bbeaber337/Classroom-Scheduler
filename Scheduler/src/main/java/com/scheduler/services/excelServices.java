@@ -169,8 +169,16 @@ public class excelServices extends baseJSP {
 			dataRow.createCell(15).setCellValue(item.getClassInstructLast());
 			dataRow.createCell(16).setCellValue(item.getClassInstructFirst());
 			dataRow.createCell(17).setCellValue(item.getClassRole());
-			dataRow.createCell(18).setCellValue(item.getClassDateStart());
-			dataRow.createCell(19).setCellValue(item.getClassDateEnd());
+			
+			Cell cellDStart = dataRow.createCell(18);
+			cellDStart.setCellValue(startDate);
+			cellDStart.setCellStyle(date);
+			
+			Cell cellDEnd = dataRow.createCell(19);
+			cellDEnd.setCellValue(endDate);
+			cellDEnd.setCellStyle(date);
+		
+			
 			dataRow.createCell(20).setCellValue(item.getClassSession());
 			dataRow.createCell(21).setCellValue(item.getClassCampus());
 			dataRow.createCell(22).setCellValue(item.getClassMode());
