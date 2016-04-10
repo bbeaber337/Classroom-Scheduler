@@ -116,7 +116,7 @@ if(semester.equals("summer")){%>
 <h2 class="text-center">Fall Classrooms</h2>
 <%} %>
 </br></br></br></br>
-<%hs.buildClassrooms(); 
+<%hs.buildClassrooms();
 //}%>
 
 

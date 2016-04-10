@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 	<%@ page import="com.scheduler.services.*" %>
 	<%@ page import="com.scheduler.valueObjects.*" %>
@@ -8,16 +7,20 @@
 	<%@ page import="java.util.*" %>
 	<%@ page import="java.sql.*" %>
 
-  <!-- Pulling Bootstrap from Content Delivery Network / Need to download and host myself -->
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-  
+  <%!
+	public void jspInit() {
+	  	HTMLServices.initDB();
+	} %>
   	<% HTMLServices hs = new HTMLServices(session, request, response, out);
 	adminServices as = new adminServices(session, request, response, out);
 	as.directLogin();
 	as.logout();
     %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!-- Pulling Bootstrap from Content Delivery Network / Need to download and host myself -->
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>  
   
 <html>
 <head>

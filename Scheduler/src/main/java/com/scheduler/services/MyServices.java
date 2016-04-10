@@ -4,6 +4,7 @@ import java.util.*;
 import java.sql.*;
 import java.io.*;
 
+import javax.naming.NamingException;
 import javax.servlet.http.*;
 import javax.servlet.jsp.*;
 
@@ -14,12 +15,11 @@ import com.scheduler.jsp.*;
 
 public class MyServices extends baseJSP {
 
-	private dbConnector conn = null;
 	//String semester = session.getAttribute("semester").toString();
 	
 	public MyServices(HttpSession session, HttpServletRequest request, HttpServletResponse response, JspWriter stream) throws Exception {
 		super(session, request, response, stream);
-		conn = new dbConnector();
+		
 	}
 	
 	
@@ -29,15 +29,20 @@ public class MyServices extends baseJSP {
 	
 	
 	public List<Class1> getClasses() throws Exception {
+		Connection conn = null;
+		Statement stmt = null;
 		ResultSet rs = null;
 		List<Class1> list = new ArrayList<Class1>();
 		
 		String semester = session.getAttribute("semester").toString();
 		
 		// Not using '*' because we are not pulling every field
-		rs = conn.runQuery("SELECT classID, classNumber, classSubject, classCatalog, classSection, classCombination, className, classDescription, classAcadGroup, classCapacity, classEnrolled, classDays, classTimeStart, classTimeEnd, classDateStart, classDateEnd, "
-				+ "classInstructFirst, classInstructLast, classRole, classSession, classRoom, classCampus, classMode, classComponent, classCrsAttrVal, classMon, classTues, classWed, classThurs, classFri, classSat FROM " + semester + "classes");
-		
+		String query = "SELECT classID, classNumber, classSubject, classCatalog, classSection, classCombination, className, classDescription, classAcadGroup, classCapacity, classEnrolled, classDays, classTimeStart, classTimeEnd, classDateStart, classDateEnd, "
+				+ "classInstructFirst, classInstructLast, classRole, classSession, classRoom, classCampus, classMode, classComponent, classCrsAttrVal, classMon, classTues, classWed, classThurs, classFri, classSat FROM " + semester + "classes";
+
+		conn = JdbcManager.getConnection();
+		stmt = conn.createStatement();
+		rs = stmt.executeQuery(query);
 		if(rs != null){
 			while(rs.next()){
 				Class1 item = new Class1();
@@ -76,20 +81,27 @@ public class MyServices extends baseJSP {
 				list.add(item);
 			}
 		}
+		JdbcManager.close(rs);
+		JdbcManager.close(stmt);
+		JdbcManager.close(conn);
 		return list;
 	}
 	
 	
 	public List<Classroom> getClassrooms() throws Exception {
+		Connection conn = null;
+		Statement stmt = null;
 		ResultSet rs = null;
 		List<Classroom> list = new ArrayList<Classroom>();
 		
 		String semester = session.getAttribute("semester").toString();
 		
 		//rs = conn.runQuery("SELECT classID, classCapacity, classEnrolled, classRoom FROM classes");
-		rs = conn.runQuery("SELECT roomID, roomCapacity, roomName, roomChairType, roomDeskType, roomBoardType, roomDistLearning, "
-				+ "roomType, roomProjectors FROM " + semester + "classrooms");
-		
+		String query = "SELECT roomID, roomCapacity, roomName, roomChairType, roomDeskType, roomBoardType, roomDistLearning, "
+				+ "roomType, roomProjectors FROM " + semester + "classrooms";
+		conn = JdbcManager.getConnection();
+		stmt = conn.createStatement();
+		rs = stmt.executeQuery(query);		
 		if(rs != null){
 			while(rs.next()){
 				Classroom item = new Classroom();
@@ -106,19 +118,27 @@ public class MyServices extends baseJSP {
 				list.add(item);
 			}
 		}
+		JdbcManager.close(rs);
+		JdbcManager.close(stmt);
+		JdbcManager.close(conn);
 		return list;
 	}
 	
 	public Class1 getClassFromID(int classID) throws Exception {
+		Connection conn = null;
+		Statement stmt = null;
 		ResultSet rs = null;
 		//Class1 list = new Class1();
-		Class1 item = new Class1();
+		Class1 item = null;
 		
 		String semester = session.getAttribute("semester").toString();
 		
-		rs = conn.runQuery("SELECT classID, classNumber, classSubject, classCatalog, classSection, classCombination, className, classDescription, classAcadGroup, classCapacity, classEnrolled, classDays, classTimeStart, classTimeEnd, classDateStart, classDateEnd, "
-				+ "classInstructFirst, classInstructLast, classRoom, classSession, classCampus, classMode, classComponent, classCrsAttrVal, classMon, classTues, classWed, classThurs, classFri, classSat FROM " + semester + "classes WHERE classID = '" + classID +"' ");
-		
+		String query = "SELECT classID, classNumber, classSubject, classCatalog, classSection, classCombination, className, classDescription, classAcadGroup, classCapacity, classEnrolled, classDays, classTimeStart, classTimeEnd, classDateStart, classDateEnd, "
+				+ "classInstructFirst, classInstructLast, classRoom, classSession, classCampus, classMode, classComponent, classCrsAttrVal, classMon, classTues, classWed, classThurs, classFri, classSat FROM " + semester + "classes WHERE classID = '" + classID +"' ";
+
+		conn = JdbcManager.getConnection();
+		stmt = conn.createStatement();
+		rs = stmt.executeQuery(query);
 		
 		if(rs != null){
 			while(rs.next()){
@@ -158,21 +178,28 @@ public class MyServices extends baseJSP {
 				//item.setBoardType(rs.getString("boardType"));
 				//item.setDeskType(rs.getString("deskType"));
 				//list.add(item);	
-			}	
-			return item;
+			}
 		}
-		return null;
+
+		JdbcManager.close(rs);
+		JdbcManager.close(stmt);
+		JdbcManager.close(conn);
+		return item;
 	}
 	
 	
 	public Classroom getClassroomFromID(int classroomID) throws Exception {
+		Connection conn = null;
+		Statement stmt = null;
 		ResultSet rs = null;
 		//Class1 list = new Class1();
-		Classroom item = new Classroom();
+		Classroom item = null;
 		String semester = session.getAttribute("semester").toString();
 		
-		rs = conn.runQuery("SELECT * FROM " + semester + "classrooms WHERE roomID = '" + classroomID +"' ");
-		
+		String query = "SELECT * FROM " + semester + "classrooms WHERE roomID = '" + classroomID +"' ";
+		conn = JdbcManager.getConnection();
+		stmt = conn.createStatement();
+		rs = stmt.executeQuery(query);
 		if(rs != null){
 			while(rs.next()){
 				item = new Classroom();
@@ -187,91 +214,149 @@ public class MyServices extends baseJSP {
 				item.setRoomDistLearning(rs.getString("roomDistLearning"));
 				item.setRoomProjectors(rs.getInt("roomProjectors"));
 				//list.add(item);	
-			}	
-			return item;
+			}
 		}
-		return null;
+		JdbcManager.close(rs);
+		JdbcManager.close(stmt);
+		JdbcManager.close(conn);
+		return item;
 	}
 	
 	
 	public int deleteClass(int classID){
+		Connection conn = null;
+		Statement stmt = null;
+		int rs = 0;
 		
 		String semester = session.getAttribute("semester").toString();
 		
 		String query = "DELETE FROM " + semester + "classes WHERE classID='" + classID + "' ";
 		
 		try {
-			return conn.runUpdate(query);
+			conn = JdbcManager.getConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeUpdate(query);
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} catch (NamingException e){
+			e.printStackTrace();
 		}
-		return 0;
+		finally {
+			JdbcManager.close(stmt);
+			JdbcManager.close(conn);	
+		}
+		return rs;
 	}
 	
 	
 	
 	public int deleteClassroom(int roomID){
-		
+		Connection conn = null;
+		Statement stmt = null;
+		int rs = 0;
 		String semester = session.getAttribute("semester").toString();
 		
 		String query = "DELETE FROM " + semester + "classrooms WHERE roomID='" + roomID + "' ";
 		
 		try {
-			return conn.runUpdate(query);
+			conn = JdbcManager.getConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeUpdate(query);
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} catch (NamingException e){
+			e.printStackTrace();
 		}
-		return 0;
+		finally {
+			JdbcManager.close(stmt);
+			JdbcManager.close(conn);	
+		}
+		return rs;
 	}
 	
 
 	public int deleteDuplicates(){
+		Connection conn = null;
+		Statement stmt = null;
+		int rs = 0;
 		
 		String semester = session.getAttribute("semester").toString();
 		
 		String query = "DELETE FROM " + semester + "classrooms WHERE roomID NOT IN (SELECT * FROM (SELECT MIN(n.roomID) FROM classrooms n GROUP BY n.roomName) x)";
 		
 		try {
-			return conn.runUpdate(query);
+			conn = JdbcManager.getConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeUpdate(query);
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} catch (NamingException e){
+			e.printStackTrace();
 		}
-		return 0;
+		finally {
+			JdbcManager.close(stmt);
+			JdbcManager.close(conn);	
+		}
+		return rs;
 	}
 	
 	
 	public int clearClasses() {
+		Connection conn = null;
+		Statement stmt = null;
+		int rs = 0;
 		
 		String semester = session.getAttribute("semester").toString();
 		
 		String query = "truncate " + semester + "classes;";
 		
 		try {
-			return conn.runUpdate(query);
+			conn = JdbcManager.getConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeUpdate(query);
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} catch (NamingException e){
+			e.printStackTrace();
 		}
-		
-		return 0;
+		finally {
+			JdbcManager.close(stmt);
+			JdbcManager.close(conn);	
+		}
+		return rs;
 	}
 	
 	
 	public int clearClassrooms()
 	{
+		Connection conn = null;
+		Statement stmt = null;
+		int rs = 0;
+		
 		String semester = session.getAttribute("semester").toString();
 		
 		String query = "truncate " + semester + "classrooms;";
 		
 		try {
-			return conn.runUpdate(query);
+			conn = JdbcManager.getConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeUpdate(query);
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} catch (NamingException e){
+			e.printStackTrace();
 		}
-		
-		return 0;
+		finally {
+			JdbcManager.close(stmt);
+			JdbcManager.close(conn);	
+		}
+		return rs;
 	}
 	
 	public int addClass(Class1 c) throws SQLException {
+		Connection conn = null;
+		Statement stmt = null;
+		int rs = 0;
 		
 		String semester = session.getAttribute("semester").toString();
 		
@@ -303,12 +388,28 @@ public class MyServices extends baseJSP {
 		query += "'" + c.getClassCrsAttrVal() + "', ";
 		query += "'" + c.getClassComponent() + "'";
 		query += ")";		
-			return conn.runUpdate(query);
 
+		try {
+			conn = JdbcManager.getConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeUpdate(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NamingException e){
+			e.printStackTrace();
+		}
+		finally {
+			JdbcManager.close(stmt);
+			JdbcManager.close(conn);	
+		}
+		return rs;
 	}
 	
 	
 	public int addClassroom(Classroom cr) throws SQLException {
+		Connection conn = null;
+		Statement stmt = null;
+		int rs = 0;
 		
 		String semester = session.getAttribute("semester").toString();
 				
@@ -318,12 +419,29 @@ public class MyServices extends baseJSP {
 		String query = "INSERT INTO " + semester + "classrooms (roomCapacity, roomName) VALUES( ";
 		query += "'" + cr.getRoomCapacity() + "', ";
 		query += "'" + cr.getRoomName() + "'";
-		query += ")";		
-			return conn.runUpdate(query);
+		query += ")";
+		
+		try {
+			conn = JdbcManager.getConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeUpdate(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NamingException e){
+			e.printStackTrace();
+		}
+		finally {
+			JdbcManager.close(stmt);
+			JdbcManager.close(conn);	
+		}
+		return rs;
 	}
 	
 
 	public int updateClass(Class1 c) throws SQLException {
+		Connection conn = null;
+		Statement stmt = null;
+		int rs = 0;
 		
 		String semester = session.getAttribute("semester").toString();
 		
@@ -352,22 +470,48 @@ public class MyServices extends baseJSP {
 				+ " classComponent=\"" + c.getClassComponent() + "\" "
 				+ " WHERE classID=\"" + c.getClassID() + "\"";				
 		//String query = "UPDATE `classes` SET classNbr=\"" + c.getClassNbr() + "\" WHERE class_id=\"" + c.getClassID() + "\"";	
-			return conn.runUpdate(query);
+		try {
+			conn = JdbcManager.getConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeUpdate(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NamingException e){
+			e.printStackTrace();
+		}
+		finally {
+			JdbcManager.close(stmt);
+			JdbcManager.close(conn);
+		}
+		return rs;
 	}
 	
 	
 	public int getClassroomCapacity(String cr) throws SQLException {
+		Connection conn = null;
+		Statement stmt = null;
 		ResultSet rs = null;
 		int cap = 0;
 		
 		String semester = session.getAttribute("semester").toString();
-		
-		rs = conn.runQuery("SELECT roomCapacity FROM " + semester + "classrooms WHERE roomName = '" + cr +"' ");
-		
-		if(rs != null){
-			while(rs.next()){
-				cap = rs.getInt("roomCapacity");
+		try {
+			conn = JdbcManager.getConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery("SELECT roomCapacity FROM " + semester + "classrooms WHERE roomName = '" + cr +"' ");
+			
+			if(rs != null){
+				while(rs.next()){
+					cap = rs.getInt("roomCapacity");
+				}
 			}
+		}
+		catch (NamingException e){
+			e.printStackTrace();
+		}
+		finally{
+			JdbcManager.close(rs);
+			JdbcManager.close(stmt);
+			JdbcManager.close(conn);
 		}
 		return cap;
 		
@@ -375,6 +519,9 @@ public class MyServices extends baseJSP {
 	
 	
 	public int updateClassroom(Classroom cr) throws SQLException {
+		Connection conn = null;
+		Statement stmt = null;
+		int rs = 0;
 		
 		String semester = session.getAttribute("semester").toString();
 		
@@ -389,12 +536,28 @@ public class MyServices extends baseJSP {
 				+ " roomDistLearning=\"" + cr.getRoomDistLearning() + "\", "
 				+ " roomProjectors=\"" + cr.getRoomProjectors() + "\" "
 				+ " WHERE roomID=\"" + cr.getRoomID() + "\"";				
-			return conn.runUpdate(query);
+		try {
+			conn = JdbcManager.getConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeUpdate(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NamingException e){
+			e.printStackTrace();
+		}
+		finally {
+			JdbcManager.close(stmt);
+			JdbcManager.close(conn);
+		}
+		return rs;
 	}
 	
 	
 	
 	public int updateClassDays(Class1 c) throws SQLException {
+		Connection conn = null;
+		Statement stmt = null;
+		int rs = 0;
 		
 		String semester = session.getAttribute("semester").toString();
 		
@@ -408,7 +571,20 @@ public class MyServices extends baseJSP {
 				+ " classSat=\"" + c.getClassSat() + "\" "
 				+ " WHERE classID=\"" + c.getClassID() + "\"";				
 		//String query = "UPDATE `classes` SET classNbr=\"" + c.getClassNbr() + "\" WHERE class_id=\"" + c.getClassID() + "\"";	
-			return conn.runUpdate(query);
+		try {
+			conn = JdbcManager.getConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeUpdate(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NamingException e){
+			e.printStackTrace();
+		}
+		finally {
+			JdbcManager.close(stmt);
+			JdbcManager.close(conn);
+		}
+		return rs;
 	}
 	
 
@@ -419,6 +595,9 @@ public class MyServices extends baseJSP {
 	
 	
 	public int addAccount(User set){
+		Connection conn = null;
+		Statement stmt = null;
+		int rs = 0;
 		
 		String query = "INSERT INTO users (userName, userPassword, userFirst, userLast, userEmail, userAdmin) VALUES( ";
 		query += "'" + set.getUserName() + "', ";
@@ -430,108 +609,169 @@ public class MyServices extends baseJSP {
 		query += ")";
 		
 		try {
-			return conn.runUpdate(query);
+			conn = JdbcManager.getConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeUpdate(query);
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} catch (NamingException e){
+			e.printStackTrace();
 		}
-		return 0;
+		finally {
+			JdbcManager.close(stmt);
+			JdbcManager.close(conn);
+		}
+		return rs;
 	}
 	
 	
 	public List<User> getUsers() throws Exception {
+		Connection conn = null;
+		Statement stmt = null;
 		ResultSet rs = null;
 		List<User> list = new ArrayList<User>();
 		
-		rs = conn.runQuery("SELECT userName, userFirst, userLast, userEmail, userAdmin FROM users");
-		
-		if(rs != null){
-			while(rs.next()){
-				User item = new User();
-				//System.out.println(rs.getString("username"));
-				item.setUserName(rs.getString("userName"));
-				item.setUserFirst(rs.getString("userFirst"));
-				item.setUserLast(rs.getString("userLast"));
-				item.setUserEmail(rs.getString("userEmail"));
-				item.setUserAdmin(rs.getInt("userAdmin"));
-				list.add(item);
+		try{
+			conn = JdbcManager.getConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery("SELECT userName, userFirst, userLast, userEmail, userAdmin FROM users");
+			
+			if(rs != null){
+				while(rs.next()){
+					User item = new User();
+					//System.out.println(rs.getString("username"));
+					item.setUserName(rs.getString("userName"));
+					item.setUserFirst(rs.getString("userFirst"));
+					item.setUserLast(rs.getString("userLast"));
+					item.setUserEmail(rs.getString("userEmail"));
+					item.setUserAdmin(rs.getInt("userAdmin"));
+					list.add(item);
+				}
 			}
+		}
+		finally {
+			JdbcManager.close(rs);
+			JdbcManager.close(stmt);
+			JdbcManager.close(conn);
 		}
 		return list;
 	}
 	
 	
 	public List<AccRequest> getAccRequests() throws Exception {
+		Connection conn = null;
+		Statement stmt = null;
 		ResultSet rs = null;
 		List<AccRequest> list = new ArrayList<AccRequest>();
-		
-		rs = conn.runQuery("SELECT fName, lName, email, username, pass, reasoning FROM accRequests");
-		
-		if(rs != null){
-			while(rs.next()){
-				AccRequest item = new AccRequest();
-				System.out.println(rs.getString("username"));
-				item.setFName(rs.getString("fName"));
-				item.setLName(rs.getString("lName"));
-				item.setEmail(rs.getString("email"));
-				item.setUsername(rs.getString("username"));
-				item.setPass(rs.getString("pass"));
-				item.setReasoning(rs.getString("reasoning"));
-				list.add(item);
+		try {
+			conn = JdbcManager.getConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery("SELECT fName, lName, email, username, pass, reasoning FROM accRequests");
+			
+			if(rs != null){
+				while(rs.next()){
+					AccRequest item = new AccRequest();
+					System.out.println(rs.getString("username"));
+					item.setFName(rs.getString("fName"));
+					item.setLName(rs.getString("lName"));
+					item.setEmail(rs.getString("email"));
+					item.setUsername(rs.getString("username"));
+					item.setPass(rs.getString("pass"));
+					item.setReasoning(rs.getString("reasoning"));
+					list.add(item);
+				}
 			}
+		}
+		finally{
+			JdbcManager.close(rs);
+			JdbcManager.close(stmt);
+			JdbcManager.close(conn);
 		}
 		return list;
 	}
 	
 	
 	public int deleteAccount (String username) throws Exception {
+		Connection conn = null;
+		Statement stmt = null;
+		int rs = 0;
 		
 		String query = "DELETE FROM users WHERE userName='" +  username +"' ";
 		
 		try {
-			return conn.runUpdate(query);
+			conn = JdbcManager.getConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeUpdate(query);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return 0;
+		finally{
+			JdbcManager.close(stmt);
+			JdbcManager.close(conn);
+		}
+		return rs;
 	}
 	
 	
 	public boolean validateLogin(String user, String pass) throws Exception {
 			
+		Connection conn = null;
+		Statement stmt = null;
 		ResultSet rs = null;
-		
+		boolean retval = false;
 		String query = "SELECT userName FROM users WHERE userName='" + user + "' AND userPassword='" + pass + "'";
 		
-		rs = conn.runQuery(query);
+		try {
+			conn = JdbcManager.getConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(query);
 		
-		if(rs.next()){
-			return true;
-		}else{
-			return false;
+			retval = rs.next();
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
-
-
+		finally{
+			JdbcManager.close(stmt);
+			JdbcManager.close(conn);
+		}
+		return retval;
 	}
 	
 	public boolean adminStatus(String user) throws Exception {
 		
+		Connection conn = null;
+		Statement stmt = null;
 		ResultSet rs = null;
-		
+		boolean retval = false;
 		String query = "SELECT userAdmin FROM users WHERE userName='" + user + "' ";		
-		rs = conn.runQuery(query);
+		try {
+			conn = JdbcManager.getConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(query);
+		
 		
 		if(rs.next()){
 			if(rs.getInt("userAdmin") == 1){
-				return true;
+				retval = true;
 			}
-		}	
-		return false;
+		}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally{
+			JdbcManager.close(stmt);
+			JdbcManager.close(conn);
+		}
+		return retval;
 	}
 	
 
 	
 	public int insertAccRequest(AccRequest ar){
-					
+		Connection conn = null;
+		Statement stmt = null;
+		int rs = 0;
+		
 		String query = "INSERT INTO accRequests (fName, lName, email, username, pass, reasoning) VALUES ( ";
 		query += "'" + ar.getFName() + "', ";
 		query += "'" + ar.getLName() + "', ";
@@ -542,26 +782,46 @@ public class MyServices extends baseJSP {
 		query += ")";
 		
 		try {
-			return conn.runUpdate(query);
+			conn = JdbcManager.getConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeUpdate(query);
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} catch (NamingException e){
+			e.printStackTrace();
 		}
-		return 0;
+		finally {
+			JdbcManager.close(stmt);
+			JdbcManager.close(conn);
+		}
+		return rs;
 	}
 	
 	
 	public int deleteAccRequest(String username) throws Exception {
+		Connection conn = null;
+		Statement stmt = null;
+		int rs = 0;
 		
 		String query = "DELETE FROM accRequests WHERE username='" + username +"' ";
 		
 		try {
-			return conn.runUpdate(query);
+			conn = JdbcManager.getConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeUpdate(query);
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} catch (NamingException e){
+			e.printStackTrace();
 		}
-		return 0;
+		finally {
+			JdbcManager.close(stmt);
+			JdbcManager.close(conn);
+		}
+		return rs;
 	}
 	
-	
-	
+	public static void initDB(){
+		
+	}
 }

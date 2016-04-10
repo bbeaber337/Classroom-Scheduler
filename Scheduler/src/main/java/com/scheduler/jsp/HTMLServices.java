@@ -440,4 +440,8 @@ public class HTMLServices extends baseJSP {
 		}
 		buildWeekJSON(returnList);
 	}
+	
+	public static void initDB(){
+		MyServices.initDB();
+	}
 }

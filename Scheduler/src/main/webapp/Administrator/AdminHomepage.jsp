@@ -42,46 +42,9 @@
 	//Always going to redirct unless current session key equals the adminKey
 	//Even if this is set to the userKey the page will NOT be displayed
 	if(as.validateSemester()){
-		System.out.print(" Semester Choosen\n");%>
-		<%@ include file="/WEB-INF/AdminMenu.jspf" %>
-	<%} else {%>
-	<!--  Start Header -->
-	<nav class="navbar navbar-inverse navbar-fixed-top">
-       <div class="container">
-           <div class="navbar-header">
-               <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                   <span class="sr-only">Toggle navigation</span>
-                   <span class="icon-bar"></span>
-                   <span class="icon-bar"></span>
-                   <span class="icon-bar"></span>
-               </button>
-               <a class="navbar-brand" style="float:none" href="AdminHomepage.jsp">Administrator Homepage</a>
-         </div>
-         
-         <div id="navbar" class="collapse navbar-collapse">
-             <ul class="nav navbar-nav">                                       
-
-                 <li><a href="viewRequests.jsp">Create Account</a></li>
-                 
-                 <li class="dropdown">
-                 <a class="dropdown-toggle" aria-haspopup="true"
-                 role="button" data-toggle="dropdown">View<span class="caret"></span></a>
-                 <ul class="dropdown-menu">
-                 <li><a href="viewUsers.jsp">Users</a></li>
-                 </ul>
-                 </li>        
-                 
-             </ul>
-             <ul class="nav navbar-nav pull-right">
-                 <li><a href="../User/LandingPage.jsp?logout=true">Logout</a></li>
-             </ul>
-         </div>
-         
-     </div>
- </nav>
- </br></br></br></br>
-	<!--  End Header -->
-	<%} %>
+		System.out.print(" Semester Choosen\n");
+	} %>
+	<%@ include file="/WEB-INF/AdminMenu.jspf" %>
 	
 	
 <div class="container-fluid">
