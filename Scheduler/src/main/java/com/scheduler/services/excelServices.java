@@ -150,9 +150,9 @@ public class excelServices extends baseJSP {
 			dataRow.createCell(9).setCellValue(item.getClassCapacity());
 			dataRow.createCell(10).setCellValue(item.getClassDays());
 			Cell cellTStart = dataRow.createCell(11);
+			cellTStart.setCellType(Cell.CELL_TYPE_NUMERIC);
 			cellTStart.setCellValue(item.getClassTimeStart());
 			cellTStart.setCellStyle(time);
-			cellTStart.setCellType(Cell.CELL_TYPE_NUMERIC);
 			Cell cellTEnd = dataRow.createCell(12);
 			cellTEnd.setCellType(Cell.CELL_TYPE_NUMERIC);
 			cellTEnd.setCellValue(item.getClassTimeEnd());

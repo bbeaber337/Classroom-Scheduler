@@ -24,7 +24,7 @@
 		adminServices as = new adminServices(session, request, response, out);
 		as.logout();
 		as.selectSemester();
-		es.exportData();
+		
 	%>
 </head>
 <body>
@@ -130,16 +130,7 @@
 	</div>
 </div><br><br><br>
 
-<div>
-<form role="form" action='AdminHomepage.jsp' method='post'>
-			<input type="hidden" name="export" value="export">
-				<div class="col-md-4">
-					<button type="submit" class="btn btn-default center-block" value="export">
-						Download Data
-					</button>
-				</div>
-				</form>
-</div>
+
 
 
 </body>

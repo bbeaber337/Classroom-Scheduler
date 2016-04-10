@@ -15,6 +15,7 @@
 
                  <li><a href="viewRequests.jsp">Create Account</a></li>
                  <li><a href="Upload.jsp">Upload Schedule</a></li>
+                 <li><a href="Download.jsp">Download Schedule</a></li>
                  
                  <li class="dropdown">
                  <a class="dropdown-toggle" aria-haspopup="true"
