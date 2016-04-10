@@ -3,6 +3,7 @@ package com.scheduler.services;
 import java.io.*;
 import java.sql.*;
 import java.util.*;
+import java.util.Date;
 import java.text.*;
 import java.text.SimpleDateFormat;
 
@@ -124,17 +125,21 @@ public class excelServices extends baseJSP {
 		//Row counter
 		int row = 1;
 
-		//SimpleDateFormat sdfIn = new SimpleDateFormat("h:mm:ss AM/PM");
+		SimpleDateFormat sdfIn = new SimpleDateFormat("h:mm:ss a");
+		SimpleDateFormat sdfDate = new SimpleDateFormat("M/d/yyyy");
 		
 		for(Class1 item : c){
 		
 			int cap = ms.getClassroomCapacity(item.getClassRoom());
-			//Long startTime = sdfIn.parse(item.getClassTimeStart()).getTime();
-			//Long endTime = sdfIn.parse(item.getClassTimeEnd()).getTime();
+			Date startTime = sdfIn.parse(item.getClassTimeStart());
+			Date endTime = sdfIn.parse(item.getClassTimeEnd());
+			Date startDate = sdfDate.parse(item.getClassDateStart());
+			Date endDate = sdfDate.parse(item.getClassDateEnd());
 			
 			CellStyle time = wb.createCellStyle();
 			time.setDataFormat(createHelper.createDataFormat().getFormat("h:mm:ss AM/PM"));
-			
+			CellStyle date = wb.createCellStyle();
+			date.setDataFormat(createHelper.createDataFormat().getFormat("M/d/yyyy"));
 			
 			Row dataRow = classSheet.createRow(row);
 			
@@ -149,13 +154,15 @@ public class excelServices extends baseJSP {
 			dataRow.createCell(8).setCellValue(item.getClassEnrolled());
 			dataRow.createCell(9).setCellValue(item.getClassCapacity());
 			dataRow.createCell(10).setCellValue(item.getClassDays());
+			
 			Cell cellTStart = dataRow.createCell(11);
-			cellTStart.setCellType(Cell.CELL_TYPE_NUMERIC);
-			cellTStart.setCellValue(item.getClassTimeStart());
+			cellTStart.setCellValue(startTime);
 			cellTStart.setCellStyle(time);
+			
 			Cell cellTEnd = dataRow.createCell(12);
-			cellTEnd.setCellType(Cell.CELL_TYPE_NUMERIC);
-			cellTEnd.setCellValue(item.getClassTimeEnd());
+			cellTEnd.setCellValue(endTime);
+			cellTEnd.setCellStyle(time);
+			
 			cellTEnd.setCellStyle(time);
 			dataRow.createCell(13).setCellValue(item.getClassRoom());
 			dataRow.createCell(14).setCellValue(cap);
