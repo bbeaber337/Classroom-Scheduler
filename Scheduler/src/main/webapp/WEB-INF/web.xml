@@ -7,14 +7,4 @@
     <servlet-name>LandingPage</servlet-name>
     <url-pattern>/</url-pattern>
   </servlet-mapping>
-  <servlet>
-    <description></description>
-    <display-name>Homepage</display-name>
-    <servlet-name>Homepage</servlet-name>
-    <servlet-class>com.scheduler.jsp.Homepage</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>Homepage</servlet-name>
-    <url-pattern>/Homepage</url-pattern>
-  </servlet-mapping>
 </web-app>

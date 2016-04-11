@@ -9,6 +9,7 @@ import javax.servlet.http.*;
 import javax.servlet.jsp.*;
 
 import com.scheduler.dbconnector.*;
+import com.scheduler.dbconnector.JdbcManager;
 import com.scheduler.valueObjects.*;
 import com.scheduler.jsp.*;
 
