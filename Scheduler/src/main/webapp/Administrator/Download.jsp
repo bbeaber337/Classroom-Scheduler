@@ -21,6 +21,7 @@
 		HTMLServices hs = new HTMLServices(session, request, response, out); 
 		adminServices as = new adminServices(session, request, response, out);
 		excelServices es = new excelServices(session, request, response, out);
+		wordServices ws = new wordServices(session, request, response, out);
 	%>
 </head>
 <body>
@@ -42,6 +43,7 @@
 		as.redirect("AdminHomepage.jsp");
 	}
 	es.exportData();
+	ws.exportData();
 	%>
 <!-- End Validation -->
 
@@ -62,7 +64,7 @@
 </div>
 </br></br></br>
 
-
+<div>
 <div>
 <form role="form" action='Download.jsp' method='post'>
 			<input type="hidden" name="export" value="export">
@@ -73,7 +75,17 @@
 				</div>
 				</form>
 </div>
-
+<div>
+<form role="form" action='Download.jsp' method='post'>
+			<input type="hidden" name="exportWord" value="exportWord">
+				<div class="col-md-4">
+					<button type="submit" class="btn btn-default center-block" value="exportWord">
+						Word Download
+					</button>
+				</div>
+				</form>
+</div>
+</div>
 
 
 </body>
