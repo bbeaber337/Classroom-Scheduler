@@ -587,8 +587,188 @@ public class MyServices extends baseJSP {
 		}
 		return rs;
 	}
-	
+// --------------------------------------------------------------------------------------------
+//								INSTRUCTOR FUNCTIONS
+//--------------------------------------------------------------------------------------------
+//addIntructor
+	public int addInstructor(Instructor instructor) throws SQLException {
+		Connection conn = null;
+		Statement stmt = null;
+		int rs = 0;
+		
+		String semester = session.getAttribute("semester").toString();
+				
+		List<Instructor> list = new ArrayList<Instructor>();
 
+
+		String query = "INSERT INTO " + semester + "instructors (instructFirst, instructLast) VALUES( ";
+		query += "'" + instructor.getNameFirst() + "', ";
+		query += "'" + instructor.getNameLast() + "'";
+		query += ")";
+		
+		try {
+			conn = JdbcManager.getConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeUpdate(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NamingException e){
+			e.printStackTrace();
+		}
+		finally {
+			JdbcManager.close(stmt);
+			JdbcManager.close(conn);	
+		}
+		return rs;
+	}
+//getInstructors
+	public List<Instructor> getInstructors() throws Exception {
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		List<Instructor> list = new ArrayList<Instructor>();
+		
+		String semester = session.getAttribute("semester").toString();
+		
+		//rs = conn.runQuery("SELECT classID, classCapacity, classEnrolled, classRoom FROM classes");
+		String query = "SELECT * FROM " + semester + "instructors";
+		conn = JdbcManager.getConnection();
+		stmt = conn.createStatement();
+		rs = stmt.executeQuery(query);		
+		if(rs != null){
+			while(rs.next()){
+				Instructor item = new Instructor();
+				//System.out.println(rs.getString("name"));
+				item.setID(rs.getInt("instructID"));
+				item.setNameFirst(rs.getString("instructFirst"));
+				item.setNameLast(rs.getString("instructLast"));
+				item.setPrefChair(rs.getString("insructChair"));
+				item.setPrefDesk(rs.getString("instructDesk"));
+				item.setPrefBoard(rs.getString("instructBoard"));
+				item.setComment(rs.getString("instructComment"));
+				list.add(item);
+			}
+		}
+		JdbcManager.close(rs);
+		JdbcManager.close(stmt);
+		JdbcManager.close(conn);
+		return list;
+	}
+//getIntructorByID
+	public Instructor getInstructorFromID(int inctructID) throws Exception {
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		//Class1 list = new Class1();
+		Instructor item = null;
+		String semester = session.getAttribute("semester").toString();
+		
+		String query = "SELECT * FROM " + semester + "instructors WHERE instructID = '" + inctructID +"' ";
+		conn = JdbcManager.getConnection();
+		stmt = conn.createStatement();
+		rs = stmt.executeQuery(query);
+		if(rs != null){
+			while(rs.next()){
+				item = new Instructor();
+				item.setID(rs.getInt("instructID"));
+				System.out.printf("\n\nInstructor ID from MyServices: %d\n\n", item.getID());
+				item.setNameFirst(rs.getString("instructFirst"));
+				item.setNameLast(rs.getString("instructLast"));
+				item.setPrefBoard(rs.getString("instructBoard"));
+				item.setPrefChair(rs.getString("instructChair"));
+				item.setPrefDesk(rs.getString("instructDesk"));
+				item.setComment(rs.getString("instructComment"));
+				//list.add(item);	
+			}
+		}
+		JdbcManager.close(rs);
+		JdbcManager.close(stmt);
+		JdbcManager.close(conn);
+		return item;
+	}
+//updateIntructor
+	public int updateInstructor(Instructor instructor) throws SQLException {
+		Connection conn = null;
+		Statement stmt = null;
+		int rs = 0;
+		
+		String semester = session.getAttribute("semester").toString();
+		
+		System.out.printf("\n\n\nAdding Instructor: %d\n\n\n", instructor.getID());
+		String query = "UPDATE `" + semester + "instructors` SET "
+				+ " instructFirst=\"" + instructor.getNameFirst() + "\", "
+				+ " instructLast=\"" + instructor.getNameLast() + "\", "
+				+ " instructBoard=\"" + instructor.getPrefBoard() + "\", "
+				+ " instructChair=\"" + instructor.getPrefChair() + "\", "
+				+ " instructDesk=\"" + instructor.getPrefDesk() + "\", "
+				+ " instructComment=\"" + instructor.getComment() + "\", "
+				+ " WHERE instructID=\"" + instructor.getID() + "\"";				
+		try {
+			conn = JdbcManager.getConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeUpdate(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NamingException e){
+			e.printStackTrace();
+		}
+		finally {
+			JdbcManager.close(stmt);
+			JdbcManager.close(conn);
+		}
+		return rs;
+	}
+//deleteIntructor
+	public int deleteInstructor(int instructID){
+		Connection conn = null;
+		Statement stmt = null;
+		int rs = 0;
+		String semester = session.getAttribute("semester").toString();
+		
+		String query = "DELETE FROM " + semester + "instructors WHERE instructID='" + instructID + "' ";
+		
+		try {
+			conn = JdbcManager.getConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeUpdate(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NamingException e){
+			e.printStackTrace();
+		}
+		finally {
+			JdbcManager.close(stmt);
+			JdbcManager.close(conn);	
+		}
+		return rs;
+	}
+	
+// clearInstructors
+	public int clearInstructors()
+	{
+		Connection conn = null;
+		Statement stmt = null;
+		int rs = 0;
+		
+		String semester = session.getAttribute("semester").toString();
+		
+		String query = "truncate " + semester + "Instructors;";
+		
+		try {
+			conn = JdbcManager.getConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeUpdate(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NamingException e){
+			e.printStackTrace();
+		}
+		finally {
+			JdbcManager.close(stmt);
+			JdbcManager.close(conn);	
+		}
+		return rs;
+	}
 	
 // --------------------------------------------------------------------------------------------
 //								USER FUNCTIONS

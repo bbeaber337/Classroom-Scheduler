@@ -209,6 +209,7 @@ public class excelServices extends baseJSP {
 		//Need to pull file path from uploaded file
 		List<Class1> classList = new ArrayList<Class1>();
 		List<Classroom> classroomList = new ArrayList<Classroom>();
+		List<Instructor> instructorList = new ArrayList<Instructor>();
 		InputStream fis = null;
 		int count = 0;
 		
@@ -245,6 +246,8 @@ public class excelServices extends baseJSP {
 			
 			//Clear all classroom information
 			ms.clearClassrooms();
+			
+			ms.clearInstructors();
 			try {
 				List<FileItem> items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
 				for (FileItem item: items){
@@ -281,6 +284,7 @@ public class excelServices extends baseJSP {
 					count++;
 					Class1 c = new Class1();
 					Classroom cr = new Classroom();
+					Instructor instructor = new Instructor();
 					Row row = (Row) rowIterator.next();
 					Iterator cellIterator = row.cellIterator();
 					
@@ -332,9 +336,11 @@ public class excelServices extends baseJSP {
 								}
 								if(cell.getColumnIndex() == 16){
 									c.setClassInstructFirst(cell.getStringCellValue());
+									instructor.setNameFirst(cell.getStringCellValue());
 								}
 								if(cell.getColumnIndex() == 15){
 									c.setClassInstructLast(cell.getStringCellValue());
+									instructor.setNameLast(cell.getStringCellValue());
 								}
 								if(cell.getColumnIndex() == 17){
 									c.setClassRole(cell.getStringCellValue());
@@ -405,6 +411,7 @@ public class excelServices extends baseJSP {
 					}
 					cr.setRoomID(ms.addClassroom(cr));
 					c.setClassID(ms.addClass(c));
+					instructor.setID(ms.addInstructor(instructor));
 					
 					//Set Mon-Sat attributes
 					as.setDays(c);
@@ -412,6 +419,7 @@ public class excelServices extends baseJSP {
 					//End row, add class and classroom
 					classList.add(c);
 					classroomList.add(cr);
+					instructorList.add(instructor);
 				  }
 				  }
 			}

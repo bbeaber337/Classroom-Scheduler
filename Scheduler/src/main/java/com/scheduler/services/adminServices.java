@@ -15,13 +15,11 @@ import javax.servlet.jsp.JspWriter;
 import com.scheduler.services.*;
 import com.scheduler.valueObjects.*;
 import com.scheduler.jsp.*;
-import com.scheduler.dbconnector.*;
 
 
 
 public class adminServices extends baseJSP {
 	
-	private dbConnector conn = null;
 	private MyServices ms = null;
 	private HTMLServices hs = null;
 	private Object adminKey = "abcWST6kks76bE73MmAA72Z3abc";
@@ -33,7 +31,6 @@ public class adminServices extends baseJSP {
 		super(session, request, response, stream);
 		ms = new MyServices(session, request, response, stream);
 		hs = new HTMLServices(session, request, response, stream);
-	    conn = new dbConnector();
 	}
 	
 	
@@ -210,8 +207,54 @@ public class adminServices extends baseJSP {
 		}
 		
 	}
-	
-	
+// --------------------------------------------------------------------------------------------
+//										INSTRUCTOR FUNCTIONS
+//--------------------------------------------------------------------------------------------
+	//editInstructor
+	public boolean editInstructor() throws Exception {
+		
+		int instructorID = 0;
+		
+		if(request.getParameter("editIntructor") != null){
+			//Need to convert getParameter to an integer
+			instructorID = Integer.parseInt(request.getParameter("editInstructor"));
+			hs.buildEditClassroom(instructorID);	
+			return true;
+		}
+		return false;
+	}
+	//submitInstructorEdit
+	public void submitInstructorEdit() throws Exception {
+		
+		if(request.getParameter("submitInstructorEdit") != null){
+
+			
+			Instructor instructor = new Instructor();
+			
+			System.out.printf("\n\nInstructor ID: %d\n\n\n",Integer.parseInt(request.getParameter("instructID")) );
+			
+			instructor.setID(Integer.parseInt(request.getParameter("instructID")));
+			instructor.setNameFirst(request.getParameter("instructFirst"));	
+			instructor.setNameLast(request.getParameter("instructLast"));
+			instructor.setPrefChair(request.getParameter("prefChairType"));
+			instructor.setPrefDesk(request.getParameter("prefDeskType"));
+			instructor.setPrefBoard(request.getParameter("prefBoardType"));
+			instructor.setComment(request.getParameter("comment"));	
+			
+			ms.updateInstructor(instructor);
+		}
+		
+	}
+	//deleteInstructor
+	public void deleteInstructor() throws Exception {
+
+		int instructorID = 0;
+		if (request.getParameter("deleteInstrctor") != null) {
+			// Set the ClassID to the class to be removed
+			instructorID = Integer.parseInt(request.getParameter("deleteInstructor"));
+			ms.deleteClassroom(instructorID);
+		}
+	}
 // --------------------------------------------------------------------------------------------
 // 										USER FUNCTIONS
 // --------------------------------------------------------------------------------------------
