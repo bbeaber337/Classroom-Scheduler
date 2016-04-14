@@ -56,25 +56,25 @@
 			var class1 = json.data[i];
 			var row = $('#WeekTable > tbody').find('tr:eq('+class1.Start.toString()+')');
 			if (class1.Sun !== 0){
-				row.find('td:eq(0)').append(class1.Class_Number + " " + class1.Time + "<br>");
+				row.find('td:eq(0)').append("<a href=\"viewClasses.jsp?editClass="+ class1.Class_Id + "\">" + class1.Class_Number + " " + class1.Time + "</a><br>");
 			}
 			if (class1.Mon == 1){
-				row.find('td:eq(1)').append(class1.Class_Number + " " + class1.Time + "<br>");
+				row.find('td:eq(1)').append("<a href=\"viewClasses.jsp?editClass="+ class1.Class_Id + "\">" +class1.Class_Number + " " + class1.Time + "</a><br>");
 			}
 			if (class1.Tues == 1){
-				row.find('td:eq(2)').append(class1.Class_Number + " " + class1.Time + "<br>");
+				row.find('td:eq(2)').append("<a href=\"viewClasses.jsp?editClass="+ class1.Class_Id + "\">" +class1.Class_Number + " " + class1.Time + "</a><br>");
 			}
 			if (class1.Wed == 1){
-				row.find('td:eq(3)').append(class1.Class_Number + " " + class1.Time + "<br>");
+				row.find('td:eq(3)').append("<a href=\"viewClasses.jsp?editClass="+ class1.Class_Id + "\">" +class1.Class_Number + " " + class1.Time + "</a><br>");
 			}
 			if (class1.Thur == 1){
-				row.find('td:eq(4)').append(class1.Class_Number + " " + class1.Time + "<br>");
+				row.find('td:eq(4)').append("<a href=\"viewClasses.jsp?editClass="+ class1.Class_Id + "\">" +class1.Class_Number + " " + class1.Time + "</a><br>");
 			}
 			if (class1.Fri == 1){
-				row.find('td:eq(5)').append(class1.Class_Number + " " + class1.Time + "<br>");
+				row.find('td:eq(5)').append("<a href=\"viewClasses.jsp?editClass="+ class1.Class_Id + "\">" +class1.Class_Number + " " + class1.Time + "</a><br>");
 			}
 			if (class1.Sat == 1){
-				row.find('td:eq(6)').append(class1.Class_Number + " " + class1.Time + "<br>");
+				row.find('td:eq(6)').append("<a href=\"viewClasses.jsp?editClass="+ class1.Class_Id + "\">" +class1.Class_Number + " " + class1.Time + "</a><br>");
 			}
 		};
 		window.scrollTo(0,0);
