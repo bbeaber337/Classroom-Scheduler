@@ -406,7 +406,7 @@ public class excelServices extends baseJSP {
 									if(cell.getColumnIndex() == 19){
 										c.setClassDateEnd(df.format(cell.getDateCellValue()));
 									}
-							    }							   
+							    }	
 						 }			
 					}
 					cr.setRoomID(ms.addClassroom(cr));
@@ -414,6 +414,7 @@ public class excelServices extends baseJSP {
 					instructor.setID(ms.addInstructor(instructor));
 					
 					//Set Mon-Sat attributes
+					System.out.println("Passing " + c.getClassID() + " to as");
 					as.setDays(c);
 					
 					//End row, add class and classroom

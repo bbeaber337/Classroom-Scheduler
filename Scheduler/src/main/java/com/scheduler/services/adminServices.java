@@ -108,14 +108,11 @@ public class adminServices extends baseJSP {
 	}
 	
 	public void setDays(Class1 item) throws Exception {
-
-		System.out.printf("\n\nMADE IT \n\n\n");
-
+		System.out.println("Recieved " + item.getClassID());
 		//for (Class1 item : classList) {
 			if (item != null) {
 				//c.setClassID(item.getClassID());
 				// parse through classDays attribute checking for M T W R F S
-
 				if (item.getClassDays().contains("M") || item.getClassDays().contains("m")) {
 					item.setClassMon(1);
 				}
@@ -134,6 +131,7 @@ public class adminServices extends baseJSP {
 				if (item.getClassDays().contains("S") | item.getClassDays().contains("s")) {
 					item.setClassSat(1);
 				}
+				System.out.println("Passing " + item.getClassID() + " to ms");
 				ms.updateClassDays(item);
 			} else {
 				System.out.printf("\n\nDIDN'T WORK!\n\n\n");

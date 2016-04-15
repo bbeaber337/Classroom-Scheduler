@@ -180,35 +180,35 @@
   
     -- Table for a `summerInstructors` 
   CREATE TABLE `classroom`.`summerinstructors` (
-  `instructID` INT NOT NULL,
+  `instructID` INT NOT NULL AUTO_INCREMENT,
   `instructFirst` VARCHAR(45) NULL,
   `instructLast` VARCHAR(45) NULL,
   `instructBoard` VARCHAR(45) NULL DEFAULT 'Any',
   `instructDesk` VARCHAR(45) NULL DEFAULT 'Any',
   `instructChair` VARCHAR(45) NULL DEFAULT 'Any',
-  `instructComment` VARCHAR(250) NULL,
+  `instructComment` VARCHAR(250) NULL DEFAULT '',
   PRIMARY KEY (`instructID`),
   UNIQUE INDEX `instrucID_UNIQUE` (`instructID` ASC));
       -- Table for a `springInstructors` 
   CREATE TABLE `classroom`.`springinstructors` (
-  `instructID` INT NOT NULL,
+  `instructID` INT NOT NULL AUTO_INCREMENT,
   `instructFirst` VARCHAR(45) NULL,
   `instructLast` VARCHAR(45) NULL,
   `instructBoard` VARCHAR(45) NULL DEFAULT 'Any',
   `instructDesk` VARCHAR(45) NULL DEFAULT 'Any',
   `instructChair` VARCHAR(45) NULL DEFAULT 'Any',
-  `instructComment` VARCHAR(250) NULL,
+  `instructComment` VARCHAR(250) NULL DEFAULT '',
   PRIMARY KEY (`instructID`),
   UNIQUE INDEX `instrucID_UNIQUE` (`instructID` ASC));
       -- Table for a `fallInstructors` 
   CREATE TABLE `classroom`.`fallinstructors` (
-  `instructID` INT NOT NULL,
+  `instructID` INT NOT NULL AUTO_INCREMENT,
   `instructFirst` VARCHAR(45) NULL,
   `instructLast` VARCHAR(45) NULL,
   `instructBoard` VARCHAR(45) NULL DEFAULT 'Any',
   `instructDesk` VARCHAR(45) NULL DEFAULT 'Any',
   `instructChair` VARCHAR(45) NULL DEFAULT 'Any',
-  `instructComment` VARCHAR(250) NULL,
+  `instructComment` VARCHAR(250) NULL DEFAULT '',
   PRIMARY KEY (`instructID`),
   UNIQUE INDEX `instrucID_UNIQUE` (`instructID` ASC));
   

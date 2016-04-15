@@ -459,7 +459,7 @@ public class HTMLServices extends baseJSP {
 			classBuilder.add( Json.createObjectBuilder()
 			.add(  "Class_Id", c.getClassID())
 			.add(  "Start", (int)((start.getTimeInMillis() - dayStart.getTimeInMillis()) / (60000 * 15)))
-			.add(  "Duration",  (int)((end.getTimeInMillis() - start.getTimeInMillis()) / (60000 * 15)))
+			.add(  "Duration",  (int)((end.getTimeInMillis() - start.getTimeInMillis()) / (60000 * 15) + 1))
 			.add(  "Class_Number", c.getClassSubject() + c.getClassNumber() )
 			.add(  "Time", c.getClassTimeStart() + " - " + c.getClassTimeEnd() )
 			.add(  "Sun", c.getClassSun())

@@ -39,12 +39,13 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
-<title>Insert title here</title>
+
 
 
 
 <html>
 <head>
+<title>Insert title here</title>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
 <script>
@@ -55,26 +56,41 @@
 		for (var i = 0; i < json.data.length; i++){
 			var class1 = json.data[i];
 			var row = $('#WeekTable > tbody').find('tr:eq('+class1.Start.toString()+')');
+			var classString = "<a href=\"viewClasses.jsp?editClass="+ class1.Class_Id + "\">" + class1.Class_Number + " " + class1.Time + "</a><br>";
 			if (class1.Sun !== 0){
-				row.find('td:eq(0)').append("<a href=\"viewClasses.jsp?editClass="+ class1.Class_Id + "\">" + class1.Class_Number + " " + class1.Time + "</a><br>");
+				var cell = row.find('td:eq(0)');
+				cell.append(classString);
+				cell.attr('rowspan',class1.Duration);
 			}
 			if (class1.Mon == 1){
-				row.find('td:eq(1)').append("<a href=\"viewClasses.jsp?editClass="+ class1.Class_Id + "\">" +class1.Class_Number + " " + class1.Time + "</a><br>");
+				var cell = row.find('td:eq(1)');
+				cell.append(classString);
+				cell.attr('rowspan',class1.Duration);
 			}
 			if (class1.Tues == 1){
-				row.find('td:eq(2)').append("<a href=\"viewClasses.jsp?editClass="+ class1.Class_Id + "\">" +class1.Class_Number + " " + class1.Time + "</a><br>");
+				var cell = row.find('td:eq(2)');
+				cell.append(classString);
+				cell.attr('rowspan',class1.Duration);
 			}
 			if (class1.Wed == 1){
-				row.find('td:eq(3)').append("<a href=\"viewClasses.jsp?editClass="+ class1.Class_Id + "\">" +class1.Class_Number + " " + class1.Time + "</a><br>");
+				var cell = row.find('td:eq(3)');
+				cell.append(classString);
+				cell.attr('rowspan',class1.Duration);
 			}
 			if (class1.Thur == 1){
-				row.find('td:eq(4)').append("<a href=\"viewClasses.jsp?editClass="+ class1.Class_Id + "\">" +class1.Class_Number + " " + class1.Time + "</a><br>");
+				var cell = row.find('td:eq(4)');
+				cell.append(classString);
+				cell.attr('rowspan',class1.Duration);
 			}
 			if (class1.Fri == 1){
-				row.find('td:eq(5)').append("<a href=\"viewClasses.jsp?editClass="+ class1.Class_Id + "\">" +class1.Class_Number + " " + class1.Time + "</a><br>");
+				var cell = row.find('td:eq(5)');
+				cell.append(classString);
+				cell.attr('rowspan',class1.Duration);
 			}
 			if (class1.Sat == 1){
-				row.find('td:eq(6)').append("<a href=\"viewClasses.jsp?editClass="+ class1.Class_Id + "\">" +class1.Class_Number + " " + class1.Time + "</a><br>");
+				var cell = row.find('td:eq(6)');
+				cell.append(classString);
+				cell.attr('rowspan',class1.Duration);
 			}
 		};
 		window.scrollTo(0,0);
@@ -82,9 +98,16 @@
 	
 	function getSchedule(roomID, roomName){
 		$('#WeekTable > tbody > tr > td').empty();
+		$('#WeekTable > tbody > tr > td').removeAttr('rowspan');
 		$('#WeekTable').show();
 		$('#WeekTableHeader').html(roomName + " Schedule");
-		$.getJSON('viewClassrooms.jsp', {classroomID : roomID}, function (data) {ajaxCallback(data);});
+		$.ajax({
+				dataType:"json",
+				url:"viewClassrooms.jsp",
+				data: {classroomID : roomID},
+				success: function (data) {ajaxCallback(data);},
+				type: "POST"
+				});
 	}
 </script>
 </head>
