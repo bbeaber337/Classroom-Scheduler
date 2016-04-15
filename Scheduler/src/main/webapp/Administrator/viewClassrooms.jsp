@@ -60,37 +60,37 @@
 			if (class1.Sun !== 0){
 				var cell = row.find('td:eq(0)');
 				cell.append(classString);
-				cell.attr('rowspan',class1.Duration);
+				<!-- cell.attr('rowspan',class1.Duration); -->
 			}
 			if (class1.Mon == 1){
 				var cell = row.find('td:eq(1)');
 				cell.append(classString);
-				cell.attr('rowspan',class1.Duration);
+				<!-- cell.attr('rowspan',class1.Duration); -->
 			}
 			if (class1.Tues == 1){
 				var cell = row.find('td:eq(2)');
 				cell.append(classString);
-				cell.attr('rowspan',class1.Duration);
+				<!-- cell.attr('rowspan',class1.Duration); -->
 			}
 			if (class1.Wed == 1){
 				var cell = row.find('td:eq(3)');
 				cell.append(classString);
-				cell.attr('rowspan',class1.Duration);
+				<!-- cell.attr('rowspan',class1.Duration); -->
 			}
 			if (class1.Thur == 1){
 				var cell = row.find('td:eq(4)');
 				cell.append(classString);
-				cell.attr('rowspan',class1.Duration);
+				<!-- cell.attr('rowspan',class1.Duration); -->
 			}
 			if (class1.Fri == 1){
 				var cell = row.find('td:eq(5)');
 				cell.append(classString);
-				cell.attr('rowspan',class1.Duration);
+				<!-- cell.attr('rowspan',class1.Duration); -->
 			}
 			if (class1.Sat == 1){
 				var cell = row.find('td:eq(6)');
 				cell.append(classString);
-				cell.attr('rowspan',class1.Duration);
+				<!-- cell.attr('rowspan',class1.Duration); -->
 			}
 		};
 		window.scrollTo(0,0);
@@ -109,6 +109,12 @@
 				type: "POST"
 				});
 	}
+	
+	$(document).ready( function(){
+	    $("#add > a").attr("href","viewClassrooms.jsp?new=true");
+	    $("#add > a").append(" Classroom");
+	    $("#add").show();
+	});
 </script>
 </head>
 <body>

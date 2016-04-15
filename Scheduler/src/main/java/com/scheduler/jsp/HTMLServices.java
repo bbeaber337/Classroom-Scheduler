@@ -239,13 +239,15 @@ public class HTMLServices extends baseJSP {
 		String hasRoom = null;
 		System.out.printf("\n\nClass ID to pull: %d\n\n", classID);
 		
-		item = ms.getClassFromID(classID);
+		if (classID != -1){
+			item = ms.getClassFromID(classID);
+		}
 		
 		StringBuilder out = new StringBuilder();
 		
 		System.out.printf("\n\nClass ID to pull: %d\n\n", item.getClassID());
 		
-		if(item.getClassCombination().compareToIgnoreCase("c") == 0){
+		if(item.getClassCombination() != null && item.getClassCombination().compareToIgnoreCase("c") == 0){
 			combo = "Yes";
 		} else {
 			combo = "No";
@@ -289,14 +291,16 @@ public class HTMLServices extends baseJSP {
 	public void buildEditClassroom(int classroomID) throws Exception {
 		Classroom item = new Classroom();
 		
-		item = ms.getClassroomFromID(classroomID);
+		if (classroomID != -1){
+			item = ms.getClassroomFromID(classroomID);
+		}
 		
 		StringBuilder out = new StringBuilder();
 		
 		System.out.printf("\n\nClassroom ID to pull: %d\n\n", item.getRoomID());
 		
 		
-		out.append("</br></br></br></br><h2 class=\"text-center\">Edit Class</h2></br></br>");
+		out.append("</br></br></br></br><h2 class=\"text-center\">Edit Classroom</h2></br></br>");
 		out.append("<form method=\"POST\" action=\"viewClassrooms.jsp\">");
 		out.append("<input type=\"hidden\" name=\"submitClassroomEdit\" value=\"submitClassroomEdit\">");
 		out.append("<input type=\"hidden\" name=\"roomID\" value=\"" + item.getRoomID() + "\"</br></br></br>");
@@ -343,7 +347,9 @@ public class HTMLServices extends baseJSP {
 	public void buildEditInstructor(int instructorID) throws Exception {
 		Instructor item = new Instructor();
 		
-		item = ms.getInstructorFromID(instructorID);
+		if (instructorID != -1){
+			item = ms.getInstructorFromID(instructorID);
+		}
 		
 		StringBuilder out = new StringBuilder();
 		
@@ -359,7 +365,7 @@ public class HTMLServices extends baseJSP {
 		out.append("</br><div class=\"col-xs-3\"><label for=\"prefDeskType\">Desk Preference</label></br><select name=\"prefDeskType\"><option selected value='" + item.getPrefDesk() + "'>" + item.getPrefDesk() + "</option><option value='Desks'>Desks</option><option value='Tables'>Tables</option><option value='Lab'>Lab</option><option value='Any'>Any</option></select></div></br></br></br>");
 		out.append("</br><div class=\"col-xs-3\"><label for=\"prefBoardType\">Board Preference</label></br><select name=\"prefBoardType\"><option selected value='" + item.getPrefBoard() + "'>" + item.getPrefBoard() + "</option><option value='Whiteboard'>Whiteboard</option><option value='S'>S</option><option value='Any'>Any</option></select></div></br></br></br>");
 		out.append("</br><div class=\"col-xs-3\"><label for=\"prefChairType\">Chair Preference</label></br><select name=\"prefChairType\"><option selected value='" + item.getPrefChair() + "'>" + item.getPrefChair() + "</option><option value='Soft Seats'>Soft Seats</option><option value='Hard Seats'>Hard Seats</option><option value='Any'>Any</option></select></div></br></br></br>");
-		out.append("<div class=\"col-xs-3\"><label for=\"comment\">Comment</label><textarea class=\"form-control\" name=\"comment\" id=\"comment\" value='" + item.getComment() + "'/></div></br></br></br>");
+		out.append("<div class=\"col-xs-3\"><label for=\"comment\">Comment</label><textarea class=\"form-control\" rows = \"3\" name=\"comment\" id=\"comment\" />" + item.getComment() + "</textarea></div></br></br></br>");
 		out.append("</br><div class=\"row-md-5\"><button type=\"submit\" class=\"btn btn-default\"></t>Save Changes</button></div></form>");
 		
 		stream.print(out.toString());
@@ -459,7 +465,7 @@ public class HTMLServices extends baseJSP {
 			classBuilder.add( Json.createObjectBuilder()
 			.add(  "Class_Id", c.getClassID())
 			.add(  "Start", (int)((start.getTimeInMillis() - dayStart.getTimeInMillis()) / (60000 * 15)))
-			.add(  "Duration",  (int)((end.getTimeInMillis() - start.getTimeInMillis()) / (60000 * 15) + 1))
+			.add(  "Duration",  (int)(Math.ceil(end.getTimeInMillis() - start.getTimeInMillis()) / (60000 * 15)))
 			.add(  "Class_Number", c.getClassSubject() + c.getClassNumber() )
 			.add(  "Time", c.getClassTimeStart() + " - " + c.getClassTimeEnd() )
 			.add(  "Sun", c.getClassSun())

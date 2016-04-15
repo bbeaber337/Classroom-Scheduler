@@ -116,6 +116,9 @@ $(document).ready( function () {
                 ],
                 "scrollX": true
     });
+    $("#add > a").attr("href","viewClasses.jsp?new=true");
+    $("#add > a").append(" Class");
+    $("#add").show();
 } );
 </script>
 

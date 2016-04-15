@@ -9,7 +9,6 @@
 	   }
 	    HTMLServices hs = new HTMLServices(session, request, response, out); 
 		adminServices as = new adminServices(session, request, response, out);
-		boolean build = as.editInstructor();
 	%>
 <%-- Begin Validation --%>
 	<%System.out.print("Checking Login Status\n");
@@ -55,26 +54,41 @@
 		for (var i = 0; i < json.data.length; i++){
 			var class1 = json.data[i];
 			var row = $('#WeekTable > tbody').find('tr:eq('+class1.Start.toString()+')');
+			var classString = "<a href=\"viewClasses.jsp?editClass="+ class1.Class_Id + "\">" + class1.Class_Number + " " + class1.Time + "</a><br>";
 			if (class1.Sun !== 0){
-				row.find('td:eq(0)').append("<a href=\"viewClasses.jsp?editClass="+ class1.Class_Id + "\">" + class1.Class_Number + " " + class1.Time + "</a><br>");
+				var cell = row.find('td:eq(0)');
+				cell.append(classString);
+				<!-- cell.attr('rowspan',class1.Duration); -->
 			}
 			if (class1.Mon == 1){
-				row.find('td:eq(1)').append("<a href=\"viewClasses.jsp?editClass="+ class1.Class_Id + "\">" +class1.Class_Number + " " + class1.Time + "</a><br>");
+				var cell = row.find('td:eq(1)');
+				cell.append(classString);
+				<!-- cell.attr('rowspan',class1.Duration); -->
 			}
 			if (class1.Tues == 1){
-				row.find('td:eq(2)').append("<a href=\"viewClasses.jsp?editClass="+ class1.Class_Id + "\">" +class1.Class_Number + " " + class1.Time + "</a><br>");
+				var cell = row.find('td:eq(2)');
+				cell.append(classString);
+				<!-- cell.attr('rowspan',class1.Duration); -->
 			}
 			if (class1.Wed == 1){
-				row.find('td:eq(3)').append("<a href=\"viewClasses.jsp?editClass="+ class1.Class_Id + "\">" +class1.Class_Number + " " + class1.Time + "</a><br>");
+				var cell = row.find('td:eq(3)');
+				cell.append(classString);
+				<!-- cell.attr('rowspan',class1.Duration); -->
 			}
 			if (class1.Thur == 1){
-				row.find('td:eq(4)').append("<a href=\"viewClasses.jsp?editClass="+ class1.Class_Id + "\">" +class1.Class_Number + " " + class1.Time + "</a><br>");
+				var cell = row.find('td:eq(4)');
+				cell.append(classString);
+				<!-- cell.attr('rowspan',class1.Duration); -->
 			}
 			if (class1.Fri == 1){
-				row.find('td:eq(5)').append("<a href=\"viewClasses.jsp?editClass="+ class1.Class_Id + "\">" +class1.Class_Number + " " + class1.Time + "</a><br>");
+				var cell = row.find('td:eq(5)');
+				cell.append(classString);
+				<!-- cell.attr('rowspan',class1.Duration); -->
 			}
 			if (class1.Sat == 1){
-				row.find('td:eq(6)').append("<a href=\"viewClasses.jsp?editClass="+ class1.Class_Id + "\">" +class1.Class_Number + " " + class1.Time + "</a><br>");
+				var cell = row.find('td:eq(6)');
+				cell.append(classString);
+				<!-- cell.attr('rowspan',class1.Duration); -->
 			}
 		};
 		window.scrollTo(0,0);
@@ -86,6 +100,12 @@
 		$('#WeekTableHeader').html(teacherName + "'s Schedule");
 		$.getJSON('viewTeachers.jsp', {instructorID : teacherID}, function (data) {ajaxCallback(data);});
 	}
+	
+	$(document).ready( function(){
+	    $("#add > a").attr("href","viewTeachers.jsp?new=true");
+	    $("#add > a").append(" Teachers");
+	    $("#add").show();
+	});
 </script>
 </head>
 <body>
@@ -101,8 +121,10 @@
 	
 
 <!-- Check if a change was submitted -->
-<% as.submitInstructorEdit();
-   as.deleteInstructor();
+<% 
+	boolean build = as.editInstructor();
+	as.submitInstructorEdit();
+    as.deleteInstructor();
 %>
 		
 <%String semester = session.getAttribute("semester").toString();

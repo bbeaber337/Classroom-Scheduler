@@ -1,7 +1,7 @@
 package com.scheduler.valueObjects;
 
 public class Instructor {
-	private int instructID = 0;
+	private int instructID = -1;
 	private String nameFirst = "";
 	private String nameLast = "";
 	private String prefBoard = "";

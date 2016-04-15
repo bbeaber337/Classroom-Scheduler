@@ -62,11 +62,16 @@ public class adminServices extends baseJSP {
 	
 	public boolean editClass() throws Exception {
 		
-		int classID = 0;
+		int classID = -1;
 		
 		if(request.getParameter("editClass") != null){
 			//Need to convert getParameter to an integer
 			classID = Integer.parseInt(request.getParameter("editClass"));
+			hs.buildEditClass(classID);	
+			return true;
+		}
+		if(request.getParameter("new") != null){
+			//Need to convert getParameter to an integer
 			hs.buildEditClass(classID);	
 			return true;
 		}
@@ -76,11 +81,16 @@ public class adminServices extends baseJSP {
 	
 	public boolean editClassroom() throws Exception {
 		
-		int classroomID = 0;
+		int classroomID = -1;
 		
 		if(request.getParameter("editClassroom") != null){
 			//Need to convert getParameter to an integer
 			classroomID = Integer.parseInt(request.getParameter("editClassroom"));
+			hs.buildEditClassroom(classroomID);	
+			return true;
+		}
+		if(request.getParameter("new") != null){
+			//Need to convert getParameter to an integer
 			hs.buildEditClassroom(classroomID);	
 			return true;
 		}
@@ -108,7 +118,6 @@ public class adminServices extends baseJSP {
 	}
 	
 	public void setDays(Class1 item) throws Exception {
-		System.out.println("Recieved " + item.getClassID());
 		//for (Class1 item : classList) {
 			if (item != null) {
 				//c.setClassID(item.getClassID());
@@ -131,7 +140,6 @@ public class adminServices extends baseJSP {
 				if (item.getClassDays().contains("S") | item.getClassDays().contains("s")) {
 					item.setClassSat(1);
 				}
-				System.out.println("Passing " + item.getClassID() + " to ms");
 				ms.updateClassDays(item);
 			} else {
 				System.out.printf("\n\nDIDN'T WORK!\n\n\n");
@@ -175,7 +183,11 @@ public class adminServices extends baseJSP {
 			//c.setDeskType(request.getParameter("deskType"));
 			
 			//c.setClassID(ms.updateClass(c));
-			ms.updateClass(c);
+			if (c.getClassID() == -1){
+				ms.addClass(c);
+			}else{
+				ms.updateClass(c);
+			}
 			setDays(c);
 		}
 		
@@ -201,7 +213,11 @@ public class adminServices extends baseJSP {
 			cr.setRoomDistLearning(request.getParameter("roomDistLearning"));
 			cr.setRoomProjectors(Integer.parseInt(request.getParameter("roomProjectors")));	
 			
-			ms.updateClassroom(cr);
+			if (cr.getRoomID() == -1){
+				ms.addClassroom(cr);
+			} else {
+				ms.updateClassroom(cr);
+			}
 		}
 		
 	}
@@ -210,13 +226,17 @@ public class adminServices extends baseJSP {
 //--------------------------------------------------------------------------------------------
 	//editInstructor
 	public boolean editInstructor() throws Exception {
-		
-		int instructorID = 0;
-		
-		if(request.getParameter("editIntructor") != null){
+		System.out.println("Made it to AS");
+		int instructorID = -1;
+		if(request.getParameter("editInstructor") != null){
 			//Need to convert getParameter to an integer
 			instructorID = Integer.parseInt(request.getParameter("editInstructor"));
-			hs.buildEditClassroom(instructorID);	
+			System.out.println("Instructor ID is: " + instructorID);
+			hs.buildEditInstructor(instructorID);	
+			return true;
+		}else if(request.getParameter("new") != null){
+			//Need to convert getParameter to an integer
+			hs.buildEditInstructor(instructorID);	
 			return true;
 		}
 		return false;
@@ -239,7 +259,11 @@ public class adminServices extends baseJSP {
 			instructor.setPrefBoard(request.getParameter("prefBoardType"));
 			instructor.setComment(request.getParameter("comment"));	
 			
-			ms.updateInstructor(instructor);
+			if (instructor.getID() == -1){
+				ms.addInstructor(instructor);
+			} else {
+				ms.updateInstructor(instructor);
+			}
 		}
 		
 	}
