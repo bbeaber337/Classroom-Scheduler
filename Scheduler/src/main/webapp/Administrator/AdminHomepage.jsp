@@ -59,7 +59,7 @@
 			
 			<form role="form" action='AdminHomepage.jsp' method='post'>
 			<input type="hidden" name="semester" value="spring">
-				<div class="col-md-4">
+				<div class="col-md-4 col-sm-6">
 					<button type="submit" class="btn btn-default center-block" value="spring">
 						Spring
 					</button>
@@ -68,7 +68,7 @@
 				
 			<form role="form" action='AdminHomepage.jsp' method='post'>
 			<input type="hidden" name="semester" value="fall">
-				<div class="col-md-4">
+				<div class="col-md-4 col-sm-6">
 					 
 					<button type="submit" class="btn btn-default center-block" value="fall">
 						Fall
@@ -78,7 +78,7 @@
 			
 			<form role="form" action='AdminHomepage.jsp' method='post'>
 			<input type="hidden" name="semester" value="summer">
-				<div class="col-md-4">
+				<div class="col-md-4col-sm-6">
 					 
 					<button type="submit" class="btn btn-default center-block" value="summer">
 						Summer
