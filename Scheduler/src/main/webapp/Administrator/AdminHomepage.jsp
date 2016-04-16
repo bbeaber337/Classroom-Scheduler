@@ -54,39 +54,45 @@
 </div>
 </br></br></br>
 
-<div class="col-md-12">
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
 			<div class="row">
 			
+			<div class="col-md-4 col-sm-6">
 			<form role="form" action='AdminHomepage.jsp' method='post'>
 			<input type="hidden" name="semester" value="spring">
-				<div class="col-md-6 col-sm-6">
+				
 					<button type="submit" class="btn btn-default center-block" value="spring">
 						Spring
 					</button>
-				</div>
-				</form>
 				
+				</form>
+				</div>
+				
+			<div class="col-md-4 col-sm-6">
 			<form role="form" action='AdminHomepage.jsp' method='post'>
 			<input type="hidden" name="semester" value="fall">
-				<div class="col-md-6 col-sm-6">
 					 
 					<button type="submit" class="btn btn-default center-block" value="fall">
 						Fall
 					</button>
-				</div>
 			</form>
+			</div>
 			
+			<div class="col-md-4 col-sm-6">
 			<form role="form" action='AdminHomepage.jsp' method='post'>
 			<input type="hidden" name="semester" value="summer">
-				<div class="col-md-6 col-sm-6">
 					 
 					<button type="submit" class="btn btn-default center-block" value="summer">
 						Summer
 					</button>
-			</div>
 			</form>
-			
+			</div>
+			</div>
+		</div>
 	</div>
+</div>
 </div><br><br><br>
 
 
