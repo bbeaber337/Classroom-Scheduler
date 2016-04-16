@@ -3,6 +3,7 @@ package com.scheduler.services;
 import java.io.*;
 import java.sql.*;
 import java.util.*;
+import java.util.List;
 import java.util.Date;
 import java.text.*;
 import java.text.SimpleDateFormat;
@@ -14,6 +15,7 @@ import org.apache.poi.xssf.util.*;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.hssf.util.*;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.util.*;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
@@ -37,6 +39,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import javax.servlet.jsp.JspWriter;
 
+
 import com.scheduler.services.*;
 import com.scheduler.valueObjects.*;
 import com.scheduler.jsp.*;
@@ -57,16 +60,17 @@ public class excelServices extends baseJSP {
 		as = new adminServices(session, request, response, stream);
 	    conn = new dbConnector();
 	}
-	
-	
+		
 	
 	public void exportData() throws Exception {
-		
+				
 		if(request.getParameter("export") != null){
-			
+		
+		
 		XSSFWorkbook wb = new XSSFWorkbook();
 		XSSFSheet classSheet = wb.createSheet("Classes");
 		CreationHelper createHelper = wb.getCreationHelper();
+
 		
 		//Get Data
 		List<Class1> c = new ArrayList<Class1>();
@@ -195,8 +199,32 @@ public class excelServices extends baseJSP {
 			row = row+1;
 		} 
 		
+
+/*
+		File file = new File("PKI.xls");
+		FileInputStream in = null;
+		OutputStream fOut = null;
+		//response.setContentType("application/octet-stream");
+		//response.setHeader( "Content-Disposition",String.format("attachment; filename=\"%s\"", file.getName()));
+		try{
+			response.reset();
+			in = new FileInputStream(file);
+			response.setContentType("application/vnd.ms-excel");
+			//response.setContentLength((int) file.length());
+			response.addHeader("content-disposition", "attachment; filename=data.xlsx");
+			fOut = response.getOutputStream();
+	    	IOUtils.copyLarge(in, fOut);
+		}
+		catch(Exception e){
+			System.out.println("Unable to download file");
+		} */
 		FileOutputStream fOut = new FileOutputStream(new File("C:\\myDownloads\\PKI.xlsx"));
+		//FileOutputStream fOut = new FileOutputStream(new File(file.getName()));
+        // This should send the file to browser
+        //OutputStream fOut = response.getOutputStream();
+        //FileInputStream in = new FileInputStream(file);
 		wb.write(fOut);
+		//in.close();
 		fOut.close();
 		wb.close();
 		}
