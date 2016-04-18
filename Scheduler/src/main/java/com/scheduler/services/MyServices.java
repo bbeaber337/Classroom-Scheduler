@@ -272,14 +272,14 @@ public class MyServices extends baseJSP {
 	}
 	
 
-	public int deleteDuplicates(){
+	public void deleteDuplicates(){
 		String semester = session.getAttribute("semester").toString();
 		System.out.print("\nDELETING DUPS\n");
 		
-		String query = "DELETE FROM " + semester + "classrooms WHERE roomID NOT IN (SELECT * FROM (SELECT MIN(n.roomID) FROM classrooms n GROUP BY n.roomName) x)";
-		
-		return runUpdate(query);
-
+		String query = "DELETE FROM " + semester + "classrooms WHERE roomID NOT IN (SELECT * FROM (SELECT MIN(n.roomID) FROM " + semester + "classrooms n GROUP BY n.roomName) x)";
+		runUpdate(query);
+		query = "DELETE FROM " + semester + "instructors WHERE instructID NOT IN (SELECT * FROM (SELECT MIN(n.instructID) FROM " + semester + "instructors n GROUP BY n.instructFirst, n.instructLast) x)";
+		runUpdate(query);
 	}
 	
 	

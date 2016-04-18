@@ -48,7 +48,6 @@ import com.scheduler.dbconnector.*;
 @MultipartConfig
 public class excelServices extends baseJSP {
 
-	private dbConnector conn = null;
 	private MyServices ms = null;
 	private adminServices as = null;
 
@@ -58,7 +57,6 @@ public class excelServices extends baseJSP {
 		super(session, request, response, stream);
 		ms = new MyServices(session, request, response, stream);
 		as = new adminServices(session, request, response, stream);
-	    conn = new dbConnector();
 	}
 		
 	
@@ -218,14 +216,18 @@ public class excelServices extends baseJSP {
 		catch(Exception e){
 			System.out.println("Unable to download file");
 		} */
-		FileOutputStream fOut = new FileOutputStream(new File("C:\\myDownloads\\PKI.xlsx"));
+		//FileOutputStream fOut = new FileOutputStream(new File("C:\\myDownloads\\PKI.xlsx"));
 		//FileOutputStream fOut = new FileOutputStream(new File(file.getName()));
         // This should send the file to browser
         //OutputStream fOut = response.getOutputStream();
         //FileInputStream in = new FileInputStream(file);
-		wb.write(fOut);
+		//wb.write(fOut);
 		//in.close();
-		fOut.close();
+		//fOut.close();
+		response.setContentType("application/vnd.ms-excel");
+		response.setHeader("Content-Disposition", "attachment; filename="+ session.getAttribute("semester").toString() +".xlsx");
+		wb.write(response.getOutputStream());
+		//stream.print(wb.toString());
 		wb.close();
 		}
 	}
@@ -267,7 +269,9 @@ public class excelServices extends baseJSP {
 		}
 		*/
 		
-		if(this.request.getMethod().equalsIgnoreCase("post")){
+		//if(this.request.getMethod().equalsIgnoreCase("post"))
+		String contentType = request.getContentType();
+	    if ((contentType != null) && (contentType.indexOf("multipart/form-data") >= 0)){
 			
 			//Clear all current class information
 			ms.clearClasses();
@@ -442,7 +446,6 @@ public class excelServices extends baseJSP {
 					instructor.setID(ms.addInstructor(instructor));
 					
 					//Set Mon-Sat attributes
-					System.out.println("Passing " + c.getClassID() + " to as");
 					as.setDays(c);
 					
 					//End row, add class and classroom
