@@ -226,7 +226,9 @@ public class excelServices extends baseJSP {
 		//fOut.close();
 		response.setContentType("application/vnd.ms-excel");
 		response.setHeader("Content-Disposition", "attachment; filename="+ session.getAttribute("semester").toString() +".xlsx");
-		wb.write(response.getOutputStream());
+		OutputStream fOut = response.getOutputStream();
+		wb.write(fOut);
+		fOut.close();
 		//stream.print(wb.toString());
 		wb.close();
 		}
