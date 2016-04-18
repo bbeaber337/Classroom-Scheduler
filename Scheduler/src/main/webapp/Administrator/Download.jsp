@@ -15,7 +15,7 @@
 	<%@ page import="com.scheduler.valueObjects.*" %>
 	<%@ page import="com.scheduler.jsp.*" %>
 	<%@ page import="java.io.*,java.util.*" %>
-	
+
 	
 	<% 
 		HTMLServices hs = new HTMLServices(session, request, response, out); 
@@ -76,6 +76,13 @@
 				</form>
 </div>
 <div>
+
+
+
+       
+
+
+
 <form role="form" action='Download.jsp' method='post'>
 			<input type="hidden" name="exportWord" value="exportWord">
 				<div class="col-md-4">

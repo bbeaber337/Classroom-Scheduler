@@ -218,11 +218,16 @@ public class excelServices extends baseJSP {
 		catch(Exception e){
 			System.out.println("Unable to download file");
 		} */
-		FileOutputStream fOut = new FileOutputStream(new File("C:\\myDownloads\\PKI.xlsx"));
+
+		//FileOutputStream fOut = new FileOutputStream(new File("C:\\myDownloads\\PKI.xlsx"));
+		OutputStream fOut = response.getOutputStream();
+		response.setContentType("application/vnd.ms-excel");
+		response.setHeader( "Content-Disposition",String.format("attachment; filename=\"PKI.xlsx\""));
 		//FileOutputStream fOut = new FileOutputStream(new File(file.getName()));
         // This should send the file to browser
         //OutputStream fOut = response.getOutputStream();
         //FileInputStream in = new FileInputStream(file);
+		fOut = response.getOutputStream();
 		wb.write(fOut);
 		//in.close();
 		fOut.close();
