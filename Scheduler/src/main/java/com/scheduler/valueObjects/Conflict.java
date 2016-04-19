@@ -1,23 +1,23 @@
 package com.scheduler.valueObjects;
 
 public class Conflict {
-	private String class1;
-	private String class2;
+	private int class1;
+	private int class2;
 	private String confType;
 	private String value1;
 	private String value2;
 	
-	public String getClass1() {
+	public int getClass1() {
 		return class1;
 	}
-	public void setClass1(String class1) {
+	public void setClass1(int class1) {
 		this.class1 = class1;
 	}
 	
-	public String getClass2() {
+	public int getClass2() {
 		return class2;
 	}
-	public void setClass2(String class2) {
+	public void setClass2(int class2) {
 		this.class2 = class2;
 	}
 	

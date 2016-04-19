@@ -1,12 +1,20 @@
 package com.scheduler.valueObjects;
 
 public class Instructor {
+	private int instructID = -1;
 	private String nameFirst = "";
 	private String nameLast = "";
 	private String prefBoard = "";
 	private String prefChair = "";
 	private String prefDesk = "";
 	private String comment = "";
+	
+	public int getInstructID() {
+		return instructID;
+	}
+	public void setInstructID(int instructID) {
+		this.instructID = instructID;
+	}
 	
 	public String getNameFirst() {
 		return nameFirst;

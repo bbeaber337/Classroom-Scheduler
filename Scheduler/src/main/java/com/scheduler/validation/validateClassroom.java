@@ -12,21 +12,25 @@ import java.util.List;
 import com.scheduler.dbconnector.dbConnector;
 import com.scheduler.valueObjects.Class1;
 import com.scheduler.valueObjects.Classroom;
+import com.scheduler.valueObjects.Conflict;
 
 public class validateClassroom {
 	
-	public Object validateClassroomRun( String semester, dbConnector conn) throws SQLException {
+	public List<Conflict> validateClassroomRun( String semester, dbConnector conn) throws SQLException {
 		return validateClassroomRun( semester, conn, (List)null );
 	}
 	
-	public Object validateClassroomRun( String semester, dbConnector conn, Class1 class1 ) throws SQLException {
+	public List<Conflict> validateClassroomRun( String semester, dbConnector conn, Class1 class1 ) throws SQLException {
 		return validateClassroomRun( semester, conn, Arrays.asList(class1) );
 	}
 	
 	
 	// These are all set to return void.
-	public Object validateClassroomRun( String semester, dbConnector conn, List<Class1> classes ) throws SQLException {
-		//This runs stuff
+	public List<Conflict> validateClassroomRun( String semester, dbConnector conn, List<Class1> classes ) throws SQLException {
+		
+		
+		Conflict conflict = null;
+		List<Conflict> conList = new ArrayList<Conflict>();
 		
 		List<Class1> currClasses = null;
 		if( classes == null ) {
@@ -37,8 +41,62 @@ public class validateClassroom {
 			 * first one and so forth until all of them have
 			 * been checked
 			 */
-		}
-		else {
+			
+			int count1;
+			int count2;
+			
+			List<Classroom> classrooms = getClassrooms(semester, conn, null);
+			
+			// First loop, go through classrooms
+			// Second loop, select class
+			// Third loop, compare selected class to all other classes
+			
+			for( Classroom room : classrooms) {
+				currClasses = queryClassroom(semester, conn, room.getRoomName());
+				
+				for( count1 = 0; count1 < currClasses.size(); count1++ ) {
+					Class1 class1 = currClasses.get(count1);
+					
+					/*** Check room capacity with class ***/
+					if( class1.getClassCapacity() > room.getRoomCapacity() ) {
+						conflict = new Conflict();
+						conflict.setClass1(class1.getClassID());
+						conflict.setClass2(room.getRoomID());
+						conflict.setConfType("Room Capacity");
+						conflict.setValue1(class1.getClassTimeStart());
+						conflict.setValue2(((Integer)room.getRoomCapacity()).toString());
+						conList.add(conflict);
+					}
+					
+					
+					for( count2 = count1 + 1; count2 < currClasses.size(); count2++ ) {
+						Class1 class2 = currClasses.get(count2);
+						
+						/*** Check for schedule conflict ***/
+						if( checkTime( class1, class2 ) ) {
+							conflict = new Conflict();
+							if( class1.getClassID() < class2.getClassID() ) {
+								conflict.setClass1(class1.getClassID());
+								conflict.setClass2(class2.getClassID());
+								conflict.setConfType("Room Time");
+								conflict.setValue1(class1.getClassTimeStart());
+								conflict.setValue2(class2.getClassTimeStart());
+								conList.add(conflict);
+							} else {
+								conflict.setClass1(class2.getClassID());
+								conflict.setClass2(class1.getClassID());
+								conflict.setConfType("Room Time");
+								conflict.setValue1(class2.getClassTimeStart());
+								conflict.setValue2(class1.getClassTimeStart());
+								conList.add(conflict);
+							}
+						}
+					}
+					
+				}
+			}
+			
+		} else {
 			if( classes.size() > 0 ) {
 				// This will assume all classes being changed are in the same classroom
 				
@@ -59,7 +117,22 @@ public class validateClassroom {
 					for( Class1 class2: currClasses ) {
 						
 						if( checkTime( class1, class2 ) ) {
-							// TODO: Create time conflict entry in database
+							conflict = new Conflict();
+							if( class1.getClassID() < class2.getClassID() ) {
+								conflict.setClass1(class1.getClassID());
+								conflict.setClass2(class2.getClassID());
+								conflict.setConfType("Room Time");
+								conflict.setValue1(class1.getClassTimeStart());
+								conflict.setValue2(class2.getClassTimeStart());
+								conList.add(conflict);
+							} else {
+								conflict.setClass1(class2.getClassID());
+								conflict.setClass2(class1.getClassID());
+								conflict.setConfType("Room Time");
+								conflict.setValue1(class2.getClassTimeStart());
+								conflict.setValue2(class1.getClassTimeStart());
+								conList.add(conflict);
+							}
 						}
 					}
 					
@@ -70,7 +143,13 @@ public class validateClassroom {
 					/*** Check room capacity with class ***/
 					// TODO: Need to support combined classes total size check
 					if( class1.getClassCapacity() > classroom.getRoomCapacity() ) {
-						// TODO: Create capacity conflict entry in database
+						conflict = new Conflict();
+						conflict.setClass1(class1.getClassID());
+						conflict.setClass2(classroom.getRoomID());
+						conflict.setConfType("Room Capacity");
+						conflict.setValue1(class1.getClassTimeStart());
+						conflict.setValue2(((Integer)classroom.getRoomCapacity()).toString());
+						conList.add(conflict);
 					}
 					
 				}
@@ -82,7 +161,7 @@ public class validateClassroom {
 		}
 		
 		
-		return null;
+		return conList;
 	}
 	
 	private List<Classroom> getClassrooms( String semester, dbConnector conn, String classroom ) throws SQLException {
@@ -121,8 +200,13 @@ public class validateClassroom {
 		ResultSet rs = null;
 		List<Class1> list = new ArrayList<Class1>();
 		
-		rs = conn.runQuery("SELECT * FROM " + semester + "classes WHERE classRoom ='" + classroom + "'");
+		String query = "SELECT * FROM " + semester + "classes";
 		
+		if( classroom != null ) {
+			query += " WHERE classRoom ='" + classroom + "'";
+		}
+		
+		rs = conn.runQuery(query);
 		
 		if(rs != null){
 			while(rs.next()){
@@ -165,6 +249,8 @@ public class validateClassroom {
 	}
 	
 	private boolean checkTime( Class1 class1, Class1 class2 ) {
+		
+		// If they have class on at least one day
 		if( class1.getClassMon() == class2.getClassMon() || 
 				class1.getClassTues() == class2.getClassTues() ||
 				class1.getClassWed() == class2.getClassWed() ||
@@ -186,7 +272,6 @@ public class validateClassroom {
 				return false;
 			}
 
-			// They have class on at least one day
 			if( start1 == start2 || end1 == end2 ) {
 				// If they either start or end at the same time
 				return true;
