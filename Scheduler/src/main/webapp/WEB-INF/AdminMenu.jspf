@@ -1,4 +1,4 @@
-<nav class="navbar navbar-inverse navbar-fixed-top">
+<nav id="adminMenu" class="navbar navbar-inverse navbar-fixed-top">
        <div class="container-fluid">
            <div class="navbar-header">
                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -28,14 +28,17 @@
                  <li><a href="viewRequests.jsp">Create Account</a></li>
                  <% if (session.getAttribute("semester") != null){ %>
                  <li><a href="Upload.jsp">Upload Schedule</a></li>
-                 <% } %>
                  <li><a href="Download.jsp">Download Schedule</a></li>
+                 <% } %>
                  </ul>
                  </li>
                  <li>
                  <% if (session.getAttribute("semester") != null){ %>
                  	<p class="navbar-text"><%= ((String)session.getAttribute("semester")).toUpperCase() %></p>
                  <% } %>
+                 </li>  
+                 <li id="add" style='display:none'>
+                 	<a href="#">Add</a>
                  </li>
                  
              </ul>

@@ -16,6 +16,14 @@ public class Instructor {
 		this.instructID = instructID;
 	}
 	
+	public int getID() {
+		return instructID;
+	}
+	
+	public void setID(int id){
+		this.instructID = id;
+	}
+	
 	public String getNameFirst() {
 		return nameFirst;
 	}

@@ -239,13 +239,15 @@ public class HTMLServices extends baseJSP {
 		String hasRoom = null;
 		System.out.printf("\n\nClass ID to pull: %d\n\n", classID);
 		
-		item = ms.getClassFromID(classID);
+		if (classID != -1){
+			item = ms.getClassFromID(classID);
+		}
 		
 		StringBuilder out = new StringBuilder();
 		
 		System.out.printf("\n\nClass ID to pull: %d\n\n", item.getClassID());
 		
-		if(item.getClassCombination().compareToIgnoreCase("c") == 0){
+		if(item.getClassCombination() != null && item.getClassCombination().compareToIgnoreCase("c") == 0){
 			combo = "Yes";
 		} else {
 			combo = "No";
@@ -289,14 +291,16 @@ public class HTMLServices extends baseJSP {
 	public void buildEditClassroom(int classroomID) throws Exception {
 		Classroom item = new Classroom();
 		
-		item = ms.getClassroomFromID(classroomID);
+		if (classroomID != -1){
+			item = ms.getClassroomFromID(classroomID);
+		}
 		
 		StringBuilder out = new StringBuilder();
 		
 		System.out.printf("\n\nClassroom ID to pull: %d\n\n", item.getRoomID());
 		
 		
-		out.append("</br></br></br></br><h2 class=\"text-center\">Edit Class</h2></br></br>");
+		out.append("</br></br></br></br><h2 class=\"text-center\">Edit Classroom</h2></br></br>");
 		out.append("<form method=\"POST\" action=\"viewClassrooms.jsp\">");
 		out.append("<input type=\"hidden\" name=\"submitClassroomEdit\" value=\"submitClassroomEdit\">");
 		out.append("<input type=\"hidden\" name=\"roomID\" value=\"" + item.getRoomID() + "\"</br></br></br>");
@@ -312,8 +316,60 @@ public class HTMLServices extends baseJSP {
 		
 		stream.print(out.toString());
 	}
-	
-	
+// --------------------------------------------------------------------------------------------
+//									INSTRUCTOR FUNCTIONS
+//--------------------------------------------------------------------------------------------
+// buildInstructors
+	public void buildInstructors() throws Exception {
+
+		List<Instructor> items = ms.getInstructors();
+			
+		StringBuilder out = new StringBuilder();
+		
+		out.append("<table class=\"table \"><thead><tr><th>Select</th><th>First</th><th>Last</th><th>Chair Preference</th><th>Desk Preference</th><th>Board Preference</th><th>Comment</th><th>Edit</th><th>Delete</th></tr></thead><tbody>");
+		for(Instructor instructor : items){
+			
+			out.append("<tr><td><form onsubmit=\"getSchedule(" + instructor.getID() + " , '" + instructor.getNameFirst() + " " + instructor.getNameLast() + "');return false;\" ><input type='submit' value='Select' alt='Select Classroom'/></form></td>");
+			out.append("<td>" + instructor.getNameFirst() + "</td>");
+			out.append("<td>" + instructor.getNameLast() + "</td>");
+			out.append("<td>" + instructor.getPrefChair() + "</td>");
+			out.append("<td>" + instructor.getPrefDesk() + "</td>");
+			out.append("<td>" + instructor.getPrefBoard() + "</td>");
+			out.append("<td>" + instructor.getComment() + "</td>");
+		    out.append("<td><form action='viewTeachers.jsp' method='post' ><input type='hidden' name='editInstructor' value='" + instructor.getID() + "'><input type='submit' value='Edit' alt='Edit Instructor'/></form></td>");
+		    out.append("<td><form action='viewTeachers.jsp' method='post' ><input type='hidden' name='deleteInstructor' value='" + instructor.getID() + "'><input type='submit' value='Delete' alt='Delete Instructor' onclick=\"return confirm('Are you sure you want to delete this Instructor?')\"/></form></td>");
+			out.append("</tr>");
+		}
+		out.append("</tbody></table>");
+		stream.print(out.toString());
+	}
+// buildEditInstructors
+	public void buildEditInstructor(int instructorID) throws Exception {
+		Instructor item = new Instructor();
+		
+		if (instructorID != -1){
+			item = ms.getInstructorFromID(instructorID);
+		}
+		
+		StringBuilder out = new StringBuilder();
+		
+		System.out.printf("\n\nInstructor ID to pull: %d\n\n", item.getID());
+		
+		
+		out.append("</br></br></br></br><h2 class=\"text-center\">Edit Instructor</h2></br></br>");
+		out.append("<form method=\"POST\" action=\"viewTeachers.jsp\">");
+		out.append("<input type=\"hidden\" name=\"submitInstructorEdit\" value=\"submitInstructorEdit\">");
+		out.append("<input type=\"hidden\" name=\"instructID\" value=\"" + item.getID() + "\"</br></br></br>");
+		out.append("<div class=\"col-xs-3\"><label for=\"instructFirst\">First Name</label><input class=\"form-control\" name=\"instructFirst\" id=\"instructFirst\" value='" + item.getNameFirst() + "'/></div></br></br></br>");
+		out.append("<div class=\"col-xs-3\"><label for=\"instructLast\">Last Name</label><input type=\"text\" class=\"form-control\" name=\"instructLast\" id=\"instructLast\" value='" + item.getNameLast() + "'/></div></br></br></br>");
+		out.append("</br><div class=\"col-xs-3\"><label for=\"prefDeskType\">Desk Preference</label></br><select name=\"prefDeskType\"><option selected value='" + item.getPrefDesk() + "'>" + item.getPrefDesk() + "</option><option value='Desks'>Desks</option><option value='Tables'>Tables</option><option value='Lab'>Lab</option><option value='Any'>Any</option></select></div></br></br></br>");
+		out.append("</br><div class=\"col-xs-3\"><label for=\"prefBoardType\">Board Preference</label></br><select name=\"prefBoardType\"><option selected value='" + item.getPrefBoard() + "'>" + item.getPrefBoard() + "</option><option value='Whiteboard'>Whiteboard</option><option value='S'>S</option><option value='Any'>Any</option></select></div></br></br></br>");
+		out.append("</br><div class=\"col-xs-3\"><label for=\"prefChairType\">Chair Preference</label></br><select name=\"prefChairType\"><option selected value='" + item.getPrefChair() + "'>" + item.getPrefChair() + "</option><option value='Soft Seats'>Soft Seats</option><option value='Hard Seats'>Hard Seats</option><option value='Any'>Any</option></select></div></br></br></br>");
+		out.append("<div class=\"col-xs-3\"><label for=\"comment\">Comment</label><textarea class=\"form-control\" rows = \"3\" name=\"comment\" id=\"comment\" />" + item.getComment() + "</textarea></div></br></br></br>");
+		out.append("</br><div class=\"row-md-5\"><button type=\"submit\" class=\"btn btn-default\"></t>Save Changes</button></div></form>");
+		
+		stream.print(out.toString());
+	}
 
 // --------------------------------------------------------------------------------------------
 //									USER FUNCTIONS
@@ -409,7 +465,7 @@ public class HTMLServices extends baseJSP {
 			classBuilder.add( Json.createObjectBuilder()
 			.add(  "Class_Id", c.getClassID())
 			.add(  "Start", (int)((start.getTimeInMillis() - dayStart.getTimeInMillis()) / (60000 * 15)))
-			.add(  "Duration",  (int)((end.getTimeInMillis() - start.getTimeInMillis()) / (60000 * 15)))
+			.add(  "Duration",  (int)(Math.ceil(end.getTimeInMillis() - start.getTimeInMillis()) / (60000 * 15)))
 			.add(  "Class_Number", c.getClassSubject() + c.getClassNumber() )
 			.add(  "Time", c.getClassTimeStart() + " - " + c.getClassTimeEnd() )
 			.add(  "Sun", c.getClassSun())
@@ -424,10 +480,19 @@ public class HTMLServices extends baseJSP {
 				.add("data", classBuilder).build();
 	    stream.print(json.toString());
 	}
-	/*
-	public List<Class1> getClasslistByTeacher(int teacherID) throws Exception{
+
+	public void buildClasslistByInstructor(String instructorID) throws Exception{
+		List<Class1> allClasses = ms.getClasses();
+		Instructor instructor = ms.getInstructorFromID(Integer.parseInt(instructorID));
+		List<Class1> returnList = new ArrayList<Class1>();
+		for (Class1 c : allClasses){
+			if (instructor.getNameLast().equals(c.getClassInstructLast()) &&
+					instructor.getNameFirst().equals(c.getClassInstructFirst())){
+				returnList.add(c);
+			}
+		}
+		buildWeekJSON(returnList);
 	}
-	*/
 	
 	public void buildClasslistByClassroom(String classroomID) throws Exception{
 		List<Class1> allClasses = ms.getClasses();

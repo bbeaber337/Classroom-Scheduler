@@ -3,6 +3,7 @@ package com.scheduler.services;
 import java.io.*;
 import java.sql.*;
 import java.util.*;
+import java.util.List;
 import java.util.Date;
 import java.text.*;
 import java.text.SimpleDateFormat;
@@ -14,6 +15,7 @@ import org.apache.poi.xssf.util.*;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.hssf.util.*;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.util.*;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
@@ -37,6 +39,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import javax.servlet.jsp.JspWriter;
 
+
 import com.scheduler.services.*;
 import com.scheduler.valueObjects.*;
 import com.scheduler.jsp.*;
@@ -45,7 +48,6 @@ import com.scheduler.dbconnector.*;
 @MultipartConfig
 public class excelServices extends baseJSP {
 
-	private dbConnector conn = null;
 	private MyServices ms = null;
 	private adminServices as = null;
 
@@ -55,18 +57,18 @@ public class excelServices extends baseJSP {
 		super(session, request, response, stream);
 		ms = new MyServices(session, request, response, stream);
 		as = new adminServices(session, request, response, stream);
-	    conn = new dbConnector();
 	}
-	
-	
+		
 	
 	public void exportData() throws Exception {
-		
+				
 		if(request.getParameter("export") != null){
-			
+		
+		
 		XSSFWorkbook wb = new XSSFWorkbook();
 		XSSFSheet classSheet = wb.createSheet("Classes");
 		CreationHelper createHelper = wb.getCreationHelper();
+
 		
 		//Get Data
 		List<Class1> c = new ArrayList<Class1>();
@@ -195,9 +197,39 @@ public class excelServices extends baseJSP {
 			row = row+1;
 		} 
 		
-		FileOutputStream fOut = new FileOutputStream(new File("C:\\myDownloads\\PKI.xlsx"));
+
+/*
+		File file = new File("PKI.xls");
+		FileInputStream in = null;
+		OutputStream fOut = null;
+		//response.setContentType("application/octet-stream");
+		//response.setHeader( "Content-Disposition",String.format("attachment; filename=\"%s\"", file.getName()));
+		try{
+			response.reset();
+			in = new FileInputStream(file);
+			response.setContentType("application/vnd.ms-excel");
+			//response.setContentLength((int) file.length());
+			response.addHeader("content-disposition", "attachment; filename=data.xlsx");
+			fOut = response.getOutputStream();
+	    	IOUtils.copyLarge(in, fOut);
+		}
+		catch(Exception e){
+			System.out.println("Unable to download file");
+		} */
+		//FileOutputStream fOut = new FileOutputStream(new File("C:\\myDownloads\\PKI.xlsx"));
+		//FileOutputStream fOut = new FileOutputStream(new File(file.getName()));
+        // This should send the file to browser
+        //OutputStream fOut = response.getOutputStream();
+        //FileInputStream in = new FileInputStream(file);
+		//wb.write(fOut);
+		//in.close();
+		//fOut.close();
+		response.setContentType("application/vnd.ms-excel");
+		response.setHeader("Content-Disposition", "attachment; filename="+ session.getAttribute("semester").toString() +".xlsx");
+		OutputStream fOut = response.getOutputStream();
 		wb.write(fOut);
 		fOut.close();
+		//stream.print(wb.toString());
 		wb.close();
 		}
 	}
@@ -209,6 +241,7 @@ public class excelServices extends baseJSP {
 		//Need to pull file path from uploaded file
 		List<Class1> classList = new ArrayList<Class1>();
 		List<Classroom> classroomList = new ArrayList<Classroom>();
+		List<Instructor> instructorList = new ArrayList<Instructor>();
 		InputStream fis = null;
 		int count = 0;
 		
@@ -238,13 +271,17 @@ public class excelServices extends baseJSP {
 		}
 		*/
 		
-		if(this.request.getMethod().equalsIgnoreCase("post")){
+		//if(this.request.getMethod().equalsIgnoreCase("post"))
+		String contentType = request.getContentType();
+	    if ((contentType != null) && (contentType.indexOf("multipart/form-data") >= 0)){
 			
 			//Clear all current class information
 			ms.clearClasses();
 			
 			//Clear all classroom information
 			ms.clearClassrooms();
+			
+			ms.clearInstructors();
 			try {
 				List<FileItem> items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
 				for (FileItem item: items){
@@ -281,6 +318,7 @@ public class excelServices extends baseJSP {
 					count++;
 					Class1 c = new Class1();
 					Classroom cr = new Classroom();
+					Instructor instructor = new Instructor();
 					Row row = (Row) rowIterator.next();
 					Iterator cellIterator = row.cellIterator();
 					
@@ -332,9 +370,11 @@ public class excelServices extends baseJSP {
 								}
 								if(cell.getColumnIndex() == 16){
 									c.setClassInstructFirst(cell.getStringCellValue());
+									instructor.setNameFirst(cell.getStringCellValue());
 								}
 								if(cell.getColumnIndex() == 15){
 									c.setClassInstructLast(cell.getStringCellValue());
+									instructor.setNameLast(cell.getStringCellValue());
 								}
 								if(cell.getColumnIndex() == 17){
 									c.setClassRole(cell.getStringCellValue());
@@ -400,11 +440,12 @@ public class excelServices extends baseJSP {
 									if(cell.getColumnIndex() == 19){
 										c.setClassDateEnd(df.format(cell.getDateCellValue()));
 									}
-							    }							   
+							    }	
 						 }			
 					}
 					cr.setRoomID(ms.addClassroom(cr));
 					c.setClassID(ms.addClass(c));
+					instructor.setID(ms.addInstructor(instructor));
 					
 					//Set Mon-Sat attributes
 					as.setDays(c);
@@ -412,6 +453,7 @@ public class excelServices extends baseJSP {
 					//End row, add class and classroom
 					classList.add(c);
 					classroomList.add(cr);
+					instructorList.add(instructor);
 				  }
 				  }
 			}

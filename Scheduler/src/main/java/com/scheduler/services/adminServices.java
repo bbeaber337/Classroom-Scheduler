@@ -15,13 +15,11 @@ import javax.servlet.jsp.JspWriter;
 import com.scheduler.services.*;
 import com.scheduler.valueObjects.*;
 import com.scheduler.jsp.*;
-import com.scheduler.dbconnector.*;
 
 
 
 public class adminServices extends baseJSP {
 	
-	private dbConnector conn = null;
 	private MyServices ms = null;
 	private HTMLServices hs = null;
 	private Object adminKey = "abcWST6kks76bE73MmAA72Z3abc";
@@ -33,7 +31,6 @@ public class adminServices extends baseJSP {
 		super(session, request, response, stream);
 		ms = new MyServices(session, request, response, stream);
 		hs = new HTMLServices(session, request, response, stream);
-	    conn = new dbConnector();
 	}
 	
 	
@@ -65,11 +62,16 @@ public class adminServices extends baseJSP {
 	
 	public boolean editClass() throws Exception {
 		
-		int classID = 0;
+		int classID = -1;
 		
 		if(request.getParameter("editClass") != null){
 			//Need to convert getParameter to an integer
 			classID = Integer.parseInt(request.getParameter("editClass"));
+			hs.buildEditClass(classID);	
+			return true;
+		}
+		if(request.getParameter("new") != null){
+			//Need to convert getParameter to an integer
 			hs.buildEditClass(classID);	
 			return true;
 		}
@@ -79,11 +81,16 @@ public class adminServices extends baseJSP {
 	
 	public boolean editClassroom() throws Exception {
 		
-		int classroomID = 0;
+		int classroomID = -1;
 		
 		if(request.getParameter("editClassroom") != null){
 			//Need to convert getParameter to an integer
 			classroomID = Integer.parseInt(request.getParameter("editClassroom"));
+			hs.buildEditClassroom(classroomID);	
+			return true;
+		}
+		if(request.getParameter("new") != null){
+			//Need to convert getParameter to an integer
 			hs.buildEditClassroom(classroomID);	
 			return true;
 		}
@@ -111,14 +118,10 @@ public class adminServices extends baseJSP {
 	}
 	
 	public void setDays(Class1 item) throws Exception {
-
-		System.out.printf("\n\nMADE IT \n\n\n");
-
 		//for (Class1 item : classList) {
 			if (item != null) {
 				//c.setClassID(item.getClassID());
 				// parse through classDays attribute checking for M T W R F S
-
 				if (item.getClassDays().contains("M") || item.getClassDays().contains("m")) {
 					item.setClassMon(1);
 				}
@@ -180,7 +183,11 @@ public class adminServices extends baseJSP {
 			//c.setDeskType(request.getParameter("deskType"));
 			
 			//c.setClassID(ms.updateClass(c));
-			ms.updateClass(c);
+			if (c.getClassID() == -1){
+				ms.addClass(c);
+			}else{
+				ms.updateClass(c);
+			}
 			setDays(c);
 		}
 		
@@ -206,12 +213,70 @@ public class adminServices extends baseJSP {
 			cr.setRoomDistLearning(request.getParameter("roomDistLearning"));
 			cr.setRoomProjectors(Integer.parseInt(request.getParameter("roomProjectors")));	
 			
-			ms.updateClassroom(cr);
+			if (cr.getRoomID() == -1){
+				ms.addClassroom(cr);
+			} else {
+				ms.updateClassroom(cr);
+			}
 		}
 		
 	}
-	
-	
+// --------------------------------------------------------------------------------------------
+//										INSTRUCTOR FUNCTIONS
+//--------------------------------------------------------------------------------------------
+	//editInstructor
+	public boolean editInstructor() throws Exception {
+		System.out.println("Made it to AS");
+		int instructorID = -1;
+		if(request.getParameter("editInstructor") != null){
+			//Need to convert getParameter to an integer
+			instructorID = Integer.parseInt(request.getParameter("editInstructor"));
+			System.out.println("Instructor ID is: " + instructorID);
+			hs.buildEditInstructor(instructorID);	
+			return true;
+		}else if(request.getParameter("new") != null){
+			//Need to convert getParameter to an integer
+			hs.buildEditInstructor(instructorID);	
+			return true;
+		}
+		return false;
+	}
+	//submitInstructorEdit
+	public void submitInstructorEdit() throws Exception {
+		
+		if(request.getParameter("submitInstructorEdit") != null){
+
+			
+			Instructor instructor = new Instructor();
+			
+			System.out.printf("\n\nInstructor ID: %d\n\n\n",Integer.parseInt(request.getParameter("instructID")) );
+			
+			instructor.setID(Integer.parseInt(request.getParameter("instructID")));
+			instructor.setNameFirst(request.getParameter("instructFirst"));	
+			instructor.setNameLast(request.getParameter("instructLast"));
+			instructor.setPrefChair(request.getParameter("prefChairType"));
+			instructor.setPrefDesk(request.getParameter("prefDeskType"));
+			instructor.setPrefBoard(request.getParameter("prefBoardType"));
+			instructor.setComment(request.getParameter("comment"));	
+			
+			if (instructor.getID() == -1){
+				ms.addInstructor(instructor);
+			} else {
+				ms.updateInstructor(instructor);
+			}
+		}
+		
+	}
+	//deleteInstructor
+	public void deleteInstructor() throws Exception {
+
+		int instructorID = 0;
+		if (request.getParameter("deleteInstrctor") != null) {
+			// Set the ClassID to the class to be removed
+			instructorID = Integer.parseInt(request.getParameter("deleteInstructor"));
+			ms.deleteClassroom(instructorID);
+		}
+	}
 // --------------------------------------------------------------------------------------------
 // 										USER FUNCTIONS
 // --------------------------------------------------------------------------------------------

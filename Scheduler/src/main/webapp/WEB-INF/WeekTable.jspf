@@ -36,11 +36,11 @@
 	</tr>
 	</thead>
 	<%
-	 SimpleDateFormat df = new SimpleDateFormat("HH:mm");
+	 SimpleDateFormat df = new SimpleDateFormat("hh:mm a");
 	 Calendar startTime = Calendar.getInstance();
-	 startTime.setTime(df.parse("07:00"));
+	 startTime.setTime(df.parse("07:00 am"));
 	 Calendar endTime = Calendar.getInstance();
-	 endTime.setTime(df.parse("22:00"));
+	 endTime.setTime(df.parse("10:00 pm"));
 	 while (!startTime.after(endTime)){
 		 %>
 		 <tr>

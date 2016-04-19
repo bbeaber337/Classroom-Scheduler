@@ -48,12 +48,11 @@ public class wordServices extends baseJSP {
 			
 			//run.setText("Testing. ");
 			
-			FileOutputStream fOut = new FileOutputStream(new File("C:\\myDownloads\\CLASSES.docx"));
-			document.write(fOut);
-			fOut.close();		
+			//FileOutputStream fOut = new FileOutputStream(new File("C:\\myDownloads\\CLASSES.docx"));
+			response.setContentType("application/vnd.ms-word");
+			response.setHeader("Content-Disposition", "attachment; filename="+ session.getAttribute("semester").toString() +".docx");
+			document.write(response.getOutputStream());
+			//fOut.close();
 		}
-		
 	}
-	
-
 }
