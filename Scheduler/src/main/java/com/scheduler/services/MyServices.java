@@ -353,7 +353,7 @@ public class MyServices extends baseJSP {
 	public int updateClass(Class1 c) throws SQLException {
 		String semester = session.getAttribute("semester").toString();
 		
-		System.out.printf("\n\n\nAdding Class: %d\n\n\n", c.getClassID());
+		System.out.printf("Adding Class: %d", c.getClassID());
 		String query = "UPDATE `" + semester + "classes` SET "
 				+ " classNumber=\"" + c.getClassNumber() + "\", "
 				+ " classSubject=\"" + c.getClassSubject() + "\", "

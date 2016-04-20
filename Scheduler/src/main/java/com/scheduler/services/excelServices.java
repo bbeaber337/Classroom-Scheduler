@@ -242,6 +242,7 @@ public class excelServices extends baseJSP {
 		List<Class1> classList = new ArrayList<Class1>();
 		List<Classroom> classroomList = new ArrayList<Classroom>();
 		List<Instructor> instructorList = new ArrayList<Instructor>();
+		List<List<String>> originalTable = new ArrayList<List<String>>();
 		InputStream fis = null;
 		int count = 0;
 		
@@ -278,10 +279,6 @@ public class excelServices extends baseJSP {
 			//Clear all current class information
 			ms.clearClasses();
 			
-			//Clear all classroom information
-			ms.clearClassrooms();
-			
-			ms.clearInstructors();
 			try {
 				List<FileItem> items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
 				for (FileItem item: items){
@@ -312,6 +309,21 @@ public class excelServices extends baseJSP {
 				    Sheet sheet = workbook.getSheetAt(i);
 				    Iterator rowIterator = sheet.iterator();
 				    
+				  //Need to set a format in order to convert Dates into Strings
+					DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+					DateFormat tf = new SimpleDateFormat("h:mm:ss a");
+
+					ArrayList<String> headers = new ArrayList<String>();
+					if (rowIterator.hasNext()){
+						Row row = (Row) rowIterator.next();
+						Iterator cellIterator = row.cellIterator();
+						while(cellIterator.hasNext()){
+							Cell cell = (Cell) cellIterator.next();
+							headers.add(cell.toString());
+						}
+						originalTable.add(headers);
+					}
+					
 				  //iterating over each row
 				  while (rowIterator.hasNext()) {
 					  
@@ -321,11 +333,7 @@ public class excelServices extends baseJSP {
 					Instructor instructor = new Instructor();
 					Row row = (Row) rowIterator.next();
 					Iterator cellIterator = row.cellIterator();
-					
-					//Need to set a format in order to convert Dates into Strings
-					DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-					DateFormat tf = new SimpleDateFormat("h:mm:ss a");
-
+					List<String> rowValues = new ArrayList<String>();
 					
 					//Iterating over each cell (column wise)  in a particular row.
 					if(count > 1) {
@@ -333,6 +341,7 @@ public class excelServices extends baseJSP {
 						
 						Cell cell = (Cell) cellIterator.next();
 						//The Cell Containing String will is name.
+						rowValues.add(cell.toString());
 						
 						//All VALUES IN THE EXCEL DOCUMENT ARE RECOGNIZED AS A STRING!!!
 						if (Cell.CELL_TYPE_STRING == cell.getCellType()) {
@@ -454,6 +463,7 @@ public class excelServices extends baseJSP {
 					classList.add(c);
 					classroomList.add(cr);
 					instructorList.add(instructor);
+					originalTable.add(rowValues);
 				  }
 				  }
 			}

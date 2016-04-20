@@ -185,7 +185,7 @@ public class HTMLServices extends baseJSP {
 			
 		StringBuilder out = new StringBuilder();
 		
-		out.append("<table class=\"table sortable\"><thead><tr><th>Select</th><th>Room</th><th>Capacity</th><th>Type</th><th>Chair Type</th><th>Desk Type</th><th>Board Type</th><th>Distance Learning</th><th>Number of Projectors</th><th>Edit</th><th>Delete</th></tr></thead><tbody>");
+		out.append("<table id=\"classroomTable\" class=\"table sortable\"><thead><tr><th>Select</th><th>Room</th><th>Capacity</th><th>Type</th><th>Chair Type</th><th>Desk Type</th><th>Board Type</th><th>Distance Learning</th><th>Number of Projectors</th><th>Edit</th><th>Delete</th></tr></thead><tbody>");
 		for(Classroom cr : items){
 		
 			if(cr.getRoomType() == null){
@@ -326,7 +326,7 @@ public class HTMLServices extends baseJSP {
 			
 		StringBuilder out = new StringBuilder();
 		
-		out.append("<table class=\"table \"><thead><tr><th>Select</th><th>First</th><th>Last</th><th>Chair Preference</th><th>Desk Preference</th><th>Board Preference</th><th>Comment</th><th>Edit</th><th>Delete</th></tr></thead><tbody>");
+		out.append("<table id=\"instructorTable\" class=\"table \"><thead><tr><th>Select</th><th>First</th><th>Last</th><th>Chair Preference</th><th>Desk Preference</th><th>Board Preference</th><th>Comment</th><th>Edit</th><th>Delete</th></tr></thead><tbody>");
 		for(Instructor instructor : items){
 			
 			out.append("<tr><td><form onsubmit=\"getSchedule(" + instructor.getID() + " , '" + instructor.getNameFirst() + " " + instructor.getNameLast() + "');return false;\" ><input type='submit' value='Select' alt='Select Classroom'/></form></td>");
@@ -467,10 +467,12 @@ public class HTMLServices extends baseJSP {
 			.add(  "Start", (int)((start.getTimeInMillis() - dayStart.getTimeInMillis()) / (60000 * 15)))
 			.add(  "Duration",  (int)(Math.ceil(end.getTimeInMillis() - start.getTimeInMillis()) / (60000 * 15)))
 			.add(  "Class_Number", c.getClassSubject() + c.getClassNumber() )
+			.add(  "Classroom", c.getClassRoom())
+			.add(  "Class_Name", c.getClassName())
 			.add(  "Time", c.getClassTimeStart() + " - " + c.getClassTimeEnd() )
 			.add(  "Sun", c.getClassSun())
 			.add(  "Mon", c.getClassMon())
-			.add(  "Tue", c.getClassTues())
+			.add(  "Tues", c.getClassTues())
 			.add(  "Wed", c.getClassWed())
 			.add(  "Thur", c.getClassThurs())
 			.add(  "Fri", c.getClassFri())

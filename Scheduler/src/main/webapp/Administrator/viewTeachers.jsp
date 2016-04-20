@@ -37,12 +37,10 @@
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  
+    <link rel="stylesheet" type="text/css" href="../DataTables/datatables.min.css"/>
+  <script type="text/javascript" src="../DataTables/datatables.min.js"></script>
 
-<title>Insert title here</title>
-
-
-
-<html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
@@ -54,54 +52,73 @@
 		for (var i = 0; i < json.data.length; i++){
 			var class1 = json.data[i];
 			var row = $('#WeekTable > tbody').find('tr:eq('+class1.Start.toString()+')');
-			var classString = "<a href=\"viewClasses.jsp?editClass="+ class1.Class_Id + "\">" + class1.Class_Number + " " + class1.Time + "</a><br>";
-			if (class1.Sun !== 0){
-				var cell = row.find('td:eq(0)');
-				cell.append(classString);
-				<!-- cell.attr('rowspan',class1.Duration); -->
-			}
-			if (class1.Mon == 1){
-				var cell = row.find('td:eq(1)');
-				cell.append(classString);
-				<!-- cell.attr('rowspan',class1.Duration); -->
-			}
-			if (class1.Tues == 1){
-				var cell = row.find('td:eq(2)');
-				cell.append(classString);
-				<!-- cell.attr('rowspan',class1.Duration); -->
-			}
-			if (class1.Wed == 1){
-				var cell = row.find('td:eq(3)');
-				cell.append(classString);
-				<!-- cell.attr('rowspan',class1.Duration); -->
-			}
-			if (class1.Thur == 1){
-				var cell = row.find('td:eq(4)');
-				cell.append(classString);
-				<!-- cell.attr('rowspan',class1.Duration); -->
-			}
-			if (class1.Fri == 1){
-				var cell = row.find('td:eq(5)');
-				cell.append(classString);
-				<!-- cell.attr('rowspan',class1.Duration); -->
-			}
-			if (class1.Sat == 1){
-				var cell = row.find('td:eq(6)');
-				cell.append(classString);
-				<!-- cell.attr('rowspan',class1.Duration); -->
-			}
+			var classString = "<a href=\"viewClasses.jsp?editClass="+ class1.Class_Id + "\">" + class1.Classroom + " " + class1.Time + "</a><br>";
+			for (var j = 0; j < class1.Duration; j++){
+				if (class1.Sun !== 0){
+					var cell = row.find('td:eq(0)');
+					if (j == 0){
+						cell.append(classString);
+					}
+					cell.css('background-color','PaleGreen');
+				}
+				if (class1.Mon == 1){
+					var cell = row.find('td:eq(1)');
+					if (j == 0){
+						cell.append(classString);
+					}
+					cell.css('background-color','PaleGreen');
+				}
+				if (class1.Tues == 1){
+					var cell = row.find('td:eq(2)');
+					if (j == 0){
+						cell.append(classString);
+					}
+					cell.css('background-color','PaleTurquoise');
+				}
+				if (class1.Wed == 1){
+					var cell = row.find('td:eq(3)');
+					if (j == 0){
+						cell.append(classString);
+					}
+					cell.css('background-color','PaleGreen');
+				}
+				if (class1.Thur == 1){
+					var cell = row.find('td:eq(4)');
+					if (j == 0){
+						cell.append(classString);
+					}
+					cell.css('background-color','PaleTurquoise');
+				}
+				if (class1.Fri == 1){
+					var cell = row.find('td:eq(5)');
+					if (j == 0){
+						cell.append(classString);
+					}
+					cell.css('background-color','PaleGreen');
+				}
+				if (class1.Sat == 1){
+					var cell = row.find('td:eq(6)');
+					if (j == 0){
+						cell.append(classString);
+					}
+					cell.css('background-color','PaleGreen');
+				}
+				row = row.next('tr');
+			};
 		};
 		window.scrollTo(0,0);
 	}
 	
 	function getSchedule(teacherID, teacherName){
 		$('#WeekTable > tbody > tr > td').empty();
+		$('#WeekTable > tbody > tr > td').css('background-color', '');
 		$('#WeekTable').show();
 		$('#WeekTableHeader').html(teacherName + "'s Schedule");
 		$.getJSON('viewTeachers.jsp', {instructorID : teacherID}, function (data) {ajaxCallback(data);});
 	}
 	
 	$(document).ready( function(){
+		$("#instructorTable").DataTable({"lengthMenu": [[25, 50, 100, -1], [25, 50, 100, "All"]]});
 	    $("#add > a").attr("href","viewTeachers.jsp?new=true");
 	    $("#add > a").append(" Teachers");
 	    $("#add").show();
