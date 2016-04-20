@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 
+import com.scheduler.dbconnector.JdbcManager;
 import com.scheduler.dbconnector.dbConnector;
 import com.scheduler.validation.validateClassroom;
 import com.scheduler.validation.validateTeacher;
@@ -31,14 +32,17 @@ public class conflictServices {
 	public List<Conflict> getConflicts( String semester, List<Class1> classes ) {
 		
 		dbConnector dbConn = new dbConnector();
+		JdbcManager jdbc = new JdbcManager();
 		List<Conflict> conList = null;
 			
+		/*
 		try {
 			conList = validatorClassroom.validateClassroomRun(semester, dbConn, classes);
 			conList.addAll(validatorTeacher.validateTeacherRun(semester, dbConn, classes));
 		} catch( SQLException SQLE ) {
 			System.out.print("Error handling conflicts\n" + SQLE.getMessage() + "\n");
 		}
+		*/
 		
 		
 		dbConn.closeConnection();
