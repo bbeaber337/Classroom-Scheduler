@@ -1,7 +1,9 @@
 package com.scheduler.validation;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -18,15 +20,15 @@ public class validateTeacher {
 
 	
 	
-	public List<Conflict> validateTeacherRun( String semester, dbConnector conn) throws SQLException {
+	public List<Conflict> validateTeacherRun( String semester, Connection conn) throws Exception {
 		return validateTeacherRun( semester, conn, (List)null );
 	}
 	
-	public List<Conflict> validateTeacherRun( String semester, dbConnector conn, Class1 class1 ) throws SQLException {
+	public List<Conflict> validateTeacherRun( String semester, Connection conn, Class1 class1 ) throws Exception {
 		return validateTeacherRun( semester, conn, Arrays.asList(class1) );
 	}
 	
-	public List<Conflict> validateTeacherRun( String semester, dbConnector conn, List<Class1> classes ) throws SQLException {
+	public List<Conflict> validateTeacherRun( String semester, Connection conn, List<Class1> classes ) throws Exception {
 
 
 		Conflict conflict = null;
@@ -115,113 +117,153 @@ public class validateTeacher {
 		return conList;
 	}
 	
-	private List<Classroom> getClassrooms( String semester, dbConnector conn, String classroom ) throws SQLException {
+	private List<Classroom> getClassrooms( String semester, Connection conn, String classroom ) throws Exception {
 		ResultSet rs = null;
 		List<Classroom> list = new ArrayList<Classroom>();
 		
+		Statement stmt = null;
 		String query = "SELECT * FROM " + semester + "classerooms";
 		
 		if( classroom != null ) {
 			query += " WHERE classRoom ='" + classroom + "'";
 		}
 		
-		rs = conn.runQuery(query);		
+		try {
+        	stmt = conn.createStatement();
+        	rs = stmt.executeQuery(query);	
 		
-		if(rs != null){
-			while(rs.next()){
-				Classroom item = new Classroom();
-				//System.out.println(rs.getString("name"));
-				item.setRoomID(rs.getInt("roomID"));
-				item.setRoomCapacity(rs.getInt("roomCapacity"));
-				item.setRoomName(rs.getString("roomName"));
-				item.setRoomDeskType(rs.getString("roomDeskType"));
-				item.setRoomChairType(rs.getString("roomChairType"));
-				item.setRoomBoardType(rs.getString("roomBoardType"));
-				item.setRoomDistLearning(rs.getString("roomDistLearning"));
-				item.setRoomType(rs.getString("roomType"));
-				item.setRoomProjectors(rs.getInt("roomProjectors"));
-				list.add(item);
+			if(rs != null){
+				while(rs.next()){
+					Classroom item = new Classroom();
+					//System.out.println(rs.getString("name"));
+					item.setRoomID(rs.getInt("roomID"));
+					item.setRoomCapacity(rs.getInt("roomCapacity"));
+					item.setRoomName(rs.getString("roomName"));
+					item.setRoomDeskType(rs.getString("roomDeskType"));
+					item.setRoomChairType(rs.getString("roomChairType"));
+					item.setRoomBoardType(rs.getString("roomBoardType"));
+					item.setRoomDistLearning(rs.getString("roomDistLearning"));
+					item.setRoomType(rs.getString("roomType"));
+					item.setRoomProjectors(rs.getInt("roomProjectors"));
+					list.add(item);
+				}
 			}
+		 } catch (SQLException SQLE) {
+	    	if (stmt != null) { 
+	    		stmt.close(); 
+	    	}
+	    	throw new Exception("SQL Exception in validateTeacher, getClassrooms\n", SQLE.getCause());
 		}
+		
+			if (stmt != null) { 
+			stmt.close(); 
+		}
+		
 		return list;
 	}
 	
-	private List<Instructor> getTeachers( String semester, dbConnector conn, String teacherFirst, String teacherLast ) throws SQLException {
+	private List<Instructor> getTeachers( String semester, Connection conn, String teacherFirst, String teacherLast ) throws Exception {
 		ResultSet rs = null;
 		List<Instructor> list = new ArrayList<Instructor>();
 		
+		Statement stmt = null;
 		String query = "SELECT * FROM " + semester + "instructors";
 		
 		if( teacherLast != null && teacherFirst != null ) {
 			query += " WHERE instructLast ='" + teacherLast + "' AND instructFirst ='" + teacherFirst + "'";
 		}
 		
-		rs = conn.runQuery(query);		
+		try {
+        	stmt = conn.createStatement();
+        	rs = stmt.executeQuery(query);			
 		
-		if(rs != null){
-			while(rs.next()){
-				Instructor item = new Instructor();
-				item.setInstructID(rs.getInt("instructID"));
-				item.setNameFirst(rs.getString("instructFirst"));
-				item.setNameLast(rs.getString("instructLast"));
-				item.setPrefBoard(rs.getString("instructBoard"));
-				item.setPrefDesk(rs.getString("instructDesk"));
-				item.setPrefChair(rs.getString("instructChair"));
-				item.setComment(rs.getString("instructComment"));
-				list.add(item);
+			if(rs != null){
+				while(rs.next()){
+					Instructor item = new Instructor();
+					item.setInstructID(rs.getInt("instructID"));
+					item.setNameFirst(rs.getString("instructFirst"));
+					item.setNameLast(rs.getString("instructLast"));
+					item.setPrefBoard(rs.getString("instructBoard"));
+					item.setPrefDesk(rs.getString("instructDesk"));
+					item.setPrefChair(rs.getString("instructChair"));
+					item.setComment(rs.getString("instructComment"));
+					list.add(item);
+				}
 			}
+		} catch (SQLException SQLE) {
+	    	if (stmt != null) { 
+	    		stmt.close(); 
+	    	}
+		    throw new Exception("SQL Exception in validateTeacher, getTeachers\n", SQLE.getCause());
+		}
+		
+			if (stmt != null) { 
+			stmt.close(); 
 		}
 		return list;
 	}
 	
-	private List<Class1> queryTeacher( String semester, dbConnector conn, String teacherFirst, String teacherLast ) throws SQLException {
+	private List<Class1> queryTeacher( String semester, Connection conn, String teacherFirst, String teacherLast ) throws Exception {
 		ResultSet rs = null;
 		List<Class1> list = new ArrayList<Class1>();
 		
+		Statement stmt = null;
 		String query = "SELECT * FROM " + semester + "classes";
 		
 		if( teacherFirst != null && teacherLast != null ) {
 			query += " WHERE classInstructLast ='" + teacherLast + "' AND classInstructFirst ='" + teacherFirst + "'";
 		}
 		
-		rs = conn.runQuery(query);
+		try {
+        	stmt = conn.createStatement();
+        	rs = stmt.executeQuery(query);	
 		
-		if(rs != null){
-			while(rs.next()){
-				Class1 item = new Class1();
-				//System.out.println(rs.getString("name"));
-				item.setClassID(rs.getInt("classID"));
-				item.setClassNumber(rs.getInt("classNumber"));
-				item.setClassSubject(rs.getString("classSubject"));
-				item.setClassCatalog(rs.getString("classCatalog"));
-				item.setClassSection(rs.getString("classSection"));
-				item.setClassCombination(rs.getString("classCombination"));
-				item.setClassName(rs.getString("className"));
-				item.setClassDescription(rs.getString("classDescription"));
-				item.setClassAcadGroup(rs.getString("classAcadGroup"));
-				item.setClassCapacity(rs.getInt("classCapacity"));
-				item.setClassEnrolled(rs.getInt("classEnrolled"));
-				item.setClassDays(rs.getString("classDays"));
-				item.setClassTimeStart(rs.getString("classTimeStart"));
-				item.setClassTimeEnd(rs.getString("classTimeEnd"));
-				item.setClassDateStart(rs.getString("classDateStart"));
-				item.setClassDateEnd(rs.getString("classDateEnd"));
-				item.setClassInstructLast(rs.getString("classInstructLast"));
-				item.setClassInstructFirst(rs.getString("classInstructFirst"));
-				item.setClassRoom(rs.getString("classRoom"));
-				item.setClassCampus(rs.getString("classCampus"));
-				item.setClassMode(rs.getString("classMode"));
-				item.setClassComponent(rs.getString("classComponent"));
-				item.setClassSection(rs.getString("classSession"));
-				item.setClassCrsAttrVal(rs.getString("classCrsAttrVal"));
-				item.setClassMon(rs.getInt("classMon"));
-				item.setClassTues(rs.getInt("classTues"));
-				item.setClassWed(rs.getInt("classWed"));
-				item.setClassThurs(rs.getInt("classThurs"));
-				item.setClassFri(rs.getInt("classFri"));
-				item.setClassSat(rs.getInt("classSat"));
-				list.add(item);
+			if(rs != null){
+				while(rs.next()){
+					Class1 item = new Class1();
+					//System.out.println(rs.getString("name"));
+					item.setClassID(rs.getInt("classID"));
+					item.setClassNumber(rs.getInt("classNumber"));
+					item.setClassSubject(rs.getString("classSubject"));
+					item.setClassCatalog(rs.getString("classCatalog"));
+					item.setClassSection(rs.getString("classSection"));
+					item.setClassCombination(rs.getString("classCombination"));
+					item.setClassName(rs.getString("className"));
+					item.setClassDescription(rs.getString("classDescription"));
+					item.setClassAcadGroup(rs.getString("classAcadGroup"));
+					item.setClassCapacity(rs.getInt("classCapacity"));
+					item.setClassEnrolled(rs.getInt("classEnrolled"));
+					item.setClassDays(rs.getString("classDays"));
+					item.setClassTimeStart(rs.getString("classTimeStart"));
+					item.setClassTimeEnd(rs.getString("classTimeEnd"));
+					item.setClassDateStart(rs.getString("classDateStart"));
+					item.setClassDateEnd(rs.getString("classDateEnd"));
+					item.setClassInstructLast(rs.getString("classInstructLast"));
+					item.setClassInstructFirst(rs.getString("classInstructFirst"));
+					item.setClassRoom(rs.getString("classRoom"));
+					item.setClassCampus(rs.getString("classCampus"));
+					item.setClassMode(rs.getString("classMode"));
+					item.setClassComponent(rs.getString("classComponent"));
+					item.setClassSection(rs.getString("classSession"));
+					item.setClassCrsAttrVal(rs.getString("classCrsAttrVal"));
+					item.setClassMon(rs.getInt("classMon"));
+					item.setClassTues(rs.getInt("classTues"));
+					item.setClassWed(rs.getInt("classWed"));
+					item.setClassThurs(rs.getInt("classThurs"));
+					item.setClassFri(rs.getInt("classFri"));
+					item.setClassSat(rs.getInt("classSat"));
+					list.add(item);
+				}
 			}
+		} catch (SQLException SQLE) {
+	    	if (stmt != null) { 
+	    		stmt.close(); 
+	    	}
+		    throw new Exception("SQL Exception in validateTeacher, queryTeacher\n", SQLE.getCause());
+		}
+		
+			if (stmt != null) { 
+			stmt.close(); 
 		}
 		return list;
 	}
