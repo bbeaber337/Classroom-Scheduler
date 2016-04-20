@@ -8,11 +8,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
-import com.scheduler.dbconnector.JdbcManager;
-import com.scheduler.dbconnector.dbConnector;
 import com.scheduler.valueObjects.Class1;
 import com.scheduler.valueObjects.Classroom;
 import com.scheduler.valueObjects.Conflict;
