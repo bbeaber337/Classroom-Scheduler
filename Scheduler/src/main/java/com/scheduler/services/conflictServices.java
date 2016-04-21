@@ -38,19 +38,13 @@ public class conflictServices {
 			conList = validatorClassroom.validateClassroomRun(semester, jdbcConn, classes);
 			conList.addAll(validatorTeacher.validateTeacherRun(semester, jdbcConn, classes));
 		} catch( Exception Exc ) {
+			System.out.print("Error handling conflicts\n" + Exc.getMessage() + "\n");
+		} finally {
+			
 			if( jdbcConn != null ) {
 				JdbcManager.close(jdbcConn);
 			}
-			System.out.print("Error handling conflicts\n" + Exc.getMessage() + "\n");
 		}
-		
-		if( jdbcConn != null ) {
-			JdbcManager.close(jdbcConn);
-		}
-		
-		
-		
-		
 		
 		return conList;
 	}

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.scheduler.dbconnector.JdbcManager;
 import com.scheduler.valueObjects.Class1;
 import com.scheduler.valueObjects.Classroom;
 import com.scheduler.valueObjects.Conflict;
@@ -169,7 +170,7 @@ public class validateClassroom {
 		List<Classroom> list = new ArrayList<Classroom>();
 		
 		Statement stmt = null;
-		String query = "SELECT * FROM " + semester + "classerooms";
+		String query = "SELECT * FROM " + semester + "classrooms";
 		
 		if( classroom != null ) {
 			query += " WHERE classRoom ='" + classroom + "'";
@@ -177,12 +178,12 @@ public class validateClassroom {
 		
 		try {
         	stmt = conn.createStatement();
-        	rs = stmt.executeQuery(query);		
+        	rs = stmt.executeQuery(query);
 		
 			if(rs != null){
 				while(rs.next()){
 					Classroom item = new Classroom();
-					//System.out.println(rs.getString("name"));
+					System.out.println(rs.toString());
 					item.setRoomID(rs.getInt("roomID"));
 					item.setRoomCapacity(rs.getInt("roomCapacity"));
 					item.setRoomName(rs.getString("roomName"));
@@ -196,15 +197,11 @@ public class validateClassroom {
 				}
 			}
 		} catch (SQLException SQLE) {
-        	if (stmt != null) { 
-        		stmt.close(); 
-        	}
         	throw new Exception("SQL Exception in validateClassroom, getClassrooms\n", SQLE.getCause());
+        } finally {
+        	JdbcManager.close(rs);
+        	JdbcManager.close(stmt);
         }
-        
-        if (stmt != null) { 
-    		stmt.close(); 
-    	}
 		
 		
 		return list;

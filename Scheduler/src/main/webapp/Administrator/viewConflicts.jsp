@@ -16,6 +16,7 @@
 	<%@ page import="java.sql.*" %>
 	<% HTMLServices hs = new HTMLServices(session, request, response, out); 
 		adminServices as = new adminServices(session, request, response, out);
+		conflictServices cs = new conflictServices();
 		//Check if account was deleted
 		as.delAccount();
 	%>
@@ -63,7 +64,32 @@ if(semester.equals("summer")){%>
 <h2 class="text-center">Current Fall Conflicts</h2>
 <%} %>
 </br></br></br></br>
+<table>
+<tbody>
+<thead>
+<tr>
+	<th>Class1</th>
+	<th>Class2</th>
+	<th>ConfType</th>
+	<th>Value1</th>
+	<th>Value2</th>
+</tr>
+</thead>
+<% 
+	List<Conflict> conflicts = cs.getConflicts(session.getAttribute("semester").toString()); 
+	if (conflicts != null){
+	for (Conflict c : conflicts){ %>
+<tr>
+	<td><%= c.getClass1() %></td>
+	<td><%= c.getClass2() %></td>
+	<td><%= c.getConfType() %></td>
+	<td><%= c.getValue1() %></td>
+	<td><%= c.getValue2() %></td>
+</tr>
+<% }} %>
 
+</tbody>
+</table>
 
 </body>
 </html>
