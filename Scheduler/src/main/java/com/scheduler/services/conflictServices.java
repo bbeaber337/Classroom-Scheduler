@@ -1,10 +1,10 @@
 package com.scheduler.services;
 
-import java.sql.SQLException;
+import java.sql.Connection;
 import java.util.Arrays;
 import java.util.List;
 
-import com.scheduler.dbconnector.dbConnector;
+import com.scheduler.dbconnector.JdbcManager;
 import com.scheduler.validation.validateClassroom;
 import com.scheduler.validation.validateTeacher;
 import com.scheduler.valueObjects.Class1;
@@ -30,18 +30,27 @@ public class conflictServices {
 	
 	public List<Conflict> getConflicts( String semester, List<Class1> classes ) {
 		
-		dbConnector dbConn = new dbConnector();
+		Connection jdbcConn = null;
 		List<Conflict> conList = null;
 			
 		try {
-			conList = validatorClassroom.validateClassroomRun(semester, dbConn, classes);
-			conList.addAll(validatorTeacher.validateTeacherRun(semester, dbConn, classes));
-		} catch( SQLException SQLE ) {
-			System.out.print("Error handling conflicts\n" + SQLE.getMessage() + "\n");
+			jdbcConn = JdbcManager.getConnection();
+			conList = validatorClassroom.validateClassroomRun(semester, jdbcConn, classes);
+			conList.addAll(validatorTeacher.validateTeacherRun(semester, jdbcConn, classes));
+		} catch( Exception Exc ) {
+			if( jdbcConn != null ) {
+				JdbcManager.close(jdbcConn);
+			}
+			System.out.print("Error handling conflicts\n" + Exc.getMessage() + "\n");
+		}
+		
+		if( jdbcConn != null ) {
+			JdbcManager.close(jdbcConn);
 		}
 		
 		
-		dbConn.closeConnection();
+		
+		
 		
 		return conList;
 	}
