@@ -42,6 +42,11 @@ public class wordServices extends baseJSP {
 		
 		if(request.getParameter("exportWord") != null){
 
+			//Get all classes
+			List<Class1> items = ms.getClasses();
+			String str = null;
+			
+			//Capitalize the Semester
 			String sessionVal = session.getAttribute("semester").toString();
 			sessionVal = sessionVal.substring(0, 1).toUpperCase() + sessionVal.substring(1);
 			
@@ -69,6 +74,7 @@ public class wordServices extends baseJSP {
 			paragraph.setAlignment(ParagraphAlignment.LEFT);
 			run = paragraph.createRun();
 			run.setBold(true);
+			//run.setUnderline(null);
 			run.setText("Subject");
 			run.addTab();
 			run.addTab();
@@ -83,6 +89,54 @@ public class wordServices extends baseJSP {
 			run.addTab();
 			run.addTab();
 			run.setText("Component");
+			run.addBreak();
+			
+			
+			for (Class1 c : items){
+				paragraph = document.createParagraph();
+				paragraph.setAlignment(ParagraphAlignment.LEFT);
+				run = paragraph.createRun();
+				run.setBold(false);
+				run.setFontSize(9);
+				run.setText(c.getClassSubject());
+				run.addTab();
+				run.addTab();
+				run.setText(c.getClassCatalog());
+				run.addTab();
+				run.setText(c.getClassSection());
+				run.addTab();
+				str = Integer.toString(c.getClassNumber());
+				run.setText(str);
+				run.addTab();
+				run.setText(c.getClassName());
+				run.addTab();
+				run.addTab();
+				run.addTab();
+				run.setText(c.getClassComponent());
+				run.addBreak();
+				
+				run.setText("Room: " + c.getClassRoom());
+				run.addTab();
+				run.addTab();
+				run.setText("Days: " + c.getClassDays());
+				run.addTab();
+				run.addTab();
+				run.setText("Time: " + c.getClassTimeStart() + "-" + c.getClassTimeEnd());
+				run.addTab();
+				run.addTab();
+				run.setText("Instructor: " + c.getClassInstructFirst() + " " + c.getClassInstructLast());
+				run.addBreak();
+				
+				run.setText("Class Enr Cap: " + c.getClassCapacity());
+				run.addTab();
+				run.addTab();
+				run.setText("Class Enr Tot: " + c.getClassEnrolled());
+				run.addTab();
+				run.addTab();
+				run.setText("Combined Section: ");
+				run.addBreak();
+				run.addBreak();
+			}
 
 
 			response.setContentType("application/vnd.ms-word");
