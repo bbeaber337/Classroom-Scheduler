@@ -128,7 +128,7 @@
 	}
 	
 	$(document).ready( function(){
-		$("#classroomTable").DataTable({"lengthMenu": [[30, -1], [30, "All"]]});
+		$("#classroomTable").DataTable({"lengthMenu": [[30, -1], [30, "All"]],"order": [[ 1, "desc" ]]});
 	    $("#add > a").attr("href","viewClassrooms.jsp?new=true");
 	    $("#add > a").append(" Classroom");
 	    $("#add").show();

@@ -1,32 +1,11 @@
 package com.scheduler.valueObjects;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Class1 {
 
-	int class_id = -1;
-	int classNbr = 0;
-	String subject = null;
-	String catalog = null;
-	String section = null;
-	String combo = null;
-	String name = null;
-	String description = null;
-	String acadGroup = null;
-	int capacity = 0;
-	int enrolled = 0;
-	String day = null;
-	String sTime = null;
-	String eTime = null;
-	String fName = null;
-	String lName = null;
-	String role = null;
-	String sDate = null;
-	String eDate = null;
-	String facil = null;
-	String campus = null;
-	String mode = null;
-	String comp = null;
-	String classCrsAttrVal = null;
-	int session = 0;
+	Map<String, String> params = new HashMap<String, String>();
 	int classMon = 0;
 	int classTues = 0;
 	int classWed = 0;
@@ -34,185 +13,249 @@ public class Class1 {
 	int classFri = 0;
 	int classSat = 0;
 	int classSun = 0;
+	
+	public Class1(){
+		this.setClassID(-1);
+		this.setClassNumber(0);
+		this.setClassCapacity(0);
+		this.setClassEnrolled(0);
+		this.setClassSession(0);
+	}
 	//String chairType = null;
 	//String boardType = null;
 	//String deskType = null;
-
+	public String get(String key){
+		return params.get(key);
+	}
+	
+	public void set(String key, String value){
+		params.put(key, value);
+	}
 	
 	public int getClassID(){
-		return class_id;
+		return Integer.parseInt(params.get("lClassID"));
+		//return class_id;
 	}
 	public void setClassID(int class_id){
-		this.class_id = class_id;
+		this.params.put("lClassID", Integer.toString(class_id));
+		//this.class_id = class_id;
 	}
 	
 	public int getClassSession(){
-		return session;
+		return Integer.parseInt(params.get("lClassSession"));
+		//return session;
 	}
 	public void setClassSession(int session){
-		this.session = session;
+		this.params.put("lClassSession", Integer.toString(session));
+		//this.session = session;
 	}
 
 
 	public String getClassComponent(){
-		return comp;
+		return params.get("lClassComponent");
+		//return comp;
 	}
 	public void setClassComponent(String comp){
-		this.comp = comp;
+		this.params.put("lClassComponent", comp);
+		//this.comp = comp;
 	}
 	
 	public String getClassMode(){
-		return mode;
+		return params.get("lClassMode");
+		// return mode;
 	}
 	public void setClassMode(String mode){
-		this.mode = mode;
+		this.params.put("lClassMode", mode);
+		//this.mode = mode;
 	}
 	
 	public String getClassCampus(){
-		return campus;
+		return params.get("lClassCampus");
+		// return campus;
 	}
 	public void setClassCampus(String campus){
-		this.campus = campus;
+		this.params.put("lClassCampus", campus);
+		//this.campus = campus;
 	}
 	
 	public String getClassRoom(){
-		return facil;
+		return params.get("lClassRoom");
+		//return facil;
 	}
 	public void setClassRoom(String facil){
-		this.facil = facil;
+		this.params.put("lClassRoom", facil);
+		//this.facil = facil;
 	}
 	
 	public String getClassInstructLast(){
-		return lName;
+		return params.get("lClassInstructLast");
+		//return lName;
 	}
 	public void setClassInstructLast(String lName){
-		this.lName = lName;
+		this.params.put("lClassInstructLast", lName);
+		//this.lName = lName;
 	}
 	
 	public String getClassRole(){
-		return role;
+		return params.get("lClassRole");
+		//return classRole;
 	}
 	public void setClassRole(String role){
-		this.role = role;
+		this.params.put("lClassRole", role);
+		//this.role = role;
 	}
 	
 	public String getClassInstructFirst(){
-		return fName;
+		return params.get("lClassInstructLast");
+		//return fName;
 	}
 	public void setClassInstructFirst(String fName){
-		this.fName = fName;
+		this.params.put("lClassInstructLast", fName);
+		//this.fName = fName;
 	}
 	
 	public String getClassDateEnd(){
-		return eDate;
+		return params.get("lClassDateEnd");
+		//return eDate;
 	}
 	public void setClassDateEnd(String eDate){
-		this.eDate = eDate;
+		this.params.put("lClassDateEnd", eDate);
+		//this.eDate = eDate;
 	}
 	
 	public String getClassDateStart(){
-		return sDate;
+		return params.get("lClassDateStart");
+		//return sDate;
 	}
 	public void setClassDateStart(String sDate){
-		this.sDate = sDate;
+		this.params.put("lClassDateStart", sDate);
+		//this.sDate = sDate;
 	}
 	
 	public String getClassTimeEnd(){
-		return eTime;
+		return params.get("lClassTimeEnd");
+		//return eTime;
 	}
 	public void setClassTimeEnd(String eTime){
-		this.eTime = eTime;
+		this.params.put("lClassTimeEnd", eTime);
+		//this.eTime = eTime;
 	}
 	
 	public String getClassTimeStart(){
-		return sTime;
+		return params.get("ClassTimeStart");
+		//return sTime;
 	}
 	public void setClassTimeStart(String sTime){
-		this.sTime = sTime;
+		this.params.put("ClassTimeStart", sTime);
+		//this.sTime = sTime;
 	}
 	
 	public String getClassDays(){
-		return day;
+		return this.params.get("lClassDays");
+		//return day;
 	}
 	public void setClassDays(String day){
-		this.day = day;
+		this.params.put("lClassDays", day);
+		//this.day = day;
 	}
 	
 	public int getClassEnrolled(){
-		return enrolled;
+		return Integer.parseInt(params.get("lClassEnrolled"));
+		//return enrolled;
 	}
 	public void setClassEnrolled(int enrolled){
-		this.enrolled = enrolled;
+		this.params.put("lClassEnrolled", Integer.toString(enrolled));
+		//this.enrolled = enrolled;
 	}
 	
 	public int getClassCapacity(){
-		return capacity;
+		return Integer.parseInt(params.get("lClassCapacity"));
+		//return capacity;
 	}
 	public void setClassCapacity(int capacity){
-		this.capacity = capacity;
+		this.params.put("lClassCapacity", Integer.toString(capacity));
+		//this.capacity = capacity;
 	}
 	
 	public String getClassAcadGroup(){
-		return acadGroup;
+		return params.get("lClassAcadGroup");
+		//return acadGroup;
 	}
 	public void setClassAcadGroup(String acadGroup){
-		this.acadGroup = acadGroup;
+		this.params.put("lClassAcadGroup", acadGroup);
+		//this.acadGroup = acadGroup;
 	}
 	
 	public String getClassDescription(){
-		return description;
+		return params.get("lClassDescription");
+		//return description;
 	}
 	public void setClassDescription(String description){
-		this.description = description;
+		this.params.put("lClassDescription", description);
+		//this.description = description;
 	}
 	
 	public int getClassNumber(){
-		return classNbr;
+		return Integer.parseInt(params.get("lClassNbr"));
+		//return classNbr;
 	}
 	public void setClassNumber(int classNbr){
-		this.classNbr = classNbr;
+		this.params.put("lClassNbr", Integer.toString(classNbr));
+		//this.classNbr = classNbr;
 	}
 	
 	public String getClassSubject(){
-		return subject;
+		return params.get("lClassSubject");
+		//return subject;
 	}
 	public void setClassSubject(String subject){
-		this.subject = subject;
+		this.params.put("lClassSubject", subject);
+		//this.subject = subject;
 	}
 	
 	public String getClassCatalog(){
-		return catalog;
+		return params.get("lClassCatalog");
+		//return catalog;
 	}
 	public void setClassCatalog(String catalog){
-		this.catalog = catalog;
+		this.params.put("lClassCatalog", catalog);
+		//this.catalog = catalog;
 	}
 	
 	public String getClassSection(){
-		return section;
+		return params.get("lClassSection");
+		//return section;
 	}
 	public void setClassSection(String section){
-		this.section = section;
+		this.params.put("lClassSection", section);
+		//this.section = section;
 	}
 	
 	public String getClassCombination(){
-		return combo;
+		return params.get("lClassCombination");
+		//return combo;
 	}
 	public void setClassCombination(String combo){
-		this.combo = combo;
+		this.params.put("lClassCombination", combo);
+		//this.combo = combo;
 	}
 	
 	public String getClassName(){
-		return name;
+		return params.get("lClassName");
+		//return name;
 	}
 	public void setClassName(String name){
-		this.name = name;
+		this.params.put("lClassName", name);
+		//this.name = name;
 	}
 	
 	public String getClassCrsAttrVal(){
-		return classCrsAttrVal;
+		return params.get("lClassCrsAttrVal");
+		//return classCrsAttrVal;
 	}
 	public void setClassCrsAttrVal(String classCrsAttrVal){
-		this.classCrsAttrVal = classCrsAttrVal;
+		this.params.put("lClassCrsAttrVal", classCrsAttrVal);
+		//this.classCrsAttrVal = classCrsAttrVal;
 	}
 	
 	public int getClassMon(){
@@ -267,7 +310,7 @@ public class Class1 {
 	
 	@Override
 	public boolean equals( Object object ) {
-		return this.class_id == ((Class1)object).getClassID();
+		return this.getClassID() == ((Class1)object).getClassID();
 	}
 	
 	

@@ -114,6 +114,7 @@ $(document).ready( function () {
                     { "data": "Edit_Class" },
                     { "data": "Delete_Class" }
                 ],
+                "order": [[ 3, "desc" ]],
                 "scrollX": true
     });
     $("#add > a").attr("href","viewClasses.jsp?new=true");
