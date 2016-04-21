@@ -13,6 +13,7 @@ public class Class1 {
 	int classFri = 0;
 	int classSat = 0;
 	int classSun = 0;
+	int groupNumber = 0;
 	
 	public Class1(){
 		this.setClassID(-1);
@@ -305,6 +306,12 @@ public class Class1 {
 	}
 	public void setClassSun(int classSun){
 		this.classSun = classSun;
+	}
+	public int getGroupNumber(){
+		return groupNumber;
+	}
+	public void setGroupNumber(int num){
+		this.groupNumber = num;
 	}
 	
 	

@@ -183,7 +183,7 @@ public class validateClassroom {
 			if(rs != null){
 				while(rs.next()){
 					Classroom item = new Classroom();
-					System.out.println(rs.toString());
+					//System.out.println(rs.toString());
 					item.setRoomID(rs.getInt("roomID"));
 					item.setRoomCapacity(rs.getInt("roomCapacity"));
 					item.setRoomName(rs.getString("roomName"));

@@ -71,11 +71,17 @@
 		<label for="file">
 			File input
 		</label>
-		<input type="file" name="file" required/>
+		<input type="file" name="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" required/>
+	</div>
+	<div class="form-group">
+		<input type="checkbox" name="keep" value="data" checked>
+		<label for="checkbox">
+			Keep previous Teacher and Classroom Data
+		</label>
 	</div>
 
 	<div class="row-md-5">				
-	<button type="submit" class="btn btn-default" onclick="return confirm('Are you sure you want to Upload this file?  This will replace all Existing classes and classrooms.')">
+	<button type="submit" class="btn btn-default" onclick="return confirm('Are you sure you want to upload this file?  This will replace all existing class data.')">
 		</t>Submit		
 	</button>
 	</div>				

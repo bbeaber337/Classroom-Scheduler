@@ -245,6 +245,7 @@ public class excelServices extends baseJSP {
 		List<List<String>> originalTable = new ArrayList<List<String>>();
 		InputStream fis = null;
 		int count = 0;
+		boolean keepPrevData = false;
 		
 		/*
 		// testing that parameters are coming through
@@ -277,7 +278,6 @@ public class excelServices extends baseJSP {
 	    if ((contentType != null) && (contentType.indexOf("multipart/form-data") >= 0)){
 			
 			//Clear all current class information
-			ms.clearClasses();
 			
 			try {
 				List<FileItem> items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
@@ -285,13 +285,28 @@ public class excelServices extends baseJSP {
 					if (item.isFormField()) {
 						String fieldName = item.getFieldName();
 						String fieldValue = item.getString();
+						if (fieldName.equalsIgnoreCase("keep")){
+							keepPrevData = true;
+						}
 					}
 					else {
 						String fieldName = item.getFieldName();
 						String fileName = FilenameUtils.getName(item.getName());
-						fis = item.getInputStream();
+						if(item.getContentType().equalsIgnoreCase("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")){
+							fis = item.getInputStream();
+						}
 					}
 				}
+				
+				if (fis != null){
+					
+
+					ms.clearClasses();
+					if (!keepPrevData){
+						ms.clearClassrooms();
+						ms.clearInstructors();
+					}
+					
 				/*
 				Part filePart = this.request.getPart("file");
 				String fileName = filePart.getSubmittedFileName();
@@ -312,6 +327,10 @@ public class excelServices extends baseJSP {
 				  //Need to set a format in order to convert Dates into Strings
 					DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 					DateFormat tf = new SimpleDateFormat("h:mm:ss a");
+					
+					// keeping track of classes to combine
+					Class1 prevCombo = null;
+					int comboNum = 0;
 
 					ArrayList<String> headers = new ArrayList<String>();
 					if (rowIterator.hasNext()){
@@ -452,6 +471,24 @@ public class excelServices extends baseJSP {
 							    }	
 						 }			
 					}
+					
+
+					if (c.getClassCombination().equalsIgnoreCase("c")){
+						if (prevCombo != null){
+							if(c.getClassRoom().equals(prevCombo.getClassRoom()) && 
+									c.getClassDays().equals(prevCombo.getClassDays()) &&
+									c.getClassTimeStart().equals(prevCombo.getClassTimeStart())){
+								c.setGroupNumber(comboNum);
+							} else {
+								prevCombo = c;
+								c.setGroupNumber(++comboNum);								
+							}
+						} else {
+							prevCombo = c;
+							c.setGroupNumber(++comboNum);
+						}
+					}
+					
 					cr.setRoomID(ms.addClassroom(cr));
 					c.setClassID(ms.addClass(c));
 					instructor.setID(ms.addInstructor(instructor));
@@ -467,9 +504,11 @@ public class excelServices extends baseJSP {
 				  }
 				  }
 			}
+			
 
 				fis.close();
 				workbook.close();
+				}
 			} catch(FileNotFoundException e){
 				e.printStackTrace();
 			} catch (IOException e) {
