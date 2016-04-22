@@ -103,10 +103,15 @@
 
 <form role="form" action='Download.jsp' method='post'>
 			<input type="hidden" name="exportWord" value="exportWord">
-				<div class="col-md-4">
+				<div class="col-md-4">		
 					<button type="submit" class="btn btn-default center-block" value="exportWord">
 						Word Download
 					</button>
+					<div class="checkbox">
+ 					 <label><input type="checkbox" value="Val1">Department 1</label>
+ 					 <label><input type="checkbox" value="Val2">Department 2</label>
+  					<label><input type="checkbox" value="Val3">Department 3</label>
+					</div>
 				</div>
 				</form>
 </div>

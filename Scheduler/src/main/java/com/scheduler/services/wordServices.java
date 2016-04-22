@@ -56,10 +56,12 @@ public class wordServices extends baseJSP {
 			XWPFDocument document= new XWPFDocument();
 			
 			XWPFParagraph paragraph = document.createParagraph();
+			XWPFParagraph paragraph1 = document.createParagraph();
 			paragraph.setAlignment(ParagraphAlignment.CENTER);
 			XWPFRun run = paragraph.createRun();
+			XWPFRun run2 = paragraph.createRun();
 			run.setBold(true);
-			run.setFontSize(11);
+			run.setFontSize(15);
 			run.setText("University of Nebraska-Omaha");
 			run.addBreak();
 			run.setText("Schedule of Classes for " + sessionVal);
@@ -70,6 +72,7 @@ public class wordServices extends baseJSP {
 			run.addBreak();
 			run.addBreak();
 			
+			/*  REMOVED HEADING AND ADDED IT TO EACH PARAPGRAPH INSTEAD
 			paragraph = document.createParagraph();
 			paragraph.setAlignment(ParagraphAlignment.LEFT);
 			run = paragraph.createRun();
@@ -89,30 +92,59 @@ public class wordServices extends baseJSP {
 			run.addTab();
 			run.addTab();
 			run.setText("Component");
-			run.addBreak();
+			run.addBreak();*/
 			
 			
 			for (Class1 c : items){
+				paragraph1 = document.createParagraph();
+				paragraph1.setAlignment(ParagraphAlignment.CENTER);
+				run2 = paragraph1.createRun();
+				run2.setUnderline(UnderlinePatterns.THICK);
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				
 				paragraph = document.createParagraph();
-				paragraph.setAlignment(ParagraphAlignment.LEFT);
+				paragraph.setAlignment(ParagraphAlignment.CENTER);
 				run = paragraph.createRun();
 				run.setBold(false);
-				run.setFontSize(9);
-				run.setText(c.getClassSubject());
+				run.setFontSize(12);
+				run.setText("Subject: " + c.getClassSubject());
 				run.addTab();
 				run.addTab();
-				run.setText(c.getClassCatalog());
+				run.setText("Catalog Nbr: " + c.getClassCatalog());
 				run.addTab();
-				run.setText(c.getClassSection());
+				run.setText("Section: " + c.getClassSection());
 				run.addTab();
 				str = Integer.toString(c.getClassNumber());
-				run.setText(str);
+				run.setText("Class Nbr: " + str);
 				run.addTab();
-				run.setText(c.getClassName());
+				run.setText("Course Title: " + c.getClassName());
 				run.addTab();
 				run.addTab();
 				run.addTab();
-				run.setText(c.getClassComponent());
+				run.setText("Component: " + c.getClassComponent());
 				run.addBreak();
 				
 				run.setText("Room: " + c.getClassRoom());
@@ -133,9 +165,8 @@ public class wordServices extends baseJSP {
 				run.setText("Class Enr Tot: " + c.getClassEnrolled());
 				run.addTab();
 				run.addTab();
-				run.setText("Combined Section: ");
-				run.addBreak();
-				run.addBreak();
+				//run.setText("Combined Section: ");
+
 			}
 
 
