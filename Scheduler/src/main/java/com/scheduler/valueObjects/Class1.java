@@ -107,11 +107,11 @@ public class Class1 {
 	}
 	
 	public String getClassInstructFirst(){
-		return params.get("lClassInstructLast");
+		return params.get("lClassInstructFirst");
 		//return fName;
 	}
 	public void setClassInstructFirst(String fName){
-		this.params.put("lClassInstructLast", fName);
+		this.params.put("lClassInstructFirst", fName);
 		//this.fName = fName;
 	}
 	
