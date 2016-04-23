@@ -141,9 +141,13 @@ public class HTMLServices extends baseJSP {
 			} else {
 				combo = "No";
 			}
-
-			classBuilder.add( Json.createObjectBuilder()
-			.add(  "Change_Room", "<form action='viewClasses.jsp' method='post' ><input type='hidden' name='selectClass' value='" + c.getClassID() + "'><input type='submit' value='Select' alt='Select Class'/></form>")
+ 
+			JsonObjectBuilder jsonBuilder = Json.createObjectBuilder()
+			.add(  "Change_Room", "<form action='viewClasses.jsp' method='post' ><input type='hidden' name='selectClass' value='" + c.getClassID() + "'><input type='submit' value='Select' alt='Select Class'/></form>");
+			for (String s : c.getParamKeys()){
+				jsonBuilder.add(s,c.get(s));
+			}
+			/*
 			.add(  "Class_Number", c.getClassNumber())			
 			.add(  "Name", c.getClassName())
 			.add(  "Room", hasRoom )
@@ -164,8 +168,10 @@ public class HTMLServices extends baseJSP {
 			.add(  "Academic_Group", c.getClassAcadGroup() )
 			.add(  "Mode", c.getClassMode() )
 			.add(  "Combined", combo )
-			.add(  "Edit_Class", "<form action='viewClasses.jsp' method='post' ><input type='hidden' name='editClass' value='" + c.getClassID() + "'><input type='submit' value='Edit' alt='Edit Class'/></form>")
-			.add(  "Delete_Class", "<form action='viewClasses.jsp' method='post' ><input type='hidden' name='deleteClass' value='" + c.getClassID() + "'><input type='submit' value='Delete' alt='Delete Class' onclick=\"return confirm('Are you sure you want to delete this Class?')\"/></form>"));
+			*/
+			jsonBuilder.add(  "Edit_Class", "<form action='viewClasses.jsp' method='post' ><input type='hidden' name='editClass' value='" + c.getClassID() + "'><input type='submit' value='Edit' alt='Edit Class'/></form>")
+			.add(  "Delete_Class", "<form action='viewClasses.jsp' method='post' ><input type='hidden' name='deleteClass' value='" + c.getClassID() + "'><input type='submit' value='Delete' alt='Delete Class' onclick=\"return confirm('Are you sure you want to delete this Class?')\"/></form>");
+			classBuilder.add(jsonBuilder);
 		}
 		JsonObject json = Json.createObjectBuilder()
 				.add("data", classBuilder).build();
@@ -257,6 +263,12 @@ public class HTMLServices extends baseJSP {
 		out.append("<form method=\"POST\" action=\"viewClasses.jsp\">");
 		out.append("<input type=\"hidden\" name=\"submitClassEdit\" value=\"submitClassEdit\">");
 		out.append("<input type=\"hidden\" name=\"classID\" value=\"" + item.getClassID() + "\"</br></br></br>");
+		for (String s:item.getParamKeys()){
+			if (!s.equalsIgnoreCase("classID")){
+				out.append("<div class=\"col-xs-3\"><label for=\""+s+"\">"+s+"</label><input type=\"text\" class=\"form-control\" name=\""+s+"\" id=\""+s+"\" value=\""+item.get(s)+"\"/></div><br>");
+			}
+		}
+		/*
 		out.append("<div class=\"col-xs-3\"><label for=\"classNumber\">Class Number</label><input type=\"text\" class=\"form-control\" name=\"classNumber\" id=\"classNumber\" value='" + item.getClassNumber() + "'/></div></br></br></br>");
 		out.append("<div class=\"col-xs-3\"><label for=\"className\">Class</label><input type=\"text\" class=\"form-control\" name=\"className\" id=\"className\" value='" + item.getClassName() + "'/></div></br></br></br>");
 		out.append("<div class=\"col-xs-3\"><label for=\"classRoom\">Room</label><input class=\"form-control\" name=\"classRoom\" id=\"classRoom\" value='" + item.getClassRoom() + "'/></div></br></br></br>");
@@ -282,6 +294,7 @@ public class HTMLServices extends baseJSP {
 		//out.append("<div class=\"col-xs-3\"><label for=\"chairType\">Chair Type</label><input class=\"form-control\" name=\"chairType\" id=\"chairType\" value='" + item.getChairType() + "'/></div></br></br></br>");
 		//out.append("<div class=\"col-xs-3\"><label for=\"boardType\">Board Type</label><input class=\"form-control\" name=\"boardType\" id=\"boardType\" value='" + item.getBoardType() + "'/></div></br></br></br>");
 		//out.append("<div class=\"col-xs-3\"><label for=\"deskType\">Desk Type</label><input class=\"form-control\" name=\"deskType\" id=\"deskType\" value='" + item.getDeskType() + "'/></div></br></br></br></br></br>");
+		*/
 		out.append("</br><div class=\"row-md-5\"><button type=\"submit\" class=\"btn btn-default\"></t>Save Changes</button></div></form>");
 		
 		stream.print(out.toString());
@@ -466,7 +479,7 @@ public class HTMLServices extends baseJSP {
 			.add(  "Class_Id", c.getClassID())
 			.add(  "Start", (int)((start.getTimeInMillis() - dayStart.getTimeInMillis()) / (60000 * 15)))
 			.add(  "Duration",  (int)(Math.ceil(end.getTimeInMillis() - start.getTimeInMillis()) / (60000 * 15)))
-			.add(  "Class_Number", c.getClassSubject() + c.getClassNumber() )
+			.add(  "Class_Number", c.getClassSubject() + c.getClassCatalog())
 			.add(  "Classroom", c.getClassRoom())
 			.add(  "Class_Name", c.getClassName())
 			.add(  "Time", c.getClassTimeStart() + " - " + c.getClassTimeEnd() )

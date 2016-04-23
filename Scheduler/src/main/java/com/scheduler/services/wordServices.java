@@ -91,7 +91,7 @@ public class wordServices extends baseJSP {
 			run.setText("Component");
 			run.addBreak();
 			
-			
+			/*
 			for (Class1 c : items){
 				paragraph = document.createParagraph();
 				paragraph.setAlignment(ParagraphAlignment.LEFT);
@@ -137,6 +137,7 @@ public class wordServices extends baseJSP {
 				run.addBreak();
 				run.addBreak();
 			}
+			*/
 
 
 			response.setContentType("application/vnd.ms-word");

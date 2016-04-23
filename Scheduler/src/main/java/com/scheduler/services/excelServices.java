@@ -144,8 +144,8 @@ public class excelServices extends baseJSP {
 			date.setDataFormat(createHelper.createDataFormat().getFormat("M/d/yyyy"));
 			
 			Row dataRow = classSheet.createRow(row);
-			
-			dataRow.createCell(0).setCellValue(item.getClassNumber());
+			/*
+			//dataRow.createCell(0).setCellValue(item.getClassNumber());
 			dataRow.createCell(1).setCellValue(item.getClassSubject());
 			dataRow.createCell(2).setCellValue(item.getClassCatalog());
 			dataRow.createCell(3).setCellValue(item.getClassSection());
@@ -186,6 +186,7 @@ public class excelServices extends baseJSP {
 			dataRow.createCell(22).setCellValue(item.getClassMode());
 			dataRow.createCell(23).setCellValue(item.getClassCrsAttrVal());
 			dataRow.createCell(24).setCellValue(item.getClassComponent());
+			*/
 			
 		/*
 			Cell dataClassNbrCell = dataRow.createCell(0);
@@ -236,13 +237,10 @@ public class excelServices extends baseJSP {
 	
 	
 	
-	public void addData() throws Exception {
+	public void addData(){
 		
 		//Need to pull file path from uploaded file
 		List<Class1> classList = new ArrayList<Class1>();
-		List<Classroom> classroomList = new ArrayList<Classroom>();
-		List<Instructor> instructorList = new ArrayList<Instructor>();
-		List<List<String>> originalTable = new ArrayList<List<String>>();
 		InputStream fis = null;
 		int count = 0;
 		boolean keepPrevData = false;
@@ -299,20 +297,6 @@ public class excelServices extends baseJSP {
 				}
 				
 				if (fis != null){
-					
-
-					ms.clearClasses();
-					if (!keepPrevData){
-						ms.clearClassrooms();
-						ms.clearInstructors();
-					}
-					
-				/*
-				Part filePart = this.request.getPart("file");
-				String fileName = filePart.getSubmittedFileName();
-				fis = filePart.getInputStream();
-				System.out.println("Successfully got filestream");
-				*/
 				 
 				// Using XSSF for xlsx format, for xls use HSSF
 				Workbook workbook = new XSSFWorkbook(fis);
@@ -320,8 +304,7 @@ public class excelServices extends baseJSP {
 				int numberOfSheets = workbook.getNumberOfSheets();
 				
 				//looping over each workbook sheet
-				for (int i = 0; i < numberOfSheets; i++) {
-				    Sheet sheet = workbook.getSheetAt(i);
+				    Sheet sheet = workbook.getSheetAt(0);
 				    Iterator rowIterator = sheet.iterator();
 				    
 				  //Need to set a format in order to convert Dates into Strings
@@ -333,14 +316,79 @@ public class excelServices extends baseJSP {
 					int comboNum = 0;
 
 					ArrayList<String> headers = new ArrayList<String>();
+					Map<String, String> ourNames = new HashMap<String, String>();
+					Map<String, Integer> sizes = new HashMap<String, Integer>();
+					// Pre-populate the hash for what we're looking for
+					ourNames.put("subject", null);
+					ourNames.put("catalog", null);
+					ourNames.put("section", null);
+					ourNames.put("combo", null);
+					ourNames.put("classname", null);
+					ourNames.put("capenrolled", null);
+					ourNames.put("totenrolled", null);
+					ourNames.put("days", null);
+					ourNames.put("starttime", null);
+					ourNames.put("endtime", null);
+					ourNames.put("classroom", null);
+					ourNames.put("capacity", null);
+					ourNames.put("instructorlast", null);
+					ourNames.put("instructorfirst", null);
+					ourNames.put("startdate", null);
+					ourNames.put("enddate", null);
+					Boolean foundAllNames = false;
+					
 					if (rowIterator.hasNext()){
 						Row row = (Row) rowIterator.next();
 						Iterator cellIterator = row.cellIterator();
 						while(cellIterator.hasNext()){
 							Cell cell = (Cell) cellIterator.next();
-							headers.add(cell.toString());
+							String header = cell.toString();
+							if (header.equalsIgnoreCase("")){
+								header = "!";
+							}
+							if (headers.contains(header)){
+								int extra = 2;
+								while (headers.contains(header + Integer.toString(extra))){
+									extra++;
+								}
+								header = header + Integer.toString(extra);
+							}
+							headers.add(header);
+							sizes.put(header, 0);
+							if (header.equalsIgnoreCase("subject")){
+								ourNames.put("subject", header);
+							} else if (header.equalsIgnoreCase("catalog")){
+								ourNames.put("catalog", header);
+							} else if (header.equalsIgnoreCase("section")){
+								ourNames.put("section", header);
+							} else if (header.equalsIgnoreCase("comb sect")){
+								ourNames.put("combo", header);
+							} else if (header.equalsIgnoreCase("descr")){
+								ourNames.put("classname", header);
+							} else if (header.equalsIgnoreCase("cap enrl")){
+								ourNames.put("capenrolled", header);
+							} else if (header.equalsIgnoreCase("tot enrl")){
+								ourNames.put("totenrolled", header);
+							} else if (header.equalsIgnoreCase("pat")){
+								ourNames.put("days", header);
+							} else if (header.equalsIgnoreCase("mtg start")){
+								ourNames.put("starttime", header);
+							} else if (header.equalsIgnoreCase("mtg end")){
+								ourNames.put("endtime", header);
+							} else if (header.equalsIgnoreCase("facil id")){
+								ourNames.put("classroom", header);
+							} else if (header.equalsIgnoreCase("capacity")){
+								ourNames.put("capacity", header);
+							} else if (header.equalsIgnoreCase("last")){
+								ourNames.put("instructorlast", header);
+							} else if (header.equalsIgnoreCase("first name")){
+								ourNames.put("instructorfirst", header);
+							} else if (header.equalsIgnoreCase("start date")){
+								ourNames.put("startdate", header);
+							} else if (header.equalsIgnoreCase("end date")){
+								ourNames.put("enddate", header);
+							}
 						}
-						originalTable.add(headers);
 					}
 					
 				  //iterating over each row
@@ -348,11 +396,8 @@ public class excelServices extends baseJSP {
 					  
 					count++;
 					Class1 c = new Class1();
-					Classroom cr = new Classroom();
-					Instructor instructor = new Instructor();
 					Row row = (Row) rowIterator.next();
 					Iterator cellIterator = row.cellIterator();
-					List<String> rowValues = new ArrayList<String>();
 					
 					//Iterating over each cell (column wise)  in a particular row.
 					if(count > 1) {
@@ -360,120 +405,39 @@ public class excelServices extends baseJSP {
 						
 						Cell cell = (Cell) cellIterator.next();
 						//The Cell Containing String will is name.
-						rowValues.add(cell.toString());
 						
 						//All VALUES IN THE EXCEL DOCUMENT ARE RECOGNIZED AS A STRING!!!
-						if (Cell.CELL_TYPE_STRING == cell.getCellType()) {
-						    	//if (cell.getColumnIndex() == 0) {
-						    	//	c.setClassNbr(cell.getStringCellValue());
-						    	//}
-								if(cell.getColumnIndex() == 1){
-									c.setClassSubject(cell.getStringCellValue());
+						String value = null;
+						if (Cell.CELL_TYPE_NUMERIC == cell.getCellType()) {
+							if(DateUtil.isCellDateFormatted(cell)){
+								String date = tf.format(cell.getDateCellValue());
+								if (date == null){
+									date = df.format(cell.getDateCellValue());
 								}
-								if(cell.getColumnIndex() == 2){
-									c.setClassCatalog(cell.getStringCellValue());
-								}
-								if(cell.getColumnIndex() == 3){
-									c.setClassSection(cell.getStringCellValue());
-								}
-								if(cell.getColumnIndex() == 4){
-									c.setClassCombination(cell.getStringCellValue());
-								}
-								if(cell.getColumnIndex() == 5){
-									c.setClassName(cell.getStringCellValue());
-								}
-								if(cell.getColumnIndex() == 6){
-									c.setClassDescription(cell.getStringCellValue());
-								}
-								if(cell.getColumnIndex() == 7){
-									c.setClassAcadGroup(cell.getStringCellValue());
-								}
-								if(cell.getColumnIndex() == 10){
-									c.setClassDays(cell.getStringCellValue());
-								}
-
-								if(cell.getColumnIndex() == 13){
-									c.setClassRoom(cell.getStringCellValue());
-									cr.setRoomName(cell.getStringCellValue());
-								}
-								if(cell.getColumnIndex() == 16){
-									c.setClassInstructFirst(cell.getStringCellValue());
-									instructor.setNameFirst(cell.getStringCellValue());
-								}
-								if(cell.getColumnIndex() == 15){
-									c.setClassInstructLast(cell.getStringCellValue());
-									instructor.setNameLast(cell.getStringCellValue());
-								}
-								if(cell.getColumnIndex() == 17){
-									c.setClassRole(cell.getStringCellValue());
-								}
-								if(cell.getColumnIndex() == 21){
-									c.setClassCampus(cell.getStringCellValue());
-								}
-								if(cell.getColumnIndex() == 22){
-									c.setClassMode(cell.getStringCellValue());
-								}
-								if(cell.getColumnIndex() == 23){
-									c.setClassCrsAttrVal(cell.getStringCellValue());
-								}
-								if(cell.getColumnIndex() == 24){
-									c.setClassComponent(cell.getStringCellValue());
-								}
-								
-
-								
-							    //The Cell Containing numeric value will contain marks
-								//cell.setCellType(org.apache.poi.ss.usermodel.Cell.CELL_TYPE_STRING);
-
-							
-						} else if (Cell.CELL_TYPE_NUMERIC == cell.getCellType()) {
-							    	
-							    //Cell with index 0 
-							    if (cell.getColumnIndex() == 0) {
-							    	//cast double to integer
-							    	int j = (int) cell.getNumericCellValue();
-							    	//Set the integer value
-							        c.setClassNumber(j);
+								value = date;
+							} else {
+							    value = Integer.toString((int)cell.getNumericCellValue());
+							}
+						 } else {
+							    value = cell.getStringCellValue();
+							    if (!foundAllNames){
+							    	if (ourNames.get("combo") == null && cell.getStringCellValue().equalsIgnoreCase("c")){
+							    		ourNames.put("combo",headers.get(cell.getColumnIndex()));
+							    	}
 							    }
-							    if (cell.getColumnIndex() == 8) {
-							    	int j = (int) cell.getNumericCellValue();
-							        c.setClassCapacity(j);
-							    }
-							    if (cell.getColumnIndex() == 9) {
-							    	int j = (int) cell.getNumericCellValue();
-							        c.setClassEnrolled(j);
-							    }
-								if(cell.getColumnIndex() == 14){
-									int j = (int) cell.getNumericCellValue();
-							        cr.setRoomCapacity(j);	
-								}
 								
-							    //If this cell is a Date
-							    if(DateUtil.isCellDateFormatted(cell)){
-									if(cell.getColumnIndex() == 11){
-										/*Converting to Strings gives weird errors
-										cell.setCellType(Cell.CELL_TYPE_STRING);*/
-										
-										//Need to convert the Dates into Strings using the format specified above
-										c.setClassTimeStart(tf.format(cell.getDateCellValue()));
-									}
-									if(cell.getColumnIndex() == 12){
-										c.setClassTimeEnd(tf.format(cell.getDateCellValue()));
-									}
-
-									if(cell.getColumnIndex() == 18){
-										//Need to convert the Dates into Strings using the format specified above
-										c.setClassDateStart(df.format(cell.getDateCellValue()));
-									}
-									if(cell.getColumnIndex() == 19){
-										c.setClassDateEnd(df.format(cell.getDateCellValue()));
-									}
-							    }	
-						 }			
+							}
+						if (value == null){
+							value = "";
+						}
+						c.set(headers.get(cell.getColumnIndex()), value);
+						if (sizes.get(headers.get(cell.getColumnIndex())) < value.length()){
+							sizes.put(headers.get(cell.getColumnIndex()), value.length());
+						}
 					}
 					
 
-					if (c.getClassCombination().equalsIgnoreCase("c")){
+					if (ourNames.get("combo") != null && c.get(ourNames.get("combo")).equalsIgnoreCase("c")){
 						if (prevCombo != null){
 							if(c.getClassRoom().equals(prevCombo.getClassRoom()) && 
 									c.getClassDays().equals(prevCombo.getClassDays()) &&
@@ -488,38 +452,24 @@ public class excelServices extends baseJSP {
 							c.setGroupNumber(++comboNum);
 						}
 					}
+					if (!foundAllNames){
+						foundAllNames = ourNames.containsValue(null);
+					}
 					
-					cr.setRoomID(ms.addClassroom(cr));
-					c.setClassID(ms.addClass(c));
-					instructor.setID(ms.addInstructor(instructor));
-					
-					//Set Mon-Sat attributes
-					as.setDays(c);
-					
-					//End row, add class and classroom
+					//End row, add class
 					classList.add(c);
-					classroomList.add(cr);
-					instructorList.add(instructor);
-					originalTable.add(rowValues);
-				  }
 				  }
 			}
+				  
+				  ms.uploadClasses(headers, ourNames, classList, sizes);
 			
 
 				fis.close();
 				workbook.close();
 				}
-			} catch(FileNotFoundException e){
+			} catch(Exception e){
 				e.printStackTrace();
-			} catch (IOException e) {
-	            e.printStackTrace();
-	        } catch (Exception e){
-	        	e.printStackTrace();
-	        }
-
-			//Delete duplicate classrooms
-			ms.deleteDuplicates();
-		
+			}		
 		}			
 	}
 	
@@ -529,27 +479,7 @@ public class excelServices extends baseJSP {
 		
 		for(Class1 c : classList){
 			System.out.printf("Here is a Class\n");
-			System.out.printf("Class Nbr: %d\n",c.getClassNumber());
-			System.out.printf("Subject: %s\n",c.getClassSubject());
-			System.out.printf("Catalog: %s\n",c.getClassCatalog());
-			System.out.printf("Section: %s\n",c.getClassSection());
-			System.out.printf("Combo: %s\n",c.getClassCombination());
-			System.out.printf("Class Name: %s\n",c.getClassName());
-			System.out.printf("Description: %s\n",c.getClassDescription());
-			System.out.printf("Class Group: %s\n",c.getClassAcadGroup());
-			System.out.printf("Capacity: %d\n",c.getClassCapacity());
-			System.out.printf("Enrolled: %d\n",c.getClassEnrolled());
-			System.out.printf("Days: %s\n",c.getClassDays());
-			System.out.printf("Start Time: %s\n",c.getClassTimeStart());
-			System.out.printf("End Time: %s\n",c.getClassTimeEnd());
-			System.out.printf("Room: %s\n",c.getClassRoom());
-			System.out.printf("Teacher: %s \n",c.getClassInstructFirst());
-			System.out.printf("Teacher: %s \n",c.getClassInstructLast());
-			System.out.printf("Start Date: %s\n",c.getClassDateStart());
-			System.out.printf("End Date: %s\n",c.getClassDateEnd());
-			System.out.printf("Location: %s\n",c.getClassCampus());
-			System.out.printf("Mode: %s\n",c.getClassMode());
-			System.out.printf("Component: %s\n\n",c.getClassComponent());
+			c.print();
 		}	
 	}
 	

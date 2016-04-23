@@ -8,7 +8,7 @@ import com.scheduler.valueObjects.Class1;
 
 public class ClassUtils {
 	
-	
+	/*
 	public Class1 rowToVO ( Statement row ) {
 		Class1 classVO = null;
 		ResultSet rs = null;
@@ -58,4 +58,5 @@ public class ClassUtils {
 		
 		return classVO;
 	}
+	*/
 }

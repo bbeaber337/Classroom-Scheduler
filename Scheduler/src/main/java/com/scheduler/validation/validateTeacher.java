@@ -217,6 +217,7 @@ public class validateTeacher {
         	stmt = conn.createStatement();
         	rs = stmt.executeQuery(query);	
 		
+        	/*
 			if(rs != null){
 				while(rs.next()){
 					Class1 item = new Class1();
@@ -254,6 +255,7 @@ public class validateTeacher {
 					list.add(item);
 				}
 			}
+			*/
 		} catch (SQLException SQLE) {
 	    	if (stmt != null) { 
 	    		stmt.close(); 

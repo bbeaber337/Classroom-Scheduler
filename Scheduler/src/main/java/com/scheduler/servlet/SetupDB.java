@@ -35,11 +35,11 @@ public class SetupDB extends HttpServlet {
 			
 			stmt.executeUpdate("CREATE TABLE IF NOT EXISTS `users` (" +
 					"`userID` INT(11) NOT NULL AUTO_INCREMENT," +
-					"`userName` VARCHAR(45) NOT NULL ," +
+					"`userName` VARCHAR(45) NOT NULL," +
 					"`userPassword` VARCHAR(45) NOT NULL," +
-					"`userFirst` VARCHAR(45) NULL," +
-					"`userLast` VARCHAR(45) NULL," +
-					"`userEmail` VARCHAR(45) NULL," +
+					"`userFirst` VARCHAR(45) NULL DEFAULT ''," +
+					"`userLast` VARCHAR(45) NULL DEFAULT ''," +
+					"`userEmail` VARCHAR(45) NULL DEFAULT ''," +
 					"`userAdmin` INT NOT NULL DEFAULT 0," +
 					"PRIMARY KEY (`userID`)," +
 					"UNIQUE INDEX `userName_UNIQUE` (`userName` ASC)," +

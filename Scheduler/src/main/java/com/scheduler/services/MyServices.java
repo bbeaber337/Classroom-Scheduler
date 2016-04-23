@@ -18,6 +18,7 @@ public class MyServices extends baseJSP {
 
 	//String semester = session.getAttribute("semester").toString();
 	
+	
 	public MyServices(HttpSession session, HttpServletRequest request, HttpServletResponse response, JspWriter stream) throws Exception {
 		super(session, request, response, stream);
 		
@@ -56,7 +57,134 @@ public class MyServices extends baseJSP {
 // --------------------------------------------------------------------------------------------
 //						CLASS FUNCTIONS
 //--------------------------------------------------------------------------------------------
+	public void uploadClasses(List<String> headers, Map<String, String> ourNames, List<Class1> classList, Map<String, Integer> sizes){
+		String semester = session.getAttribute("semester").toString();
+		// clear previous tables
+		clearHeaders();
+		clearClasses();
+		
+		// make our names accessible by header name, too
+		for (String k: ourNames.keySet()){
+			ourNames.put(ourNames.get(k), k);
+		}
+		Connection conn = null;
+		Statement stmt = null;
+		try{
+			String classcreatequery = "";
+			String classheaders = "";
+			conn = JdbcManager.getConnection();
+			stmt = conn.createStatement();
+			try{
+				for (String h: headers){
+					// insert header/column/name into headers table
+					String hquery = "insert into `" + semester + "headers` (`" +
+							h + "`,`" + headers.indexOf(h);
+					if (ourNames.containsKey(h)){
+						hquery += "`,`" + ourNames.get(h);
+					}
+					hquery += "`)";
+					stmt.executeUpdate(hquery);
+					
+					// generate headers for class/upload tables
+					classcreatequery += "`" + h + "`";				
+					if (h.equalsIgnoreCase(ourNames.get("classname"))){
+						classcreatequery += " varchar(90) NULL,";
+					} else if(h.equalsIgnoreCase(ourNames.get("instructorfirst"))){
+						classcreatequery += " varchar(45) NULL,";
+					} else if(h.equalsIgnoreCase(ourNames.get("instructorlast"))){
+						classcreatequery += " varchar(45) NULL,";
+					} else {
+						classcreatequery += " varchar("+Integer.toString(sizes.get(h) + 1)+") NULL,";
+					}
+					
+					// save headers in string for inserting later
+					classheaders += h + ",";
+				}
+			} catch (Exception e){
+				System.out.println("Problem uploading header info");
+				e.printStackTrace();
+			}
+			
+			// create upload table
+			try{
+				String uploadcreatequery = "create table `" + semester + "upload` (`classID` INT NOT NULL AUTO_INCREMENT," + classcreatequery +
+						"PRIMARY KEY (`classID`), UNIQUE INDEX `classID_UNIQUE` (`classID` ASC))";
+				stmt.executeUpdate(uploadcreatequery);
+			} catch (Exception e){
+				System.out.println("Problem creating upload table");
+				e.printStackTrace();
+			}
+			
+			// create class table
+			try{
+				classcreatequery += "create table `" + semester + "upload` (`classID` INT NOT NULL AUTO_INCREMENT," + classcreatequery +
+						  "`classMon` INT NOT NULL DEFAULT 0," +
+						  "`classTues` INT NOT NULL DEFAULT 0," +
+						  "`classWed` INT NOT NULL DEFAULT 0," +
+						  "`classThurs` INT NOT NULL DEFAULT 0," +
+						  "`classFri` INT NOT NULL DEFAULT 0," +
+						  "`classSat` INT NOT NULL DEFAULT 0," +
+						  "`classSun` INT NOT NULL DEFAULT 0," +
+						  "`groupNum` INT NOT NULL DEFAULT 0," +
+						"PRIMARY KEY (`classID`), UNIQUE INDEX `classID_UNIQUE` (`classID` ASC))";
+				stmt.executeUpdate(classcreatequery);
+			} catch (Exception e){
+				System.out.println("Problem creating class table");
+				e.printStackTrace();
+			}
+			
+			// Populate Upload and Class Tables
+			classheaders = classheaders.substring(0, classheaders.length() - 1);
+			adminServices as = new adminServices(session,request,response,stream);
+			for (Class1 c: classList){
+				as.setDays(c);
+				String insertupload = "insert into " + semester + "upload (" + classheaders + ") values (";
+				for (String h : headers){
+					insertupload += "\"" + c.get(h) + "\",";
+				}
+				insertupload = insertupload.substring(0, insertupload.length() - 1) + ")";
+				stmt.executeUpdate(insertupload);
+
+				String insertclasses1 = "insert into  " + semester + "classes (";
+				String insertclasses2 = "values(";
+				for (String s : c.getParamKeys()){
+					insertclasses1 += s + ",";
+					insertclasses2 += "\"" + c.get(s) + "\",";
+				}
+				insertclasses1 = insertclasses1.substring(0, insertclasses1.length() - 1) + ")";
+				insertclasses2 = insertclasses2.substring(0, insertclasses2.length() - 1) + ")";
+				stmt.executeUpdate(insertclasses1 + insertclasses2);
+			}
+		} catch (Exception e) {
+			System.out.println("Problem in uploadClasses");
+			e.printStackTrace();
+		} finally{
+			JdbcManager.close(stmt);
+			JdbcManager.close(conn);
+		}
+	}
 	
+	public String getHeaderFromName(String s){
+		String semester = session.getAttribute("semester").toString();
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rset = null;
+		String rval = null;
+		try{
+			conn = JdbcManager.getConnection();
+			stmt = conn.createStatement();
+			String query = "Select * from " + semester + "headers where name = " + s;
+			rset = stmt.executeQuery(query);
+			rval = rset.getString("header");
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JdbcManager.close(rset);
+			JdbcManager.close(stmt);
+			JdbcManager.close(conn);
+		}
+		return rval;
+	}
 	
 	public List<Class1> getClasses() throws Exception {
 		Connection conn = null;
@@ -67,15 +195,19 @@ public class MyServices extends baseJSP {
 		String semester = session.getAttribute("semester").toString();
 		
 		// Not using '*' because we are not pulling every field
-		String query = "SELECT classID, classNumber, classSubject, classCatalog, classSection, classCombination, className, classDescription, classAcadGroup, classCapacity, classEnrolled, classDays, classTimeStart, classTimeEnd, classDateStart, classDateEnd, "
-				+ "classInstructFirst, classInstructLast, classRole, classSession, classRoom, classCampus, classMode, classComponent, classCrsAttrVal, classMon, classTues, classWed, classThurs, classFri, classSat FROM " + semester + "classes";
+		String query = "SELECT * FROM " + semester + "classes";
 
 		conn = JdbcManager.getConnection();
 		stmt = conn.createStatement();
 		rs = stmt.executeQuery(query);
 		if(rs != null){
+			ResultSetMetaData metaData = rs.getMetaData();
 			while(rs.next()){
 				Class1 item = new Class1();
+				for (int i = 0; i < metaData.getColumnCount(); i++){
+					item.set(metaData.getColumnName(i), rs.getString(i));					
+				}
+				/*
 				//System.out.println(rs.getString("name"));
 				item.setClassID(rs.getInt("classID"));
 				item.setClassNumber(rs.getInt("classNumber"));
@@ -108,6 +240,7 @@ public class MyServices extends baseJSP {
 				item.setClassFri(rs.getInt("classFri"));
 				item.setClassSat(rs.getInt("classSat"));
 				item.setClassSession(rs.getInt("classSession"));
+				*/
 				list.add(item);
 			}
 		}
@@ -163,18 +296,20 @@ public class MyServices extends baseJSP {
 		
 		String semester = session.getAttribute("semester").toString();
 		
-		String query = "SELECT classID, classNumber, classSubject, classCatalog, classSection, classCombination, className, classDescription, classAcadGroup, classCapacity, classEnrolled, classDays, classTimeStart, classTimeEnd, classDateStart, classDateEnd, "
-				+ "classInstructFirst, classInstructLast, classRoom, classSession, classCampus, classMode, classComponent, classCrsAttrVal, classMon, classTues, classWed, classThurs, classFri, classSat FROM " + semester + "classes WHERE classID = '" + classID +"' ";
+		String query = "SELECT * FROM " + semester + "classes WHERE classID = '" + classID +"' ";
 
 		conn = JdbcManager.getConnection();
 		stmt = conn.createStatement();
 		rs = stmt.executeQuery(query);
 		
 		if(rs != null){
+			ResultSetMetaData metaData = rs.getMetaData();
 			while(rs.next()){
-				item = new Class1();
-				item.setClassID(classID);
-				System.out.printf("\n\nClass ID from MyServices: %d\n\n", item.getClassID());
+				for (int i = 0; i < metaData.getColumnCount(); i++){
+					item.set(metaData.getColumnName(i), rs.getString(i));					
+				}
+				/*
+				//System.out.printf("\n\nClass ID from MyServices: %d\n\n", item.getClassID());
 				item.setClassNumber(rs.getInt("classNumber"));
 				item.setClassSubject(rs.getString("classSubject"));
 				item.setClassCatalog(rs.getString("classCatalog"));
@@ -207,7 +342,8 @@ public class MyServices extends baseJSP {
 				//item.setChairType(rs.getString("chairType"));
 				//item.setBoardType(rs.getString("boardType"));
 				//item.setDeskType(rs.getString("deskType"));
-				//list.add(item);	
+				//list.add(item);
+				*/
 			}
 		}
 
@@ -283,27 +419,48 @@ public class MyServices extends baseJSP {
 	}
 	
 	
-	public int clearClasses() {
+	public void clearClasses() {
 		String semester = session.getAttribute("semester").toString();
 		
-		String query = "truncate " + semester + "classes;";
+		String query = "DROP TABLE " + semester + "classes;";
+		runUpdate(query);
 		
-		return runUpdate(query);
+		query = "DROP TABLE " + semester + "upload";
+		runUpdate(query);
 	}
 	
 	
-	public int clearClassrooms()
+	public void clearClassrooms()
 	{
 		String semester = session.getAttribute("semester").toString();
 		
 		String query = "truncate " + semester + "classrooms;";
 		
-		return runUpdate(query);
+		runUpdate(query);
+	}
+	
+	public void clearHeaders()
+	{
+		String semester = session.getAttribute("semester").toString();
+		
+		String query = "truncate " + semester + "headers;";
+		
+		runUpdate(query);
 	}
 	
 	public int addClass(Class1 c) throws SQLException {
 		String semester = session.getAttribute("semester").toString();
 		
+		String insertclasses1 = "insert into  " + semester + "classes (";
+		String insertclasses2 = "values(";
+		for (String s : c.getParamKeys()){
+			insertclasses1 += s + ",";
+			insertclasses2 += "\"" + c.get(s) + "\",";
+		}
+		insertclasses1 = insertclasses1.substring(0, insertclasses1.length() - 1) + ")";
+		insertclasses2 = insertclasses2.substring(0, insertclasses2.length() - 1) + ")";
+		String query = insertclasses1 + insertclasses2;
+		/*
 		//System.out.printf("\n\n\nAdding Class: %s\n\n\n", c.getCombo());
 		String query = "INSERT INTO " + semester + "classes (classNumber, classSubject, classCatalog, classSection, classCombination, className, classDescription, classAcadGroup, classCapacity, classEnrolled, classDays,";
 		query += " classTimeStart, classTimeEnd, classDateStart, classDateEnd, classSession, classInstructFirst, classInstructLast, classRole, classRoom, classCampus, classMode, classCrsAttrVal, classComponent) VALUES( ";
@@ -331,7 +488,8 @@ public class MyServices extends baseJSP {
 		query += "'" + c.getClassMode() + "', ";
 		query += "'" + c.getClassCrsAttrVal() + "', ";
 		query += "'" + c.getClassComponent() + "'";
-		query += ")";		
+		query += ")";
+		*/		
 
 		return runUpdate(query);
 	}
@@ -353,6 +511,17 @@ public class MyServices extends baseJSP {
 	public int updateClass(Class1 c) throws SQLException {
 		String semester = session.getAttribute("semester").toString();
 		
+		String insertclasses1 = "update " + semester + "classes set (";
+		String insertclasses2 = "values(";
+		for (String s : c.getParamKeys()){
+			insertclasses1 += s + ",";
+			insertclasses2 += "\"" + c.get(s) + "\",";
+		}
+		insertclasses1 = insertclasses1.substring(0, insertclasses1.length() - 1) + ")";
+		insertclasses2 = insertclasses2.substring(0, insertclasses2.length() - 1) + ")";
+		String query = insertclasses1 + insertclasses2;
+		
+		/*
 		System.out.printf("Adding Class: %d", c.getClassID());
 		String query = "UPDATE `" + semester + "classes` SET "
 				+ " classNumber=\"" + c.getClassNumber() + "\", "
@@ -377,7 +546,8 @@ public class MyServices extends baseJSP {
 				+ " classMode=\"" + c.getClassMode() + "\", "
 				+ " classComponent=\"" + c.getClassComponent() + "\" "
 				+ " WHERE classID=\"" + c.getClassID() + "\"";				
-		//String query = "UPDATE `classes` SET classNbr=\"" + c.getClassNbr() + "\" WHERE class_id=\"" + c.getClassID() + "\"";	
+		//String query = "UPDATE `classes` SET classNbr=\"" + c.getClassNbr() + "\" WHERE class_id=\"" + c.getClassID() + "\"";
+		 */
 		return runUpdate(query);
 	}
 	

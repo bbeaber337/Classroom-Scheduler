@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -152,9 +153,14 @@ public class adminServices extends baseJSP {
 		
 		if(request.getParameter("submitClassEdit") != null){
 
-			
 			Class1 c = new Class1();
 			
+			Enumeration<String> params = request.getParameterNames();
+			while(params.hasMoreElements()){
+				String s = params.nextElement();
+				c.set(s, request.getParameter(s));
+			}
+			/*
 			System.out.printf("\n\nClass ID: %d\n\n\n",Integer.parseInt(request.getParameter("classID")) );
 			c.setClassID(Integer.parseInt(request.getParameter("classID")));
 			c.setClassNumber(Integer.parseInt(request.getParameter("classNumber")));	
@@ -183,6 +189,7 @@ public class adminServices extends baseJSP {
 			//c.setDeskType(request.getParameter("deskType"));
 			
 			//c.setClassID(ms.updateClass(c));
+			 */
 			if (c.getClassID() == -1){
 				ms.addClass(c);
 			}else{
