@@ -246,7 +246,6 @@ public class validateTeacher {
 	/**
 	 * @param semester - Used for querying the proper semester's tables
 	 * @param conn - The connection to be used for queries
-	 * @param classroom - The classroom to query classes for
 	 * @param teacherFirst - The instructor's first name to query for
 	 * @param teacherLast - The instructor's last name to query for
 	 * @return - All table entries for classes with the specified instructor
