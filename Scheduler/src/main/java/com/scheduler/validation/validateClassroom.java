@@ -17,16 +17,36 @@ import com.scheduler.valueObjects.Conflict;
 
 public class validateClassroom {
 	
+	/**
+	 * @param semester - Used for querying the proper semester's tables
+	 * @param conn - The connection to be used for queries
+	 * @return - List of conflicts for existing classes
+	 * @throws Exception - An exception is thrown if the SQL queries fail in case.
+	 */
 	public List<Conflict> validateClassroomRun( String semester, Connection conn) throws Exception {
 		return validateClassroomRun( semester, conn, (List)null );
 	}
 	
+	/**
+	 * @param semester - Used for querying the proper semester's tables
+	 * @param conn - The connection to be used for queries
+	 * @param class1 - The class that was modified that have been modified. If null it checks all classes
+	 * @return - List of conflicts for modified class
+	 * @throws Exception - An exception is thrown if the SQL queries fail in case.
+	 */
 	public List<Conflict> validateClassroomRun( String semester, Connection conn, Class1 class1 ) throws Exception {
 		return validateClassroomRun( semester, conn, Arrays.asList(class1) );
 	}
 	
 	
 	// These are all set to return void.
+	/**
+	 * @param semester - Used for querying the proper semester's tables
+	 * @param conn - The connection to be used for queries
+	 * @param classes - List of class(es) that have been modified. If null it checks all classes
+	 * @return - List of conflicts for modified class(es)
+	 * @throws Exception - An exception is thrown if the SQL queries fail in case.
+	 */
 	public List<Conflict> validateClassroomRun( String semester, Connection conn, List<Class1> classes ) throws Exception {
 		
 		
@@ -165,6 +185,13 @@ public class validateClassroom {
 		return conList;
 	}
 	
+	/**
+	 * @param semester - Used for querying the proper semester's tables
+	 * @param conn - The connection to be used for queries
+	 * @param classroom - The classroom to be queried for
+	 * @return - The row for the classroom if specified, or all rows for classrooms
+	 * @throws Exception - An exception is thrown if the SQL queries fail in case.
+	 */
 	private List<Classroom> getClassrooms( String semester, Connection conn, String classroom ) throws Exception {
 		ResultSet rs = null;
 		List<Classroom> list = new ArrayList<Classroom>();
@@ -208,6 +235,13 @@ public class validateClassroom {
 	}
 	
 	// Needs to be updated to reflect IA not classroom validation
+	/**
+	 * @param semester - Used for querying the proper semester's tables
+	 * @param conn - The connection to be used for queries
+	 * @param classroom - The classroom to query classes for
+	 * @return - All table entries for classes in the specified classroom
+	 * @throws Exception - An exception is thrown if the SQL queries fail in case.
+	 */
 	private List<Class1> queryClassroom( String semester, Connection conn, String classroom ) throws Exception {
 		ResultSet rs = null;
 		List<Class1> list = new ArrayList<Class1>();
@@ -274,6 +308,11 @@ public class validateClassroom {
 		return list;
 	}
 	
+	/**
+	 * @param class1 - Class 1 to be checked
+	 * @param class2 - Class 2 to be checked
+	 * @return - returns true if the class times overlap
+	 */
 	private boolean checkTime( Class1 class1, Class1 class2 ) {
 		
 		// If they have class on at least one day
