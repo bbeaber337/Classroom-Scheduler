@@ -18,15 +18,34 @@ import com.scheduler.valueObjects.Instructor;
 public class validateTeacher {
 
 	
-	
+	/**
+	 * @param semester - Used for querying the proper semester's tables
+	 * @param conn - The connection to be used for queries
+	 * @return - List of conflicts for existing classes due to instructor double scheduling
+	 * @throws Exception - An exception is thrown if the SQL queries fail in case.
+	 */
 	public List<Conflict> validateTeacherRun( String semester, Connection conn) throws Exception {
 		return validateTeacherRun( semester, conn, (List)null );
 	}
 	
+	/**
+	 * @param semester - Used for querying the proper semester's tables
+	 * @param conn - The connection to be used for queries
+	 * @param class1 - The class that was modified that have been modified. If null it checks all classes
+	 * @return - List of conflicts for modified class due to instructor double scheduling
+	 * @throws Exception - An exception is thrown if the SQL queries fail in case.
+	 */
 	public List<Conflict> validateTeacherRun( String semester, Connection conn, Class1 class1 ) throws Exception {
 		return validateTeacherRun( semester, conn, Arrays.asList(class1) );
 	}
 	
+	/**
+	 * @param semester - Used for querying the proper semester's tables
+	 * @param conn - The connection to be used for queries
+	 * @param classes - List of class(es) that have been modified. If null it checks all classes
+	 * @return - List of conflicts for modified class(es) due to instructor double scheduling
+	 * @throws Exception - An exception is thrown if the SQL queries fail in case.
+	 */
 	public List<Conflict> validateTeacherRun( String semester, Connection conn, List<Class1> classes ) throws Exception {
 
 
@@ -116,6 +135,13 @@ public class validateTeacher {
 		return conList;
 	}
 	
+	/**
+	 * @param semester - Used for querying the proper semester's tables
+	 * @param conn - The connection to be used for queries
+	 * @param classroom - The classroom to be queried for
+	 * @return - The row for the classroom if specified, or all rows for classrooms
+	 * @throws Exception - An exception is thrown if the SQL queries fail in case.
+	 */
 	private List<Classroom> getClassrooms( String semester, Connection conn, String classroom ) throws Exception {
 		ResultSet rs = null;
 		List<Classroom> list = new ArrayList<Classroom>();
@@ -161,6 +187,21 @@ public class validateTeacher {
 		return list;
 	}
 	
+	/**
+	 * @param semester - Used for querying the proper semester's tables
+	 * @param conn - The connection to be used for queries
+	 * @param classroom - The classroom to be queried for
+	 * @return - The row for the classroom if specified, or all rows for classrooms
+	 * @throws Exception - An exception is thrown if the SQL queries fail in case.
+	 */
+	/**
+	 * @param semester - Used for querying the proper semester's tables
+	 * @param conn - The connection to be used for queries
+	 * @param teacherFirst - The instructor's first name
+	 * @param teacherLast - The instructor's last name
+	 * @return - If instructor name given, returns the row for the instructor from the table, if null returns all teacher rows from the table.
+	 * @throws Exception - An exception is thrown if the SQL queries fail in case.
+	 */
 	private List<Instructor> getTeachers( String semester, Connection conn, String teacherFirst, String teacherLast ) throws Exception {
 		ResultSet rs = null;
 		List<Instructor> list = new ArrayList<Instructor>();
@@ -202,6 +243,15 @@ public class validateTeacher {
 		return list;
 	}
 	
+	/**
+	 * @param semester - Used for querying the proper semester's tables
+	 * @param conn - The connection to be used for queries
+	 * @param classroom - The classroom to query classes for
+	 * @param teacherFirst - The instructor's first name to query for
+	 * @param teacherLast - The instructor's last name to query for
+	 * @return - All table entries for classes with the specified instructor
+	 * @throws Exception - An exception is thrown if the SQL queries fail in case.
+	 */
 	private List<Class1> queryTeacher( String semester, Connection conn, String teacherFirst, String teacherLast ) throws Exception {
 		ResultSet rs = null;
 		List<Class1> list = new ArrayList<Class1>();
@@ -267,6 +317,11 @@ public class validateTeacher {
 		return list;
 	}
 	
+	/**
+	 * @param class1 - Class 1 to be checked
+	 * @param class2 - Class 2 to be checked
+	 * @return - returns true if the class times overlap
+	 */
 	private boolean checkTime( Class1 class1, Class1 class2 ) {
 		
 		// If they have class on at least one day
