@@ -119,11 +119,11 @@ public class wordServices extends baseJSP {
 				run2.addTab();
 				run2.addTab();
 				run2.addTab();
+				/*run2.addTab();
 				run2.addTab();
 				run2.addTab();
 				run2.addTab();
-				run2.addTab();
-				run2.addTab();
+				run2.addTab();*/
 				
 				paragraph = document.createParagraph();
 				paragraph.setAlignment(ParagraphAlignment.CENTER);

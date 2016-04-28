@@ -107,11 +107,12 @@
 					<button type="submit" class="btn btn-default center-block" value="exportWord">
 						Word Download
 					</button>
+					<!-- 
 					<div class="checkbox">
  					 <label><input type="checkbox" value="Val1">Department 1</label>
  					 <label><input type="checkbox" value="Val2">Department 2</label>
   					<label><input type="checkbox" value="Val3">Department 3</label>
-					</div>
+					</div>  -->
 				</div>
 				</form>
 </div>
