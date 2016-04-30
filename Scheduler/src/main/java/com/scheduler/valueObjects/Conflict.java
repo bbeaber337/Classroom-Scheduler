@@ -1,11 +1,15 @@
 package com.scheduler.valueObjects;
 
 public class Conflict {
+	public static String TIME_CONFLICT = "Time Overlap";
+	public static String CLASSROOM_CAPACITY_CONFLICT = "Group Over Classroom Capacity";
+	public static String NO_TEACHER = "No Teacher Assigned";
+	public static String NO_CLASSROOM = "No Classroom Assigned";
+	public static String CAPACITY_CONFLICT = "Over Class Capacity";
+	
 	private int class1;
 	private int class2;
 	private String confType;
-	private String value1;
-	private String value2;
 	
 	public int getClass1() {
 		return class1;
@@ -26,20 +30,6 @@ public class Conflict {
 	}
 	public void setConfType(String confType) {
 		this.confType = confType;
-	}
-	
-	public String getValue1() {
-		return value1;
-	}
-	public void setValue1(String value1) {
-		this.value1 = value1;
-	}
-	
-	public String getValue2() {
-		return value2;
-	}
-	public void setValue2(String value2) {
-		this.value2 = value2;
 	}
 	
 }

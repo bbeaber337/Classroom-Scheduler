@@ -2,14 +2,14 @@ package com.scheduler.valueObjects;
 
 public class Classroom {
 
-	int roomID = -1;
+	int roomID = 0;
 	int capacity = 0;
-	String name = null;
-	String desk = null;
-	String board = null;
-	String chair = null;
-	String distLearning = null;
-	String roomType = null;
+	String name = "";
+	String desk = "";
+	String board = "";
+	String chair = "";
+	String distLearning = "";
+	String roomType = "";
 	int projectors = 0;
 	
 	

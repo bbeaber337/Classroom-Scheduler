@@ -1,17 +1,128 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:web="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" version="2.4">
-  <welcome-file-list>
-    <welcome-file>LandingPage.jsp</welcome-file>
-  </welcome-file-list>
-  <servlet-mapping>
-    <servlet-name>LandingPage</servlet-name>
-    <url-pattern>/</url-pattern>
-  </servlet-mapping>
+  <display-name>IS+T Scheduler</display-name>
+  <filter>
+    <display-name>loginFilter</display-name>
+    <filter-name>loginFilter</filter-name>
+    <filter-class>com.scheduler.filter.loginFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>loginFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <filter>
+    <display-name>semesterFilter</display-name>
+    <filter-name>semesterFilter</filter-name>
+    <filter-class>com.scheduler.filter.semesterFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>semesterFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <filter>
+    <display-name>adminFilter</display-name>
+    <filter-name>adminFilter</filter-name>
+    <filter-class>com.scheduler.filter.adminFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>adminFilter</filter-name>
+    <url-pattern>/Admin/*</url-pattern>
+  </filter-mapping>
   <servlet>
     <description>Sets up necessary tables in the database</description>
     <display-name>SetupDB</display-name>
     <servlet-name>SetupDB</servlet-name>
-    <servlet-class>com.scheduler.servlet.SetupDB</servlet-class>
+    <servlet-class>com.scheduler.dbconnector.SetupDB</servlet-class>
     <load-on-startup>1</load-on-startup>
   </servlet>
+  <servlet>
+    <display-name>Login</display-name>
+    <servlet-name>Login</servlet-name>
+    <jsp-file>/Login.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Login</servlet-name>
+    <url-pattern>/Login</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <display-name>Home</display-name>
+    <servlet-name>Home</servlet-name>
+    <jsp-file>/user/Home.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Home</servlet-name>
+    <url-pattern>/Home</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <display-name>Users</display-name>
+    <servlet-name>Users</servlet-name>
+    <jsp-file>/admin/Users.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Users</servlet-name>
+    <url-pattern>/Admin/Users/*</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <display-name>Classes</display-name>
+    <servlet-name>Classes</servlet-name>
+    <jsp-file>/user/Classes.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Classes</servlet-name>
+    <url-pattern>/Classes/*</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <display-name>Classrooms</display-name>
+    <servlet-name>Classrooms</servlet-name>
+    <jsp-file>/user/Classrooms.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Classrooms</servlet-name>
+    <url-pattern>/Classrooms/*</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <display-name>Instructors</display-name>
+    <servlet-name>Instructors</servlet-name>
+    <jsp-file>/user/Instructors.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Instructors</servlet-name>
+    <url-pattern>/Instructors/*</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <display-name>Conflicts</display-name>
+    <servlet-name>Conflicts</servlet-name>
+    <jsp-file>/user/Conflicts.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Conflicts</servlet-name>
+    <url-pattern>/Conflicts/*</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description>Upload an excel document</description>
+    <display-name>Upload</display-name>
+    <servlet-name>Upload</servlet-name>
+    <servlet-class>com.scheduler.servlet.Upload</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Upload</servlet-name>
+    <url-pattern>/Admin/Upload/*</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description>Download reports</description>
+    <display-name>Download</display-name>
+    <servlet-name>Download</servlet-name>
+    <servlet-class>com.scheduler.servlet.Download</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Download</servlet-name>
+    <url-pattern>/Admin/Download/*</url-pattern>
+  </servlet-mapping>
+  <welcome-file-list>
+    <welcome-file>Login.jsp</welcome-file>
+  </welcome-file-list>
+  <error-page>
+    <exception-type>java.lang.Exception</exception-type>
+    <location>/error.jsp</location>
+  </error-page>
 </web-app>

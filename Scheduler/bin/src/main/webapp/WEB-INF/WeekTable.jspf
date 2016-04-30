@@ -1,0 +1,88 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+	<%@ page import="com.scheduler.services.*" %>
+	<%@ page import="com.scheduler.valueObjects.*" %>
+	<%@ page import="com.scheduler.jsp.*" %>
+	<%@ page import="java.util.*" %>
+	<%@ page import="java.sql.*" %>
+	<%@ page import="java.text.*" %>
+	<Table class='table table-striped table-bordered table-condensed'>
+	<tbody>
+	<thead>
+	<tr>
+	<th></th>
+	<th>
+	Sunday
+	</th>
+	<th>
+	Monday
+	</th>
+	<th>
+	Tuesday
+	</th>
+	<th>
+	Wednesday
+	</th>
+	<th>
+	Thursday
+	</th>
+	<th>
+	Friday
+	</th>
+	<th>
+	Saturday
+	</th>
+	</tr>
+	</thead>
+	<%
+	 System.out.println("Made it to WeekTable");
+	 SimpleDateFormat df = new SimpleDateFormat("HH:mm");
+	 Calendar startTime = Calendar.getInstance();
+	 startTime.setTime(df.parse("07:00"));
+	 Calendar endTime = Calendar.getInstance();
+	 endTime.setTime(df.parse("22:00"));
+	 while (!startTime.after(endTime)){
+		 System.out.print(startTime);
+		 %>
+		 <tr>
+		<td class='table-time'>
+		 <% if (startTime.get(Calendar.MINUTE)%30 == 0){ %>
+		 <%= df.format(startTime.getTime()) %>
+		 <% } %>
+		 </td>
+		 <% for (int i = 0; i < 7; i++){ %>
+		 <td></td>		 
+		 <% } %>
+		 </tr>
+		 <%
+		 startTime.add(Calendar.MINUTE, 15);
+	 }
+	%>
+	</tbody>
+	<tfoot>
+	<tr>
+	<th></th>
+	<th>
+	Sunday
+	</th>
+	<th>
+	Monday
+	</th>
+	<th>
+	Tuesday
+	</th>
+	<th>
+	Wednesday
+	</th>
+	<th>
+	Thursday
+	</th>
+	<th>
+	Friday
+	</th>
+	<th>
+	Saturday
+	</th>
+	</tr>
+	</tfoot>
+	</Table>

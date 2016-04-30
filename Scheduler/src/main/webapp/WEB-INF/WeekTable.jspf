@@ -2,12 +2,12 @@
     pageEncoding="ISO-8859-1"%>
 	<%@ page import="com.scheduler.services.*" %>
 	<%@ page import="com.scheduler.valueObjects.*" %>
-	<%@ page import="com.scheduler.jsp.*" %>
 	<%@ page import="java.util.*" %>
 	<%@ page import="java.sql.*" %>
 	<%@ page import="java.text.*" %>
+	<div id = 'WeekTableDiv' style='display:none'>
 	<h2 id ='WeekTableHeader' class="text-center">Schedule</h2>
-	<Table id='WeekTable' class='table table-bordered table-condensed text-center' style='display:none'>
+	<Table id='WeekTable' class='table table-bordered table-condensed text-center'>
 	<tbody>
 	<thead>
 	<tr>
@@ -85,3 +85,4 @@
 	</tr>
 	</tfoot>
 	</Table>
+	</div>

@@ -1,25 +1,35 @@
 package com.scheduler.valueObjects;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 public class Class1 {
 
-	Map<String, String> params = new HashMap<String, String>();
+	public static final List<String> OURNAMES = Arrays.asList("subject", "catalog", "section", "combo", "classname", 
+			"capenrolled","totenrolled","days","starttime","endtime","classroom","capacity","instructorlast",
+			"instructorfirst","startdate","enddate","component","classnumber");
+
+
+	Map<String, String> params;
 	
 	public Class1(){
-		this.setClassID(-1);
+		params = new HashMap<String, String>();
+		setGroupNumber(0);
 	}
+	
 	//String chairType = null;
 	//String boardType = null;
 	//String deskType = null;
-	public String get(String key){
-		return params.get(key);
-	}
 	
 	public Set<String> getParamKeys(){
 		return params.keySet();
+	}
+	
+	public String get(String key){
+		return params.get(key);
 	}
 	
 	public void set(String key, String value){
@@ -33,141 +43,6 @@ public class Class1 {
 	public void setClassID(int class_id){
 		this.params.put("classID", Integer.toString(class_id));
 		//this.class_id = class_id;
-	}
-	
-	public String getClassRoom(){
-		return params.get("classroom");
-		//return facil;
-	}
-	public void setClassRoom(String facil){
-		this.params.put("classroom", facil);
-		//this.facil = facil;
-	}
-	
-	public String getClassInstructLast(){
-		return params.get("instructorlast");
-		//return lName;
-	}
-	public void setClassInstructLast(String lName){
-		this.params.put("instructorlast", lName);
-		//this.lName = lName;
-	}
-	
-	public String getClassInstructFirst(){
-		return params.get("instructorfirst");
-		//return fName;
-	}
-	public void setClassInstructFirst(String fName){
-		this.params.put("instructorfirst", fName);
-		//this.fName = fName;
-	}
-	
-	public String getClassDateEnd(){
-		return params.get("enddate");
-		//return eDate;
-	}
-	public void setClassDateEnd(String eDate){
-		this.params.put("enddate", eDate);
-		//this.eDate = eDate;
-	}
-	
-	public String getClassDateStart(){
-		return params.get("startdate");
-		//return sDate;
-	}
-	public void setClassDateStart(String sDate){
-		this.params.put("startdate", sDate);
-		//this.sDate = sDate;
-	}
-	
-	public String getClassTimeEnd(){
-		return params.get("endtime");
-		//return eTime;
-	}
-	public void setClassTimeEnd(String eTime){
-		this.params.put("endtime", eTime);
-		//this.eTime = eTime;
-	}
-	
-	public String getClassTimeStart(){
-		return params.get("starttime");
-		//return sTime;
-	}
-	public void setClassTimeStart(String sTime){
-		this.params.put("starttime", sTime);
-		//this.sTime = sTime;
-	}
-	
-	public String getClassDays(){
-		return this.params.get("days");
-		//return day;
-	}
-	public void setClassDays(String day){
-		this.params.put("days", day);
-		//this.day = day;
-	}
-	
-	public int getClassEnrolled(){
-		return Integer.parseInt(params.get("totenrolled"));
-		//return enrolled;
-	}
-	public void setClassEnrolled(int enrolled){
-		this.params.put("totenrolled", Integer.toString(enrolled));
-		//this.enrolled = enrolled;
-	}
-	
-	public int getClassCapacity(){
-		return Integer.parseInt(params.get("capacity"));
-		//return capacity;
-	}
-	public void setClassCapacity(int capacity){
-		this.params.put("capacity", Integer.toString(capacity));
-		//this.capacity = capacity;
-	}
-	
-	public String getClassSubject(){
-		return params.get("subject");
-		//return subject;
-	}
-	public void setClassSubject(String subject){
-		this.params.put("subject", subject);
-		//this.subject = subject;
-	}
-	
-	public String getClassCatalog(){
-		return params.get("catalog");
-		//return catalog;
-	}
-	public void setClassCatalog(String catalog){
-		this.params.put("catalog", catalog);
-		//this.catalog = catalog;
-	}
-	
-	public String getClassSection(){
-		return params.get("section");
-		//return section;
-	}
-	public void setClassSection(String section){
-		this.params.put("section", section);
-		//this.section = section;
-	}
-	
-	public String getClassCombination(){
-		return params.get("combo");
-		//return combo;
-	}
-	public void setClassCombination(String combo){
-		this.params.put("combo", combo);
-		//this.combo = combo;
-	}
-	
-	public String getClassName(){
-		return params.get("classname");
-		//return name;
-	}
-	public void setClassName(String name){
-		this.params.put("classname", name);
-		//this.name = name;
 	}
 	
 	public int getClassMon(){
@@ -219,10 +94,10 @@ public class Class1 {
 		this.params.put("classSun", Integer.toString(classSun));
 	}
 	public int getGroupNumber(){
-		return Integer.parseInt(params.get("groupnum"));
+		return Integer.parseInt(params.get("groupNum"));
 	}
 	public void setGroupNumber(int num){
-		this.params.put("groupnum", Integer.toString(num));
+		this.params.put("groupNum", Integer.toString(num));
 	}
 	
 	@Override
@@ -233,9 +108,6 @@ public class Class1 {
 	public void print(){
 		for (String k : params.keySet()){
 			System.out.println(k + ": " + params.get(k));
-			System.out.println("Group Number: " + getGroupNumber());
-			System.out.printf("Mon Tues Wed Thur Fri Sat Sun: %d %d %d %d %d %d %d", 
-					getClassMon(),getClassTues(),getClassWed(),getClassThurs(),getClassFri(),getClassSat(),getClassSun());
 		}
 	}
 	

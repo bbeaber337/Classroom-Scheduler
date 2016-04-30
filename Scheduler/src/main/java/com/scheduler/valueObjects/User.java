@@ -1,21 +1,22 @@
 package com.scheduler.valueObjects;
 
 public class User {
+	public static final int USER_ADMIN = 2;
+	
 	private int user_id = 0;
 	private String username = null;
 	private String pass = null;
 	private String fName;
 	private String lName;
 	private String email;
-	private int admin = 0;
+	private int level = 0; // 1 = can view, 2 = can make changes
 	
 
 	public String getUserName(){
 		return username;
 	}
 	public void setUserName(String username) {
-		this.username = username;
-		
+		this.username = username;		
 	}
 	
 	public String getUserPassword(){
@@ -45,11 +46,12 @@ public class User {
 	public void setUserEmail(String email){
 		this.email = email;
 	}
-	public int getUserAdmin(){
-		return admin;
+	
+	public int getUserLevel(){
+		return level;
 	}
-	public void setUserAdmin(int admin){
-		this.admin = admin;
+	public void setUserLevel(int admin){
+		this.level = admin;
 	}
 	
 	public int getUserID(){
@@ -58,6 +60,4 @@ public class User {
 	public void setUserID(int user_id){
 		this.user_id = user_id;
 	}
-	
-
 }

@@ -1,3 +1,4 @@
+<% ServletContext menucontext = session.getServletContext(); %>
 <nav id="adminMenu" class="navbar navbar-inverse navbar-fixed-top">
        <div class="container-fluid">
            <div class="navbar-header">
@@ -7,31 +8,29 @@
                    <span class="icon-bar"></span>
                    <span class="icon-bar"></span>
                </button>
-               <a class="navbar-brand" href="AdminHomepage.jsp">Administrator Homepage</a>
+               <a class="navbar-brand" href="<%= response.encodeURL(menucontext.getContextPath()+"/Home") %>">IS&T Scheduler</a>
          </div>
          
          <div id="navbar" class="collapse navbar-collapse">
              <ul class="nav navbar-nav">
 				 <% if (session.getAttribute("semester") != null){ %>
-                 <li><a href="viewClasses.jsp">Classes</a></li>
-                 <li><a href="viewConflicts.jsp">Conflicts</a></li>
-                 <li><a href="viewClassrooms.jsp">Classrooms</a></li>
-                 <li><a href="viewTeachers.jsp">Teachers</a></li>
+                 <li><a href="<%= response.encodeURL(menucontext.getContextPath()+"/Classes") %>">Classes</a></li>
+                 <li><a href="<%= response.encodeURL(menucontext.getContextPath()+"/Conflicts") %>">Conflicts</a></li>
+                 <li><a href="<%= response.encodeURL(menucontext.getContextPath()+"/Classrooms") %>">Classrooms</a></li>
+                 <li><a href="<%= response.encodeURL(menucontext.getContextPath()+"/Instructors") %>">Instructors</a></li>
 				 <% } %>
                  
+                 <% if (session.getAttribute("semester") != null && Integer.parseInt(session.getAttribute("userlevel").toString()) == User.USER_ADMIN){ %>
                  <li class="dropdown">
                  <a class="dropdown-toggle" aria-haspopup="true"
                  role="button" data-toggle="dropdown"><span class="caret"></span></a>
                  <ul class="dropdown-menu">
-                 <!--  <li><a href="viewSemesters.jsp">Semesters</a></li>-->
-                 <li><a href="viewUsers.jsp">Users</a></li>
-                 <li><a href="viewRequests.jsp">Create Account</a></li>
-                 <% if (session.getAttribute("semester") != null){ %>
-                 <li><a href="Upload.jsp">Upload Schedule</a></li>
-                 <li><a href="Download.jsp">Download Schedule</a></li>
-                 <% } %>
+                 <li><a href="<%= response.encodeURL(menucontext.getContextPath()+"/Admin/Users") %>">Users</a></li>
+                 <li><a href="<%= response.encodeURL(menucontext.getContextPath()+"/Admin/Upload") %>">Upload Schedule</a></li>
+                 <li><a href="<%= response.encodeURL(menucontext.getContextPath()+"/Admin/Download") %>">Download Schedule</a></li>
                  </ul>
                  </li>
+                 <% } %>
                  <li>
                  <% if (session.getAttribute("semester") != null){ %>
                  	<p class="navbar-text"><%= ((String)session.getAttribute("semester")).toUpperCase() %></p>
@@ -43,7 +42,8 @@
                  
              </ul>
              <ul class="nav navbar-nav pull-right">
-                <li><a href="../User/LandingPage.jsp?logout=true">Logout</a></li>
+             	<p class="navbar-text">Signed in as <%=session.getAttribute("username").toString() %></p>
+                <li><a href="<%= menucontext.getContextPath()+"/Login?logout=true" %>">Logout</a></li>
              </ul>
          </div>
          
