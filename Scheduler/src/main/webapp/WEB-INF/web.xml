@@ -29,13 +29,6 @@
     <url-pattern>/Admin/*</url-pattern>
   </filter-mapping>
   <servlet>
-    <description>Sets up necessary tables in the database</description>
-    <display-name>SetupDB</display-name>
-    <servlet-name>SetupDB</servlet-name>
-    <servlet-class>com.scheduler.dbconnector.SetupDB</servlet-class>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
-  <servlet>
     <display-name>Login</display-name>
     <servlet-name>Login</servlet-name>
     <jsp-file>/Login.jsp</jsp-file>
@@ -118,6 +111,13 @@
     <servlet-name>Download</servlet-name>
     <url-pattern>/Admin/Download/*</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description>Initialize DB</description>
+    <display-name>DBSetup</display-name>
+    <servlet-name>DBSetup</servlet-name>
+    <servlet-class>com.scheduler.dbconnector.DBSetup</servlet-class>
+	<load-on-startup>1</load-on-startup>
+  </servlet>
   <welcome-file-list>
     <welcome-file>Login.jsp</welcome-file>
   </welcome-file-list>

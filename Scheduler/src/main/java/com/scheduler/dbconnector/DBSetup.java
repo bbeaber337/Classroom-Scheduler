@@ -1,23 +1,25 @@
 package com.scheduler.dbconnector;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 
-import com.scheduler.dbconnector.*;
-import com.scheduler.valueObjects.*;
+import com.scheduler.valueObjects.Semester;
 
 /**
- * Servlet implementation class SetupDB
+ * Servlet implementation class DBSetup
  */
-public class SetupDB extends HttpServlet {
+public class DBSetup extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SetupDB() {
+    public DBSetup() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -25,7 +27,7 @@ public class SetupDB extends HttpServlet {
 	/**
 	 * @see Servlet#init(ServletConfig)
 	 */
-	public void init(ServletConfig config) throws ServletException {
+    public void init(ServletConfig config) throws ServletException {
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rset = null;
