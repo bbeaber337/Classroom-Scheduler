@@ -10,9 +10,6 @@ import com.scheduler.valueObjects.*;
 
 public class conflictServices {
 	
-	public static List<Conflict> getConflicts(String semester){
-		return getConflicts(semester, 0);
-	}
 	public static List<Conflict> getConflicts(String semester, int classID){
 		List<Conflict> list = new ArrayList<Conflict>();
 		list.addAll(checkClassrooms(semester));
