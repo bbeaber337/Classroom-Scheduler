@@ -59,9 +59,9 @@ public class Upload extends HttpServlet {
 			pathinfo = pathinfo.substring(1);
 		}
 		if (pathinfo.equalsIgnoreCase("Confirm")){
-			request.getServletContext().getRequestDispatcher("/Admin/uploadconfirm.jsp").include(request, response);
+			request.getServletContext().getRequestDispatcher("/Admin/uploadconfirm.jsp").forward(request, response);
 		} else {
-			request.getServletContext().getRequestDispatcher("/Admin/upload.jsp").include(request, response);
+			request.getServletContext().getRequestDispatcher("/Admin/upload.jsp").forward(request, response);
 		}
 	}
 

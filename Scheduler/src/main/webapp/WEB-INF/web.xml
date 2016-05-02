@@ -6,84 +6,48 @@
     <servlet-name>Login</servlet-name>
     <jsp-file>/Login.jsp</jsp-file>
   </servlet>
-  <servlet-mapping>
-    <servlet-name>Login</servlet-name>
-    <url-pattern>/Login</url-pattern>
-  </servlet-mapping>
   <servlet>
     <display-name>Home</display-name>
     <servlet-name>Home</servlet-name>
     <jsp-file>/User/Home.jsp</jsp-file>
   </servlet>
-  <servlet-mapping>
-    <servlet-name>Home</servlet-name>
-    <url-pattern>/Home</url-pattern>
-  </servlet-mapping>
   <servlet>
     <display-name>Users</display-name>
     <servlet-name>Users</servlet-name>
     <jsp-file>/Admin/Users.jsp</jsp-file>
   </servlet>
-  <servlet-mapping>
-    <servlet-name>Users</servlet-name>
-    <url-pattern>/Admin/Users/*</url-pattern>
-  </servlet-mapping>
   <servlet>
     <display-name>Classes</display-name>
     <servlet-name>Classes</servlet-name>
     <jsp-file>/User/Classes.jsp</jsp-file>
   </servlet>
-  <servlet-mapping>
-    <servlet-name>Classes</servlet-name>
-    <url-pattern>/Classes/*</url-pattern>
-  </servlet-mapping>
   <servlet>
     <display-name>Classrooms</display-name>
     <servlet-name>Classrooms</servlet-name>
     <jsp-file>/User/Classrooms.jsp</jsp-file>
   </servlet>
-  <servlet-mapping>
-    <servlet-name>Classrooms</servlet-name>
-    <url-pattern>/Classrooms/*</url-pattern>
-  </servlet-mapping>
   <servlet>
     <display-name>Instructors</display-name>
     <servlet-name>Instructors</servlet-name>
     <jsp-file>/User/Instructors.jsp</jsp-file>
   </servlet>
-  <servlet-mapping>
-    <servlet-name>Instructors</servlet-name>
-    <url-pattern>/Instructors/*</url-pattern>
-  </servlet-mapping>
   <servlet>
     <display-name>Conflicts</display-name>
     <servlet-name>Conflicts</servlet-name>
     <jsp-file>/User/Conflicts.jsp</jsp-file>
   </servlet>
-  <servlet-mapping>
-    <servlet-name>Conflicts</servlet-name>
-    <url-pattern>/Conflicts/*</url-pattern>
-  </servlet-mapping>
   <servlet>
     <description>Upload an excel document</description>
     <display-name>Upload</display-name>
     <servlet-name>Upload</servlet-name>
     <servlet-class>com.scheduler.servlet.Upload</servlet-class>
   </servlet>
-  <servlet-mapping>
-    <servlet-name>Upload</servlet-name>
-    <url-pattern>/Admin/Upload/*</url-pattern>
-  </servlet-mapping>
   <servlet>
     <description>Download reports</description>
     <display-name>Download</display-name>
     <servlet-name>Download</servlet-name>
     <servlet-class>com.scheduler.servlet.Download</servlet-class>
   </servlet>
-  <servlet-mapping>
-    <servlet-name>Download</servlet-name>
-    <url-pattern>/Admin/Download/*</url-pattern>
-  </servlet-mapping>
   <servlet>
     <description>Initialize DB</description>
     <display-name>DBSetup</display-name>
@@ -91,6 +55,42 @@
     <servlet-class>com.scheduler.dbconnector.DBSetup</servlet-class>
 	<load-on-startup>1</load-on-startup>
   </servlet>
+  <servlet-mapping>
+    <servlet-name>Login</servlet-name>
+    <url-pattern>/Login</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Home</servlet-name>
+    <url-pattern>/Home</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Users</servlet-name>
+    <url-pattern>/Admin/Users/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Classes</servlet-name>
+    <url-pattern>/Classes/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Classrooms</servlet-name>
+    <url-pattern>/Classrooms/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Instructors</servlet-name>
+    <url-pattern>/Instructors/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Conflicts</servlet-name>
+    <url-pattern>/Conflicts/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Upload</servlet-name>
+    <url-pattern>/Admin/Upload/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Download</servlet-name>
+    <url-pattern>/Admin/Download/*</url-pattern>
+  </servlet-mapping>
   <welcome-file-list>
     <welcome-file>Login.jsp</welcome-file>
   </welcome-file-list>

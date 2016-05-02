@@ -59,7 +59,7 @@ public class Download extends HttpServlet {
 		} else {
 			pathinfo = pathinfo.substring(1);
 		}
-		request.getServletContext().getRequestDispatcher("/Admin/download.jsp").include(request, response);
+		request.getServletContext().getRequestDispatcher("/Admin/download.jsp").forward(request, response);
 	}
 
 	/**
