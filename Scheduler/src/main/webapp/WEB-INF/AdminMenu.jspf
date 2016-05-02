@@ -20,14 +20,16 @@
                  <li><a href="<%= response.encodeURL(menucontext.getContextPath()+"/Instructors") %>">Instructors</a></li>
 				 <% } %>
                  
-                 <% if (session.getAttribute("semester") != null && Integer.parseInt(session.getAttribute("userlevel").toString()) == User.USER_ADMIN){ %>
+                 <% if (Integer.parseInt(session.getAttribute("userlevel").toString()) == User.USER_ADMIN){ %>
                  <li class="dropdown">
                  <a class="dropdown-toggle" aria-haspopup="true"
                  role="button" data-toggle="dropdown"><span class="caret"></span></a>
                  <ul class="dropdown-menu">
                  <li><a href="<%= response.encodeURL(menucontext.getContextPath()+"/Admin/Users") %>">Users</a></li>
+                 <% if (session.getAttribute("semester") != null) { %>
                  <li><a href="<%= response.encodeURL(menucontext.getContextPath()+"/Admin/Upload") %>">Upload Schedule</a></li>
                  <li><a href="<%= response.encodeURL(menucontext.getContextPath()+"/Admin/Download") %>">Download Schedule</a></li>
+                 <% } %>
                  </ul>
                  </li>
                  <% } %>

@@ -61,7 +61,7 @@ public class jsonServices {
 			jsonBuilder.add("projectors",c.getRoomProjectors());
 			if (userlevel == User.USER_ADMIN){
 				jsonBuilder.add(  "Edit_Room", "<form action='"+response.encodeURL(context.getContextPath()+"/Classrooms/Edit")+"' method='post' ><input type='hidden' name='roomID' value='" + c.getRoomID() + "'><input type='submit' value='Edit' alt='Edit Classroom'/></form>")
-				.add(  "Delete_Room", "<form action='"+response.encodeURL(context.getContextPath()+"/Classrooms/Delete")+"' method='post' ><input type='hidden' name='roomID' value='" + c.getRoomID() + "'><input type='submit' value='Delete' alt='Delete Classroom' onclick=\"return confirm('Are you sure you want to delete this Class?')\"/></form>");
+				.add(  "Delete_Room", "<form action='"+response.encodeURL(context.getContextPath()+"/Classrooms/Delete")+"' method='post' ><input type='hidden' name='roomID' value='" + c.getRoomID() + "'><input type='submit' value='Delete' alt='Delete Classroom' onclick=\"return confirm('Are you sure you want to delete this Classroom?')\"/></form>");
 			}
 			classBuilder.add(jsonBuilder);
 		}
@@ -84,7 +84,7 @@ public class jsonServices {
 			jsonBuilder.add("comment",i.getComment());
 			if (userlevel == User.USER_ADMIN){
 				jsonBuilder.add(  "Edit_Instructor", "<form action='"+response.encodeURL(context.getContextPath()+"/Instructors/Edit")+"' method='post' ><input type='hidden' name='instructorID' value='" + i.getID() + "'><input type='submit' value='Edit' alt='Edit Class'/></form>")
-				.add(  "Delete_Instructor", "<form action='"+response.encodeURL(context.getContextPath()+"/Instructors/Delete")+"' method='post' ><input type='hidden' name='instructorID' value='" + i.getID() + "'><input type='submit' value='Delete' alt='Delete Class' onclick=\"return confirm('Are you sure you want to delete this Class?')\"/></form>");
+				.add(  "Delete_Instructor", "<form action='"+response.encodeURL(context.getContextPath()+"/Instructors/Delete")+"' method='post' ><input type='hidden' name='instructorID' value='" + i.getID() + "'><input type='submit' value='Delete' alt='Delete Class' onclick=\"return confirm('Are you sure you want to delete this Instructor?')\"/></form>");
 			}
 			classBuilder.add(jsonBuilder);
 		}
