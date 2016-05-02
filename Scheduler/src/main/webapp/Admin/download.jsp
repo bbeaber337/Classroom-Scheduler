@@ -50,20 +50,30 @@
 <div>
 <form role="form" action='<%= response.encodeURL(context.getContextPath()+"/Admin/Download/Word") %>' method='post'>
 			<input type="hidden" name="exportWord" value="exportWord">
-				<div class="col-md-4">		
-					<button type="submit" class="btn btn-default center-block" value="exportWord">
-						Word Download
-					</button>
-					<% for (String subject : dbServices.getSubjects(semester)){ %>
-					<div class="row col-md-4 col-md-offset-2">
-						<input type="checkbox" name="subjects" value="<%= subject %>" >
-						<label for="checkbox">
-							<%= subject %>
-						</label>
-					</div>
-					<% } %>
+			<div class="col-md-4">		
+				<button type="submit" class="btn btn-default center-block" value="exportWord">
+					Word Download
+				</button>
+				<% for (String subject : dbServices.getSubjects(semester)){ %>
+				<div class="row col-md-4 col-md-offset-2">
+					<input type="checkbox" name="subjects" value="<%= subject %>" >
+					<label for="checkbox">
+						<%= subject %>
+					</label>
 				</div>
-				</form>
+				<% } %>
+			</div>
+	</form>
+</div>
+<div>
+	<form role="form" action='<%= response.encodeURL(context.getContextPath()+"/Admin/Download/Changes") %>' method='post'>
+			<input type="hidden" name="export" value="export">
+			<div class="col-md-4">
+				<button type="submit" class="btn btn-default center-block" value="export">
+					Changes Download
+				</button>
+			</div>
+	</form>
 </div>
 </div>
 

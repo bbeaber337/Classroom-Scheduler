@@ -14,6 +14,106 @@ public class dbServices {
 	
 /*
  * ===============================================================================================================
+ * 								Change Report Functions
+ * ===============================================================================================================
+ */
+	public static Classlist getDeletedClasses(String semester){
+		Classlist classlist = new Classlist();
+		if (Semester.SEMESTERS.contains(semester)){
+			Connection conn = null;
+			PreparedStatement stmt = null;
+			ResultSet rset = null;
+			String query = "select * from " + semester + "upload where classID not in (select classID from " + semester+ "classes)";
+			try {
+				conn = JdbcManager.getConnection();
+				stmt = conn.prepareStatement(query);
+				rset = stmt.executeQuery();
+				while (rset.next()){
+					ResultSetMetaData md = rset.getMetaData();
+					Class1 c = new Class1();
+					for (int i = 1; i <= md.getColumnCount(); i++){
+						c.set(md.getColumnLabel(i), rset.getString(i));
+					}
+					classlist.add(c);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				JdbcManager.close(rset);
+				JdbcManager.close(stmt);
+				JdbcManager.close(conn);
+			}
+		}		
+		return classlist;
+	}
+	
+	public static Classlist getAddedClasses(String semester){
+		Classlist classlist = new Classlist();
+		if (Semester.SEMESTERS.contains(semester)){
+			Connection conn = null;
+			PreparedStatement stmt = null;
+			ResultSet rset = null;
+			String query = "select * from " + semester + "classes where classID not in (select classID from " + semester+ "upload)";
+			try {
+				conn = JdbcManager.getConnection();
+				stmt = conn.prepareStatement(query);
+				rset = stmt.executeQuery();
+				while (rset.next()){
+					ResultSetMetaData md = rset.getMetaData();
+					Class1 c = new Class1();
+					for (int i = 1; i <= md.getColumnCount(); i++){
+						c.set(md.getColumnLabel(i), rset.getString(i));
+					}
+					classlist.add(c);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				JdbcManager.close(rset);
+				JdbcManager.close(stmt);
+				JdbcManager.close(conn);
+			}
+		}		
+		return classlist;
+	}
+	
+	public static Classlist getChangedClasses(String semester){
+		Classlist classlist = new Classlist();
+		List<String> headers = getHeaders(semester);
+		if (Semester.SEMESTERS.contains(semester)){
+			Connection conn = null;
+			PreparedStatement stmt = null;
+			ResultSet rset = null;
+			String query = "select * from (" + semester + "classes as classes) join (" + semester + "upload as upload) on classes.classID = upload.classID where";
+			for (String h : headers){
+				query += " classes.`" + h + "` != upload.`" + h + "upload` or";
+			}
+			query = query.substring(0, query.length()-3);
+			try {
+				conn = JdbcManager.getConnection();
+				stmt = conn.prepareStatement(query);
+				rset = stmt.executeQuery();
+				while (rset.next()){
+					ResultSetMetaData md = rset.getMetaData();
+					Class1 c = new Class1();
+					for (int i = 1; i <= md.getColumnCount(); i++){
+						c.set(md.getColumnLabel(i), rset.getString(i));
+					}
+					classlist.add(c);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				JdbcManager.close(rset);
+				JdbcManager.close(stmt);
+				JdbcManager.close(conn);
+			}
+		}		
+		return classlist;
+	}
+	
+/*
+ * ===============================================================================================================
  * 								Misc Functions
  * ===============================================================================================================
  */
@@ -241,33 +341,36 @@ public class dbServices {
 		PreparedStatement stmt = null;
 		if (Semester.SEMESTERS.contains(semester)){
 			String query0 = "create table if not exists `" + semester;
-			String query = "` (`classID` INT NOT NULL AUTO_INCREMENT,";
+			String queryupload = "` (`classID` INT NOT NULL AUTO_INCREMENT,";
+			String queryclasses = "` (`classID` INT NOT NULL AUTO_INCREMENT,";
 			dropClassTables(semester);
 			List<String> headers = getHeaders(semester);
 			Map<String,String> ournames = getOurNames(semester);
 			for (String s : headers) {
-				query += "`" + s + "`";
+				queryupload += "`" + s + "upload`";
+				queryclasses += "`" + s + "`";
 				if (s.equalsIgnoreCase(ournames.get("classname"))){
-					query += " varchar(90) NULL,";
-				} else if(s.equalsIgnoreCase(ournames.get("instructorfirst"))){
-					query += " varchar(45) NULL,";
-				} else if(s.equalsIgnoreCase(ournames.get("instructorlast"))){
-					query += " varchar(45) NULL,";
+					queryupload += " varchar(90) NULL,";
+					queryclasses += " varchar(90) NULL,";
+				} else if(s.equalsIgnoreCase(ournames.get("instructorfirst")) || s.equalsIgnoreCase(ournames.get("instructorlast"))){
+					queryupload += " varchar(45) NULL,";
+					queryclasses += " varchar(45) NULL,";
 				} else {
-					query += " varchar("+Integer.toString(sizes.get(s) + 1)+") NULL,";
+					queryupload += " varchar("+Integer.toString(sizes.get(s) + 1)+") NULL,";
+					queryclasses += " varchar("+Integer.toString(sizes.get(s) + 1)+") NULL,";
 				}
 			}
 			String queryend="PRIMARY KEY (`classID`), UNIQUE INDEX `classID_UNIQUE` (`classID` ASC))";
 			try {
 				conn = JdbcManager.getConnection();
-				stmt = conn.prepareStatement(query0 + "upload" + query+queryend);
+				stmt = conn.prepareStatement(query0 + "upload" + queryupload + queryend);
 				stmt.executeUpdate();
 				try{
 					stmt.close();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				query += "`groupNum` INT NOT NULL DEFAULT 0," +
+				queryclasses += "`groupNum` INT NOT NULL DEFAULT 0," +
 						  "`classMon` INT NOT NULL DEFAULT 0," +
 						  "`classTues` INT NOT NULL DEFAULT 0," +
 						  "`classWed` INT NOT NULL DEFAULT 0," +
@@ -275,7 +378,7 @@ public class dbServices {
 						  "`classFri` INT NOT NULL DEFAULT 0," +
 						  "`classSat` INT NOT NULL DEFAULT 0," +
 						  "`classSun` INT NOT NULL DEFAULT 0," + queryend;
-				stmt = conn.prepareStatement(query0 + "classes" + query);
+				stmt = conn.prepareStatement(query0 + "classes" + queryclasses);
 				stmt.executeUpdate();
 			} catch (Exception e) {
 					e.printStackTrace();
@@ -574,14 +677,17 @@ public class dbServices {
 				List<String> headers = getHeaders(semester);
 				try {
 					String query0 = "insert into " + semester;
-					String query1 = "(";
+					String query1upload = "(";
+					String query1classes = "(";
 					String query2 = "values (";
+					
 					for (String s : headers){
-						query1 += "`" + s + "`,";
+						query1upload += "`" + s + "upload`,";
+						query1classes += "`" + s + "`,";
 						query2 += "?,";
 					}
-					String uploadquery = query0 + "upload " + query1.substring(0, query1.length()-1) + ") " + query2.substring(0, query2.length()-1) + ")";
-					String classquery = query0 + "classes " + query1 + "groupNum,classMon, classTues, classWed, classThurs, classFri, classSat, classSun) " + query2 + "?,?,?,?,?,?,?,?)";
+					String uploadquery = query0 + "upload " + query1upload.substring(0, query1upload.length()-1) + ") " + query2.substring(0, query2.length()-1) + ")";
+					String classquery = query0 + "classes " + query1classes + "groupNum,classMon, classTues, classWed, classThurs, classFri, classSat, classSun) " + query2 + "?,?,?,?,?,?,?,?)";
 					conn = JdbcManager.getConnection();				
 					uploadstmt = conn.prepareStatement(uploadquery);
 					classstmt = conn.prepareStatement(classquery);

@@ -47,9 +47,9 @@ public class DBSetup extends HttpServlet {
 					"UNIQUE INDEX `userName_UNIQUE` (`userName` ASC)," +
 					"UNIQUE INDEX `userID_UNIQUE` (`userID` ASC)," +
 					"UNIQUE INDEX `userEmail_UNIQUE` (`userEmail` ASC))");
-			rset = stmt.executeQuery("SELECT * FROM USERS");
+			rset = stmt.executeQuery("SELECT * FROM `users`");
 			if (!rset.next()) {
-				stmt.executeUpdate("INSERT INTO USERS (userName, userPassword, userLevel)" +
+				stmt.executeUpdate("INSERT INTO `users` (userName, userPassword, userLevel)" +
 									"VALUES ('admin', 'admin', 2)");
 			}
 			for (String s:Semester.SEMESTERS){

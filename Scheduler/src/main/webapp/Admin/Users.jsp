@@ -4,7 +4,6 @@
 <%@ page import="com.scheduler.services.*" %>
 <%@ page import="com.scheduler.valueObjects.*" %>
 <%
-	String semester = session.getAttribute("semester").toString();
 	int userlevel = Integer.parseInt(session.getAttribute("userlevel").toString());
 	ServletContext context = session.getServletContext();
 	String pathinfo = request.getPathInfo();

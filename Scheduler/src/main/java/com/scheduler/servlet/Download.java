@@ -357,6 +357,244 @@ public class Download extends HttpServlet {
 			
 			//FileOutputStream fOut = new FileOutputStream(new File("C:\\myDownloads\\CLASSES.docx"));
 			
+		} else if (pathinfo.equalsIgnoreCase("changes")) {
+
+			Map<String,String> ournames = dbServices.getOurNames(semester);
+			List<String> headers = dbServices.getHeaders(semester);
+			String str = null;
+			
+			//Capitalize the Semester
+			String sessionVal = session.getAttribute("semester").toString();
+			sessionVal = sessionVal.substring(0, 1).toUpperCase() + sessionVal.substring(1);
+			
+			try{
+			XWPFDocument document= new XWPFDocument();
+			
+			XWPFParagraph paragraph = document.createParagraph();
+			XWPFParagraph paragraph1 = document.createParagraph();
+			paragraph.setAlignment(ParagraphAlignment.CENTER);
+			XWPFRun run = paragraph.createRun();
+			XWPFRun run2 = paragraph.createRun();
+			run.setBold(true);
+			run.setFontSize(15);
+			run.setText("University of Nebraska-Omaha");
+			run.addBreak();
+			run.setText("Schedule of Classes for " + sessionVal);
+			run.addBreak();
+			run.setText("Regular Academic Session");
+			run.addBreak();
+			run.setText("Information Science & Technology - Computer Science - Subject: Computer Science");
+			run.addBreak();
+			run.addBreak();
+			
+			XWPFRun removedClassesHeading = document.createParagraph().createRun();
+			removedClassesHeading.setFontSize(14);
+			removedClassesHeading.setText("REMOVED CLASSES");			
+			
+			for (Class1 c : dbServices.getDeletedClasses(semester)){
+				paragraph1 = document.createParagraph();
+				paragraph1.setAlignment(ParagraphAlignment.CENTER);
+				run2 = paragraph1.createRun();
+				run2.setUnderline(UnderlinePatterns.THICK);
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				/*run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();*/
+				paragraph = document.createParagraph();
+				paragraph.setAlignment(ParagraphAlignment.CENTER);
+				run = paragraph.createRun();
+				run.setBold(false);
+				run.setFontSize(12);
+				if (c.get(ournames.get("subject") + "upload") != null){
+					run.setText("Subject: " + c.get(ournames.get("subject") + "upload"));
+				} else {run.setText("Subject: Not set");}
+				run.addTab();
+				run.addTab();
+				if (c.get(ournames.get("catalog") + "upload") != null){
+					run.setText("Catalog Nbr: " + c.get(ournames.get("catalog") + "upload"));
+				} else {run.setText("Catalog Nbr: Not set");}
+				run.addTab();
+				if (c.get(ournames.get("section") + "upload") != null){
+					run.setText("Section: " + c.get(ournames.get("section") + "upload"));
+				} else {run.setText("Section: Not set");}
+				run.addTab();
+				if (c.get(ournames.get("classnumber") + "upload") != null){
+					run.setText("Class Nbr: " + c.get(ournames.get("classnumber") + "upload"));
+				} else {run.setText("Class Nbr: Not set");}
+				run.addBreak();
+				if (c.get(ournames.get("classname") + "upload") != null){
+					run.setText("Course Title: " + c.get(ournames.get("classname") + "upload"));
+				} else {run.setText("Course Title: Not set");}
+				run.addTab();
+				run.addTab();
+				run.addTab();
+				if (c.get(ournames.get("component") + "upload") != null){
+					run.setText("Component: " + c.get(ournames.get("component") + "upload"));
+				} else {run.setText("Component: Not set");}
+				run.addBreak();
+
+				if (c.get(ournames.get("classroom") + "upload") != null){
+					run.setText("Room: " + c.get(ournames.get("classroom") + "upload"));
+				} else {run.setText("Room: Not set");}
+				run.addTab();
+				run.addTab();
+				if (c.get(ournames.get("days") + "upload") != null){
+					run.setText("Days: " + c.get(ournames.get("days") + "upload") );
+				} else {run.setText("Days: Not set");}
+				run.addTab();
+				run.addTab();
+				if (c.get(ournames.get("starttime") + "upload") != null || c.get(ournames.get("endtime") + "upload") != null){
+					run.setText("Time: " + c.get(ournames.get("starttime") + "upload") + "-" + c.get(ournames.get("endtime") + "upload"));
+				} else {run.setText("Time: Not set");}
+				run.addTab();
+				run.addTab();
+				if (c.get(ournames.get("instructorfirst") + "upload") != null || c.get(ournames.get("instructorlast") + "upload") != null){
+					run.setText("Instructor: " + c.get(ournames.get("instructorfirst") + "upload") + " " + c.get(ournames.get("instructorlast" ) + "upload"));
+				} else {run.setText("Instructor: Not set");}
+			}
+			
+
+			
+			XWPFRun changedClassesHeading = document.createParagraph().createRun();
+			changedClassesHeading.setFontSize(14);
+			changedClassesHeading.setText("CHANGED CLASSES");			
+			
+			for (Class1 c : dbServices.getChangedClasses(semester)){
+				paragraph1 = document.createParagraph();
+				paragraph1.setAlignment(ParagraphAlignment.CENTER);
+				run2 = paragraph1.createRun();
+				run2.setUnderline(UnderlinePatterns.THICK);
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				/*run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();*/
+				paragraph = document.createParagraph();
+				paragraph.setAlignment(ParagraphAlignment.CENTER);
+				run = paragraph.createRun();
+				run.setBold(false);
+				run.setFontSize(12);
+				run.setText("Original Listing:");
+				run.addTab();
+				run.setText(ournames.get("classnumber") + ": " + c.get(ournames.get("classnumber")));
+				run.addTab();
+				run.setText(ournames.get("subject") + ": " + c.get(ournames.get("subject")));
+				run.addTab();
+				run.setText(ournames.get("catalog") + ": " + c.get(ournames.get("catalog")));
+				run.addTab();
+				run.setText(ournames.get("section") + ": " + c.get(ournames.get("section")));
+				run.addBreak();
+				run.setText("Changes:");
+				run.addBreak();
+				for (String s : headers){
+					if (!c.get(s).equalsIgnoreCase(c.get(s + "upload"))){
+						run.setText(s + ": " + c.get(s));
+						run.addBreak();
+					}
+				}
+			}
+			
+			XWPFRun addedClassesHeading = document.createParagraph().createRun();
+			addedClassesHeading.setFontSize(14);
+			addedClassesHeading.setText("ADDED CLASSES");			
+			
+			for (Class1 c : dbServices.getAddedClasses(semester)){
+				paragraph1 = document.createParagraph();
+				paragraph1.setAlignment(ParagraphAlignment.CENTER);
+				run2 = paragraph1.createRun();
+				run2.setUnderline(UnderlinePatterns.THICK);
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				/*run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();
+				run2.addTab();*/
+				paragraph = document.createParagraph();
+				paragraph.setAlignment(ParagraphAlignment.CENTER);
+				run = paragraph.createRun();
+				run.setBold(false);
+				run.setFontSize(12);
+				for (String s : headers){
+					if (s.equalsIgnoreCase(ournames.get("classname"))){
+						run.addBreak();
+					}
+					if (c.get(s) != null){
+						run.setText(s + ": " + c.get(s));
+					} else {
+						run.setText(s + ": ");
+					}
+					run.addTab();
+				}
+			}
+
+
+			response.setContentType("application/application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+			response.setHeader("Content-Disposition", "attachment; filename=PKI"+ session.getAttribute("semester").toString() + "Changes.docx");
+			document.write(response.getOutputStream());
+			} catch(Exception a){
+				System.out.print(a);
+			}
+			
+			//run.setText("Testing. ");
+			
+			//FileOutputStream fOut = new FileOutputStream(new File("C:\\myDownloads\\CLASSES.docx"));
 		} else {
 			doGet(request, response);
 		}

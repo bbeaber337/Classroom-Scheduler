@@ -112,8 +112,8 @@
 			<div class="col-md-4">
 				<label for="classroom" class="control-label">Classroom</label>
 				<select class="form-control" name="classroom" id="classroom">
-					<% for (Classroom room : dbServices.getClassrooms(semester)){ %>
-					<option value="<%= room.getRoomName() %>" <% if(c.get(ournames.get("classroom")).equalsIgnoreCase(room.getRoomName())){%>selected<%}%>><%= room.getRoomName() %></option>
+					<% for (Classroom room : dbServices.getClassrooms(semester)){%>
+					<option value="<%= room.getRoomName() %>" <% if(c != null && c.get(ournames.get("classroom")) != null && c.get(ournames.get("classroom")).equalsIgnoreCase(room.getRoomName())){%>selected<%}%>><%= room.getRoomName() %></option>
 					<% } %>
 				</select>
 			</div>
@@ -248,7 +248,7 @@
 			<% } 
 			Instructor instructor = null;
 			if (c != null){ instructor = dbServices.getInstructorByName(semester, c.get(ournames.get("instructorfirst")), c.get(ournames.get("instructorlast"))); }
-			%>
+			if (instructor != null) {%>
 			<div class="container-fluid">
 			<h4><u>Instructor Notes</u></h4>
 			<dl>
@@ -264,6 +264,7 @@
 				<dd><%= instructor.getComment() %></dd>
 			</dl>
 			</div>
+			<% } %>
 		</div>
 	</div>
 	<% } else if (pathinfo.equalsIgnoreCase("Select")){

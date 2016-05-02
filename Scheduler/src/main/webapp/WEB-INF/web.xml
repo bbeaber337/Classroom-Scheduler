@@ -1,33 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:web="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" version="2.4">
   <display-name>IS+T Scheduler</display-name>
-  <filter>
-    <display-name>loginFilter</display-name>
-    <filter-name>loginFilter</filter-name>
-    <filter-class>com.scheduler.filter.loginFilter</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>loginFilter</filter-name>
-    <url-pattern>/*</url-pattern>
-  </filter-mapping>
-  <filter>
-    <display-name>semesterFilter</display-name>
-    <filter-name>semesterFilter</filter-name>
-    <filter-class>com.scheduler.filter.semesterFilter</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>semesterFilter</filter-name>
-    <url-pattern>/*</url-pattern>
-  </filter-mapping>
-  <filter>
-    <display-name>adminFilter</display-name>
-    <filter-name>adminFilter</filter-name>
-    <filter-class>com.scheduler.filter.adminFilter</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>adminFilter</filter-name>
-    <url-pattern>/Admin/*</url-pattern>
-  </filter-mapping>
   <servlet>
     <display-name>Login</display-name>
     <servlet-name>Login</servlet-name>
@@ -40,7 +13,7 @@
   <servlet>
     <display-name>Home</display-name>
     <servlet-name>Home</servlet-name>
-    <jsp-file>/user/Home.jsp</jsp-file>
+    <jsp-file>/User/Home.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
     <servlet-name>Home</servlet-name>
@@ -49,7 +22,7 @@
   <servlet>
     <display-name>Users</display-name>
     <servlet-name>Users</servlet-name>
-    <jsp-file>/admin/Users.jsp</jsp-file>
+    <jsp-file>/Admin/Users.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
     <servlet-name>Users</servlet-name>
@@ -58,7 +31,7 @@
   <servlet>
     <display-name>Classes</display-name>
     <servlet-name>Classes</servlet-name>
-    <jsp-file>/user/Classes.jsp</jsp-file>
+    <jsp-file>/User/Classes.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
     <servlet-name>Classes</servlet-name>
@@ -67,7 +40,7 @@
   <servlet>
     <display-name>Classrooms</display-name>
     <servlet-name>Classrooms</servlet-name>
-    <jsp-file>/user/Classrooms.jsp</jsp-file>
+    <jsp-file>/User/Classrooms.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
     <servlet-name>Classrooms</servlet-name>
@@ -76,7 +49,7 @@
   <servlet>
     <display-name>Instructors</display-name>
     <servlet-name>Instructors</servlet-name>
-    <jsp-file>/user/Instructors.jsp</jsp-file>
+    <jsp-file>/User/Instructors.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
     <servlet-name>Instructors</servlet-name>
@@ -85,7 +58,7 @@
   <servlet>
     <display-name>Conflicts</display-name>
     <servlet-name>Conflicts</servlet-name>
-    <jsp-file>/user/Conflicts.jsp</jsp-file>
+    <jsp-file>/User/Conflicts.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
     <servlet-name>Conflicts</servlet-name>
@@ -125,4 +98,31 @@
     <exception-type>java.lang.Exception</exception-type>
     <location>/error.jsp</location>
   </error-page>
+  <filter>
+    <display-name>loginFilter</display-name>
+    <filter-name>loginFilter</filter-name>
+    <filter-class>com.scheduler.filter.loginFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>loginFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <filter>
+    <display-name>semesterFilter</display-name>
+    <filter-name>semesterFilter</filter-name>
+    <filter-class>com.scheduler.filter.semesterFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>semesterFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <filter>
+    <display-name>adminFilter</display-name>
+    <filter-name>adminFilter</filter-name>
+    <filter-class>com.scheduler.filter.adminFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>adminFilter</filter-name>
+    <url-pattern>/Admin/*</url-pattern>
+  </filter-mapping>
 </web-app>
