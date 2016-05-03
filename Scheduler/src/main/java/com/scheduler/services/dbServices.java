@@ -1030,7 +1030,7 @@ public class dbServices {
 			Connection conn = null;
 			PreparedStatement stmt = null;
 			ResultSet rset = null;
-			String query = "DELETE FROM " + semester + "classrooms WHERE roomID='" + roomID + "' ";
+			String query = "DELETE FROM " + semester + "classrooms WHERE roomID=? ";
 			try{
 				conn = JdbcManager.getConnection();
 				stmt = conn.prepareStatement(query);
@@ -1199,7 +1199,7 @@ public class dbServices {
 			Connection conn = null;
 			PreparedStatement stmt = null;
 			ResultSet rset = null;
-			String query = "DELETE FROM " + semester + "instructors WHERE instructorID='" + instructorID + "' ";
+			String query = "DELETE FROM " + semester + "instructors WHERE instructorID=? ";
 			try{
 				conn = JdbcManager.getConnection();
 				stmt = conn.prepareStatement(query);

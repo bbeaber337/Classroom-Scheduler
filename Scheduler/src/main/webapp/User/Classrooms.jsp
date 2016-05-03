@@ -221,14 +221,12 @@
 			<label for="projectors" class="control-label">Number of Projectors</label>
 			<input type="number" class="form-control" name="projectors" id="projectors" value="<%= classroom.getRoomProjectors() %>" >
 		</div>
-		<% if (classroom.getRoomID() > 0){ %>
 		<div class="form-group">
 			<input type="checkbox" name="applyall" value="applyall" >
 			<label for="checkbox">
 				Apply to All Semesters
 			</label>
 		</div>
-		<% } %>
 		<div class="form-group">
 			<button type="submit" class="btn btn-default">Apply</button>
 		</div>

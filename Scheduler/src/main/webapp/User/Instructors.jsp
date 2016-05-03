@@ -205,14 +205,12 @@
 			<label for="comment" class="control-label">Comments</label>
 			<textarea rows="4" class="form-control" name="comment" id="comment"><%= instructor.getComment() %></textarea>
 		</div>
-		<% if (instructor.getID() > 0){ %>
 		<div class="form-group">
 			<input type="checkbox" name="applyall" value="applyall" >
 			<label for="checkbox">
 				Apply to All Semesters
 			</label>
 		</div>
-		<% } %>
 		<div class="form-group">
 			<button type="submit" class="btn btn-default">Apply</button>
 		</div>
