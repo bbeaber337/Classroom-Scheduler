@@ -231,6 +231,7 @@ public class conflictServices {
 				}
 			}
 		}
+		rval = rval || Integer.parseInt(c1.get(ournames.get("totenrolled"))) > Integer.parseInt(c1.get(ournames.get("capacity")));
 		return rval;
 	}
 

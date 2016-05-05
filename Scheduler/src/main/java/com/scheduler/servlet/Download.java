@@ -200,7 +200,6 @@ public class Download extends HttpServlet {
 				items.addAll(dbServices.getClasses(semester));
 			}
 			Map<String,String> ournames = dbServices.getOurNames(semester);
-			String str = null;
 			
 			//Capitalize the Semester
 			String sessionVal = session.getAttribute("semester").toString();
@@ -250,34 +249,7 @@ public class Download extends HttpServlet {
 			
 			
 			for (Class1 c : items){
-				paragraph1 = document.createParagraph();
-				paragraph1.setAlignment(ParagraphAlignment.CENTER);
-				run2 = paragraph1.createRun();
-				run2.setUnderline(UnderlinePatterns.THICK);
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				/*run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();*/
+				addSpacer(document);
 				paragraph = document.createParagraph();
 				paragraph.setAlignment(ParagraphAlignment.CENTER);
 				run = paragraph.createRun();
@@ -361,7 +333,6 @@ public class Download extends HttpServlet {
 
 			Map<String,String> ournames = dbServices.getOurNames(semester);
 			List<String> headers = dbServices.getHeaders(semester);
-			String str = null;
 			
 			//Capitalize the Semester
 			String sessionVal = session.getAttribute("semester").toString();
@@ -371,7 +342,6 @@ public class Download extends HttpServlet {
 			XWPFDocument document= new XWPFDocument();
 			
 			XWPFParagraph paragraph = document.createParagraph();
-			XWPFParagraph paragraph1 = document.createParagraph();
 			paragraph.setAlignment(ParagraphAlignment.CENTER);
 			XWPFRun run = paragraph.createRun();
 			XWPFRun run2 = paragraph.createRun();
@@ -385,43 +355,18 @@ public class Download extends HttpServlet {
 			run.addBreak();
 			run.setText("Information Science & Technology - Computer Science - Subject: Computer Science");
 			run.addBreak();
-			run.addBreak();
-			
+
+			addSpacer(document);
+			addSpacer(document);
+
 			XWPFRun removedClassesHeading = document.createParagraph().createRun();
 			removedClassesHeading.setFontSize(14);
 			removedClassesHeading.setText("REMOVED CLASSES");			
 			
 			for (Class1 c : dbServices.getDeletedClasses(semester)){
-				paragraph1 = document.createParagraph();
-				paragraph1.setAlignment(ParagraphAlignment.CENTER);
-				run2 = paragraph1.createRun();
-				run2.setUnderline(UnderlinePatterns.THICK);
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				/*run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();*/
+				addSpacer(document);
 				paragraph = document.createParagraph();
-				paragraph.setAlignment(ParagraphAlignment.CENTER);
+				paragraph.setAlignment(ParagraphAlignment.LEFT);
 				run = paragraph.createRun();
 				run.setBold(false);
 				run.setFontSize(12);
@@ -472,44 +417,18 @@ public class Download extends HttpServlet {
 					run.setText("Instructor: " + c.get(ournames.get("instructorfirst") + "upload") + " " + c.get(ournames.get("instructorlast" ) + "upload"));
 				} else {run.setText("Instructor: Not set");}
 			}
-			
 
+			addSpacer(document);
+			addSpacer(document);
 			
 			XWPFRun changedClassesHeading = document.createParagraph().createRun();
 			changedClassesHeading.setFontSize(14);
 			changedClassesHeading.setText("CHANGED CLASSES");			
 			
 			for (Class1 c : dbServices.getChangedClasses(semester)){
-				paragraph1 = document.createParagraph();
-				paragraph1.setAlignment(ParagraphAlignment.CENTER);
-				run2 = paragraph1.createRun();
-				run2.setUnderline(UnderlinePatterns.THICK);
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				/*run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();*/
+				addSpacer(document);
 				paragraph = document.createParagraph();
-				paragraph.setAlignment(ParagraphAlignment.CENTER);
+				paragraph.setAlignment(ParagraphAlignment.LEFT);
 				run = paragraph.createRun();
 				run.setBold(false);
 				run.setFontSize(12);
@@ -533,54 +452,58 @@ public class Download extends HttpServlet {
 				}
 			}
 			
+			addSpacer(document);
+			addSpacer(document);
+			
 			XWPFRun addedClassesHeading = document.createParagraph().createRun();
 			addedClassesHeading.setFontSize(14);
 			addedClassesHeading.setText("ADDED CLASSES");			
 			
 			for (Class1 c : dbServices.getAddedClasses(semester)){
-				paragraph1 = document.createParagraph();
-				paragraph1.setAlignment(ParagraphAlignment.CENTER);
-				run2 = paragraph1.createRun();
-				run2.setUnderline(UnderlinePatterns.THICK);
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				/*run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();
-				run2.addTab();*/
+				addSpacer(document);
 				paragraph = document.createParagraph();
-				paragraph.setAlignment(ParagraphAlignment.CENTER);
+				paragraph.setAlignment(ParagraphAlignment.LEFT);
 				run = paragraph.createRun();
 				run.setBold(false);
 				run.setFontSize(12);
+				run.setText(ournames.get("classnumber") + ": " + c.get(ournames.get("classnumber")));
+				run.addTab();
+				run.setText(ournames.get("subject") + ": " + c.get(ournames.get("subject")));
+				run.addTab();
+				run.setText(ournames.get("catalog") + ": " + c.get(ournames.get("catalog")));
+				run.addTab();
+				run.setText(ournames.get("section") + ": " + c.get(ournames.get("section")));
+				run.addTab();
+				run.setText(ournames.get("capenrolled") + ": " + c.get(ournames.get("capenrolled")));
+				run.addBreak();
+				run.setText(ournames.get("classname") + ": " + c.get(ournames.get("classname")));
+				run.addTab();
+				run.addTab();
+				run.setText(ournames.get("classroom") + ": " + c.get(ournames.get("classroom")));
+				run.addBreak();
+				run.setText(ournames.get("starttime") + ": " + c.get(ournames.get("starttime")));
+				run.addTab();
+				run.setText(ournames.get("endtime") + ": " + c.get(ournames.get("endtime")));
+				run.addTab();
+				run.setText(ournames.get("days") + ": " + c.get(ournames.get("days")));
+				run.addBreak();
+				run.setText(ournames.get("startdate") + ": " + c.get(ournames.get("startdate")));
+				run.addTab();
+				run.setText(ournames.get("enddate") + ": " + c.get(ournames.get("enddate")));
+				run.addBreak();
+				run.setText(ournames.get("instructorfirst") + ": " + c.get(ournames.get("instructorfirst")));
+				run.addTab();
+				run.setText(ournames.get("instructorlast") + ": " + c.get(ournames.get("instructorlast")));
+				run.addBreak();
 				for (String s : headers){
-					if (s.equalsIgnoreCase(ournames.get("classname"))){
+					if(!ournames.containsValue(s)){
+						if (c.get(s) != null){
+							run.setText(s + ": " + c.get(s));
+						} else {
+							run.setText(s + ": ");
+						}
 						run.addBreak();
 					}
-					if (c.get(s) != null){
-						run.setText(s + ": " + c.get(s));
-					} else {
-						run.setText(s + ": ");
-					}
-					run.addTab();
 				}
 			}
 
@@ -598,6 +521,26 @@ public class Download extends HttpServlet {
 		} else {
 			doGet(request, response);
 		}
+	}
+	
+	private void addSpacer(XWPFDocument document){
+		XWPFParagraph spacerParagraph = document.createParagraph();
+		spacerParagraph.setAlignment(ParagraphAlignment.CENTER);
+		XWPFRun run2 = spacerParagraph.createRun();
+		run2.setUnderline(UnderlinePatterns.THICK);
+		run2.addTab();
+		run2.addTab();
+		run2.addTab();
+		run2.addTab();
+		run2.addTab();
+		run2.addTab();
+		run2.addTab();
+		run2.addTab();
+		run2.addTab();
+		run2.addTab();
+		run2.addTab();
+		run2.addTab();
+		run2.addTab();
 	}
 
 }

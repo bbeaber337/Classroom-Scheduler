@@ -50,9 +50,11 @@ public class Classlist extends ArrayList<Class1>{
 	public void updateClasses(String semester){
 		for (Class1 c : this){
 			// set room capacity
-			if (myheaders.get("roomname") != null && myheaders.get("capacity") != null){
+			if (myheaders.get("classroom") != null){
 				Classroom classroom = dbServices.getClassroomByName(semester, c.get(myheaders.get("classroom")));
-				c.set("capacity", Integer.toString(classroom.getRoomCapacity()));
+				if (classroom != null){
+					c.set(myheaders.get("capacity"), Integer.toString(classroom.getRoomCapacity()));
+				}
 			}
 			// set day values
 			if (myheaders.get("days") != null){

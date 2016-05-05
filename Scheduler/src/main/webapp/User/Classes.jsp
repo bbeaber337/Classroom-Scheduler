@@ -142,7 +142,7 @@
 				</select>
 			</div>
 		</div>
-		<div class="form-group<% if (c != null && classlist != null && classlist.getTotEnrolled() > Integer.parseInt(c.get(ournames.get("capacity")))){ %> has-error<% } %>">
+		<div class="form-group<% if (c != null && classlist != null && c.get(ournames.get("capacity")) != null && (classlist.getTotEnrolled() > Integer.parseInt(c.get(ournames.get("capacity"))) || classlist.getTotEnrolled() > classlist.getCapEnrolled())){ %> has-error<% } %>">
 			<div class="col-md-3">
 				<label for="grouptotenrolled" class="control-label">Group Total Enrolled</label>
 				<input class="form-control" name="grouptotenrolled" id="grouptotenrolled" <% if(classlist != null){ %>value="<%= classlist.getTotEnrolled() %>"<% } %> readonly>
@@ -179,7 +179,7 @@
 			</div>
 			<div class="col-md-2">
 				<label for="days" class="control-label">Days</label>
-				<input class="form-control conflictCheck" name="days" id="days" paceholder="MTWRFS" <% if(c != null && c.get(ournames.get("days")) != null){ %>value="<%= c.get(ournames.get("days")) %>"<% } %> >
+				<input class="form-control conflictCheck" name="days" id="days" placeholder="MTWRFS" <% if(c != null && c.get(ournames.get("days")) != null){ %>value="<%= c.get(ournames.get("days")) %>"<% } %> >
 			</div>
 		</div>
 		<div class="form-group">
@@ -227,10 +227,10 @@
 				<input class="form-control" name="component" id="component" <% if(c != null && c.get(ournames.get("component")) != null){ %>value="<%= c.get(ournames.get("component")) %>"<% } %>>
 			</div>
 		</div>
-		<div class="form-group<% if (c != null && Integer.parseInt(c.get(ournames.get("totenrolled"))) > Integer.parseInt(c.get(ournames.get("capacity")))){ %> has-error<% } %>">
+		<div class="form-group<% if (c != null && c.get(ournames.get("totenrolled")) != null && c.get(ournames.get("capenrolled")) != null && c.get(ournames.get("capacity")) != null && (Integer.parseInt(c.get(ournames.get("totenrolled"))) > Integer.parseInt(c.get(ournames.get("capacity"))) || Integer.parseInt(c.get(ournames.get("totenrolled"))) > Integer.parseInt(c.get(ournames.get("capenrolled"))))){ %> has-error<% } %>">
 			<div class="col-md-3">
 				<label for="totenrolled" class="control-label">Total Enrolled</label>
-				<input class="form-control" name="totenrolled" id="totenrolled" <% if(c != null && c.get(ournames.get("totenrolled")) != null){ %>value="<%= c.get(ournames.get("totenrolled")) %>"<% } %> >
+				<input class="form-control conflictCheck" name="totenrolled" id="totenrolled" <% if(c != null && c.get(ournames.get("totenrolled")) != null){ %>value="<%= c.get(ournames.get("totenrolled")) %>"<% } %> >
 			</div>
 			<div class="col-md-offset-1 col-md-3">
 				<label for="capenrolled" class="control-label">Class Capacity</label>

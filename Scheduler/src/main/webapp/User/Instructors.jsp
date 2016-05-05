@@ -206,7 +206,7 @@
 			<textarea rows="4" class="form-control" name="comment" id="comment"><%= instructor.getComment() %></textarea>
 		</div>
 		<div class="form-group">
-			<input type="checkbox" name="applyall" value="applyall" >
+			<input type="checkbox" name="applyall" value="applyall" checked>
 			<label for="checkbox">
 				Apply to All Semesters
 			</label>

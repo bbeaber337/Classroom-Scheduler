@@ -981,6 +981,7 @@ public class dbServices {
 	public static List<Classroom> getClassrooms(String semester, int roomID, String className){
 		List<Classroom> list = new ArrayList<Classroom>();
 		if (Semester.SEMESTERS.contains(semester)){
+			Map<String, String> ournames = getOurNames(semester);
 			Connection conn = null;
 			PreparedStatement stmt = null;
 			ResultSet rs = null;
@@ -988,7 +989,7 @@ public class dbServices {
 			if (roomID > 0){
 				query += " where roomID = ?";
 			} else if(className != null){
-				query += " where className = ?";
+				query += " where roomName = ?";
 			}
 			try{
 				conn = JdbcManager.getConnection();
