@@ -1,6 +1,8 @@
 package com.scheduler.valueObjects;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import com.scheduler.services.dbServices;
@@ -55,35 +57,56 @@ public class Classlist extends ArrayList<Class1>{
 			// set day values
 			if (myheaders.get("days") != null){
 				String days = c.get(myheaders.get("days")).toLowerCase();
-				if (days.contains("m")){
-					c.setClassMon(1);
+				if (days.contains("-")){
+					Boolean between = false;
+					String first = days.substring(0, 1);
+					String last = days.substring(days.length()-1, days.length());
+					List<String> week = Arrays.asList("m","t","w","r","f","s");
+					List<String> classWeek = Arrays.asList("classMon","classTues","classWed","classThurs","classFri","classSat");
+					for(int i = 0; i < week.size(); i++){
+						if (!between && first.equalsIgnoreCase(week.get(i))){
+							c.set(classWeek.get(i), Integer.toString(1));
+							between = true;
+						} else if (between) {
+							c.set(classWeek.get(i), Integer.toString(1));
+							if (last.equalsIgnoreCase(week.get(i))){
+								between = false;
+							}
+						} else {
+							c.set(classWeek.get(i), Integer.toString(0));
+						}
+					}
 				} else {
-					c.setClassMon(0);
-				}
-				if (days.contains("t")){
-					c.setClassTues(1);
-				} else {
-					c.setClassTues(0);
-				}
-				if (days.contains("w")){
-					c.setClassWed(1);
-				} else {
-					c.setClassWed(0);
-				}
-				if (days.contains("r")){
-					c.setClassThurs(1);
-				} else {
-					c.setClassThurs(0);
-				}
-				if (days.contains("f")){
-					c.setClassFri(1);
-				} else {
-					c.setClassFri(0);
-				}
-				if (days.contains("s")){
-					c.setClassSat(1);
-				} else {
-					c.setClassSat(0);
+					if (days.contains("m")){
+						c.setClassMon(1);
+					} else {
+						c.setClassMon(0);
+					}
+					if (days.contains("t")){
+						c.setClassTues(1);
+					} else {
+						c.setClassTues(0);
+					}
+					if (days.contains("w")){
+						c.setClassWed(1);
+					} else {
+						c.setClassWed(0);
+					}
+					if (days.contains("r")){
+						c.setClassThurs(1);
+					} else {
+						c.setClassThurs(0);
+					}
+					if (days.contains("f")){
+						c.setClassFri(1);
+					} else {
+						c.setClassFri(0);
+					}
+					if (days.contains("s")){
+						c.setClassSat(1);
+					} else {
+						c.setClassSat(0);
+					}
 				}
 				c.setClassSun(0);
 			}

@@ -12,7 +12,6 @@ public class Class1 {
 			"capenrolled","totenrolled","days","starttime","endtime","classroom","capacity","instructorlast",
 			"instructorfirst","startdate","enddate","component","classnumber");
 
-
 	Map<String, String> params;
 	
 	public Class1(){

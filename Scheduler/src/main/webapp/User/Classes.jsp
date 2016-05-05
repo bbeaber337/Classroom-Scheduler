@@ -17,6 +17,29 @@
 	if (request.getParameter("getClassTable") != null){
 		response.setContentType("application/json"); %>
 		<%= jsonServices.buildClasses(semester, context, response, userlevel) %>
+<%	} else if (pathinfo.equalsIgnoreCase("check")){
+		response.setContentType("application/json");
+		Class1 c = new Class1();
+		List<String> headers = dbServices.getHeaders(semester);
+		Map<String, String> ournames = dbServices.getOurNames(semester);
+		for (String s : ournames.keySet()) {
+			c.set(ournames.get(s), request.getParameter(s));
+		}
+		for (String s : headers){
+			if (!ournames.containsValue(s)){
+				c.set(s,request.getParameter(s));
+			}
+		}
+		if (request.getParameter("classID") != null){
+			c.setClassID(Integer.parseInt(request.getParameter("classID")));
+		}
+		String groupnum = request.getParameter("groupnum");
+		if (groupnum != null && !groupnum.equalsIgnoreCase("")){
+			c.setGroupNumber(Integer.parseInt(groupnum));
+		} else {
+			c.setGroupNumber(0);
+		} %>
+		<%= jsonServices.buildClassChangeConflicts(semester, c) %>
 <%	} else {
 		Boolean updateFailed = false;
 		if(userlevel == User.USER_ADMIN){
@@ -86,7 +109,7 @@
 	} %>
 	<div class="container-fluid">
 	<h2 class="text-center">Edit Class</h2>
-	<Form class="form-horizontal col-md-8" method="post" action="<%= response.encodeURL(context.getContextPath()+"/Classes") %>">
+	<Form class="form-horizontal col-md-8" method="post" id="editForm" action="<%= response.encodeURL(context.getContextPath()+"/Classes") %>">
 		<%
 			Class1 c = null;
 			if (classlist != null && classlist.size() > 0){
@@ -99,33 +122,34 @@
 		<% if (c != null){ %>
 			<input type="hidden" name="classID" value="<%= c.getClassID() %>">
 		<% } %>
+			<p class="text-center conflictDisplay" style="color:red;display:none;"><i>Creates a Conflict</i></p>
 			<div class="col-md-4">
 				<label for="groupnum" class="control-label">Class Group Number</label>
 				<input type="number" class="form-control" name="groupnum" id="groupnum" <% if(c != null && c.getGroupNumber() != 0){ %>value="<%= c.getGroupNumber() %>"<% } %>>
 			</div>
 			<div class="col-md-offset-2 col-md-3">
 				<label for="combo" class="control-label">Combo</label>
-				<input class="form-control" name="combo" id="combo" <% if(c != null && c.get(ournames.get("combo")) != null){ %>value="<%= c.get(ournames.get("combo")) %>"<% } %>>
+				<input class="form-control" name="combo" id="combo" placeholder="C" <% if(c != null && c.get(ournames.get("combo")) != null){ %>value="<%= c.get(ournames.get("combo")) %>"<% } %>>
 			</div>
 		</div>
 		<div class="form-group">
 			<div class="col-md-4">
 				<label for="classroom" class="control-label">Classroom</label>
-				<select class="form-control" name="classroom" id="classroom">
+				<select class="form-control conflictCheck" name="classroom" id="classroom">
 					<% for (Classroom room : dbServices.getClassrooms(semester)){%>
 					<option value="<%= room.getRoomName() %>" <% if(c != null && c.get(ournames.get("classroom")) != null && c.get(ournames.get("classroom")).equalsIgnoreCase(room.getRoomName())){%>selected<%}%>><%= room.getRoomName() %></option>
 					<% } %>
 				</select>
 			</div>
 		</div>
-		<div class="form-group">
+		<div class="form-group<% if (c != null && classlist != null && classlist.getTotEnrolled() > Integer.parseInt(c.get(ournames.get("capacity")))){ %> has-error<% } %>">
 			<div class="col-md-3">
 				<label for="grouptotenrolled" class="control-label">Group Total Enrolled</label>
-				<input class="form-control" name="grouptotenrolled" id="grouptotenrolled" <% if(c != null && classlist != null){ %>value="<%= classlist.getTotEnrolled() %>"<% } %> readonly>
+				<input class="form-control" name="grouptotenrolled" id="grouptotenrolled" <% if(classlist != null){ %>value="<%= classlist.getTotEnrolled() %>"<% } %> readonly>
 			</div>
 			<div class="col-md-offset-1 col-md-3">
 				<label for="capenrolled" class="control-label">Group Class Capacity</label>
-				<input class="form-control" name="groupcapenrolled" id="groupcapenrolled" <% if(c != null && classlist != null){ %>value="<%= classlist.getCapEnrolled() %>"<% } %> readonly>
+				<input class="form-control" name="groupcapenrolled" id="groupcapenrolled" <% if(classlist != null){ %>value="<%= classlist.getCapEnrolled() %>"<% } %> readonly>
 			</div>
 			<div class="col-md-offset-1 col-md-3">
 				<label for="groupcapacity" class="control-label">Classroom Capacity</label>
@@ -136,30 +160,30 @@
 			<div class="col-md-5">
 				<div class="col-md-5">
 					<label for="starttime" class="control-label">Start Time</label>
-					<input class="form-control" name="starttime" id="starttime" <% if(c != null && c.get(ournames.get("starttime")) != null){ %>value="<%= c.get(ournames.get("starttime")) %>"<% } %>>
+					<input class="form-control conflictCheck" name="starttime" id="starttime" placeholder="HH:MM:SS am/pm" <% if(c != null && c.get(ournames.get("starttime")) != null){ %>value="<%= c.get(ournames.get("starttime")) %>"<% } %>>
 				</div>
 				<div class="col-md-5">
 					<label for="endtime" class="control-label">End Time</label>
-					<input class="form-control" name="endtime" id="endtime" <% if(c != null && c.get(ournames.get("endtime")) != null){ %>value="<%= c.get(ournames.get("endtime")) %>"<% } %>>
+					<input class="form-control conflictCheck" name="endtime" id="endtime" placeholder="HH:MM:SS am/pm" <% if(c != null && c.get(ournames.get("endtime")) != null){ %>value="<%= c.get(ournames.get("endtime")) %>"<% } %>>
 				</div>
 			</div>
 			<div class="col-md-5">
 				<div class="col-md-5">
 					<label for="startdate" class="control-label">Start Date</label>
-					<input class="form-control" name="startdate" id="startdate" <% if(c != null && c.get(ournames.get("startdate")) != null){ %>value="<%= c.get(ournames.get("startdate")) %>"<% } %>>
+					<input class="form-control conflictCheck" name="startdate" id="startdate" placeholder="MM/DD/YYYY" <% if(c != null && c.get(ournames.get("startdate")) != null){ %>value="<%= c.get(ournames.get("startdate")) %>"<% } %>>
 				</div>
 				<div class="col-md-5">
 					<label for="enddate" class="control-label">End Date</label>
-					<input class="form-control" name="enddate" id="enddate" <% if(c != null && c.get(ournames.get("enddate")) != null){ %>value="<%= c.get(ournames.get("enddate")) %>"<% } %>>
+					<input class="form-control conflictCheck" name="enddate" id="enddate" placeholder="MM/DD/YYYY" <% if(c != null && c.get(ournames.get("enddate")) != null){ %>value="<%= c.get(ournames.get("enddate")) %>"<% } %>>
 				</div>
 			</div>
 			<div class="col-md-2">
 				<label for="days" class="control-label">Days</label>
-				<input class="form-control" name="days" id="days" <% if(c != null && c.get(ournames.get("days")) != null){ %>value="<%= c.get(ournames.get("days")) %>"<% } %> >
+				<input class="form-control conflictCheck" name="days" id="days" paceholder="MTWRFS" <% if(c != null && c.get(ournames.get("days")) != null){ %>value="<%= c.get(ournames.get("days")) %>"<% } %> >
 			</div>
 		</div>
 		<div class="form-group">
-			<input type="checkbox" name="applyall" value="applyall" <% if (classlist == null || classlist.size() < 2){ %>disabled<% } %>>
+			<input type="checkbox" name="applyall" value="applyall" id="applyall" <% if (c != null && c.getGroupNumber() > 0){ %>checked<% } %>>
 			<label for="checkbox">
 				Apply to Group
 			</label>
@@ -168,11 +192,11 @@
 		<div class="form-group">
 			<div class="col-md-5">
 				<label for="instructorfirst" class="control-label">Instructor's First Name</label>
-				<input class="form-control" name="instructorfirst" id="instructorfirst" <% if(c != null && c.get(ournames.get("instructorfirst")) != null){ %>value="<%= c.get(ournames.get("instructorfirst")) %>"<% } %>>
+				<input class="form-control conflictCheck" name="instructorfirst" id="instructorfirst" <% if(c != null && c.get(ournames.get("instructorfirst")) != null){ %>value="<%= c.get(ournames.get("instructorfirst")) %>"<% } %>>
 			</div>
 			<div class="col-md-offset-2 col-md-5">
 				<label for="instructorlast" class="control-label">Instructor's Last Name</label>
-				<input class="form-control" name="instructorlast" id="instructorlast" <% if(c != null && c.get(ournames.get("instructorlast")) != null){ %>value="<%= c.get(ournames.get("instructorlast")) %>"<% } %>>
+				<input class="form-control conflictCheck" name="instructorlast" id="instructorlast" <% if(c != null && c.get(ournames.get("instructorlast")) != null){ %>value="<%= c.get(ournames.get("instructorlast")) %>"<% } %>>
 			</div>
 		</div>
 		<div class="form-group">
@@ -180,7 +204,7 @@
 				<label for="classnumber" class="control-label">Class Number</label>
 				<input class="form-control" name="classnumber" id="classnumber" <% if(c != null && c.get(ournames.get("classnumber")) != null){ %>value="<%= c.get(ournames.get("classnumber")) %>"<% } %>>
 			</div>
-			<div class="col-md-offset-1 col-md-10">
+			<div class="col-md-offset-1 col-md-9">
 				<label for="classname" class="control-label">Class Name</label>
 				<input class="form-control" name="classname" id="classname" <% if(c != null && c.get(ournames.get("classname")) != null){ %>value="<%= c.get(ournames.get("classname")) %>"<% } %>>
 			</div>
@@ -203,7 +227,7 @@
 				<input class="form-control" name="component" id="component" <% if(c != null && c.get(ournames.get("component")) != null){ %>value="<%= c.get(ournames.get("component")) %>"<% } %>>
 			</div>
 		</div>
-		<div class="form-group">
+		<div class="form-group<% if (c != null && Integer.parseInt(c.get(ournames.get("totenrolled"))) > Integer.parseInt(c.get(ournames.get("capacity")))){ %> has-error<% } %>">
 			<div class="col-md-3">
 				<label for="totenrolled" class="control-label">Total Enrolled</label>
 				<input class="form-control" name="totenrolled" id="totenrolled" <% if(c != null && c.get(ournames.get("totenrolled")) != null){ %>value="<%= c.get(ournames.get("totenrolled")) %>"<% } %> >
@@ -217,6 +241,7 @@
 				<input class="form-control" name="capacity" id="capacity" <% if(c != null && c.get(ournames.get("capacity")) != null){ %>value="<%= c.get(ournames.get("capacity")) %>"<% } %> readonly>
 			</div>
 		</div>
+		<p class="text-center conflictDisplay" style="color:red;display:none;"><i>Creates a Conflict</i></p>
 		<%	List<String> headers = dbServices.getHeaders(semester);
 			for (String s : headers){
 				if(!ournames.containsValue(s)){ %>
@@ -226,6 +251,7 @@
 			<input class="form-control" name="<%= s %>" id="<%= s %>" <% if(c != null){ %>value="<%= c.get(s) %>"<% } %>>
 		</div></div>
 			<% }} %>
+		<p class="text-center conflictDisplay" style="color:red;display:none;"><i>Creates a Conflict</i></p>
 		<div class="form-group">
 			<button type="submit" class="btn btn-default">Apply</button>
 		</div>
@@ -423,6 +449,25 @@ $(document).ready( function () {
                     <% } %>
                 ],
                 "order": [[ <%= Class1.OURNAMES.indexOf("classroom") + val %>, "asc" ]]
+    });
+    
+    $('.conflictCheck').each(function(){
+    	$(this).blur(function(){
+			var formData = $('#editForm').serializeArray();
+    		$.ajax({
+   				dataType:"json",
+   				url:"<%= response.encodeURL(context.getContextPath()+"/Classes/Check") %>",
+   			  	data: formData,
+   				success: function (json) {
+					if (json.data == true){
+						$('.conflictDisplay').show();
+					} else {
+						$('.conflictDisplay').hide();
+					}
+   				},
+   				type: "POST"
+   			});
+    	});
     });
 <% if(userlevel == User.USER_ADMIN){ %>
     $("#add > a").attr("href","<%= response.encodeURL(context.getContextPath()+"/Classes/Add") %>");

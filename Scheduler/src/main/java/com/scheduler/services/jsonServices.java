@@ -17,6 +17,12 @@ import com.scheduler.valueObjects.*;
 
 public class jsonServices {
 	
+	public static String buildClassChangeConflicts(String semester, Class1 c){
+		JsonObject json = Json.createObjectBuilder()
+				.add("data", conflictServices.findPotentialChangeConflicts(semester, c)).build();
+		return json.toString();
+	}
+	
 	public static String buildClasses(String semester, ServletContext context, HttpServletResponse response, int userlevel){
 		Classlist items = dbServices.getClasses(semester);
 		Map<String, String> headermap = items.getHeaders();

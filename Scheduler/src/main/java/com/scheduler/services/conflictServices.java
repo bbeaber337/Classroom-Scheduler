@@ -181,5 +181,57 @@ public class conflictServices {
 		}
 		return list;
 	}
+	
+	public static Boolean findPotentialChangeConflicts(String semester, Class1 c){
+		Classlist cl = new Classlist(semester);
+		cl.add(c);
+		cl.updateClasses(semester);
+		Class1 c1 = cl.get(0);
+		Boolean rval = false;
+		Map<String,String> ournames = dbServices.getOurNames(semester);
+		Classlist classlist = dbServices.getClasses(semester);
+		
+		SimpleDateFormat df = new SimpleDateFormat("M/d/yyyy");
+		SimpleDateFormat tf = new SimpleDateFormat("hh:mm:ss a");
+
+		for (Class1 c2 : classlist){	
+			if (c1.getClassID() != c2.getClassID() && (c1.get(ournames.get("classroom")).equalsIgnoreCase(c2.get(ournames.get("classroom"))) || 
+					(c1.get(ournames.get("instructorfirst")).equalsIgnoreCase(c2.get(ournames.get("instructorfirst"))) &&
+					 c1.get(ournames.get("instructorlast")).equalsIgnoreCase(c2.get(ournames.get("instructorlast")))))){
+				if (c1.getGroupNumber() == 0 || c1.getGroupNumber() != c2.getGroupNumber()){
+					if((c1.getClassMon() == 1 && c2.getClassMon() == 1) || (c1.getClassTues() == 1 && c2.getClassTues() == 1)
+							|| (c1.getClassWed() == 1 && c2.getClassWed() == 1) || (c1.getClassThurs() == 1 && c2.getClassThurs() == 1)
+							|| (c1.getClassFri() == 1 && c2.getClassFri() == 1) || (c1.getClassSat() == 1 && c2.getClassSat() == 1)
+							|| (c1.getClassSun() == 1 && c2.getClassSun() == 1)){
+						try{
+							Calendar c1Start = Calendar.getInstance();
+							c1Start.setTime(tf.parse(c1.get(ournames.get("starttime"))));
+							Calendar c1End = Calendar.getInstance();
+							c1End.setTime(tf.parse(c1.get(ournames.get("endtime"))));
+							Calendar c2Start = Calendar.getInstance();
+							c2Start.setTime(tf.parse(c2.get(ournames.get("starttime"))));
+							Calendar c2End = Calendar.getInstance();
+							c2End.setTime(tf.parse(c2.get(ournames.get("endtime"))));
+							if (c1Start.equals(c2Start) || (c1Start.before(c2Start) && c2Start.before(c1End)) || 
+									(c2Start.before(c1Start) && c1Start.before(c2End))){
+								c1Start.setTime(df.parse(c1.get(ournames.get("startdate"))));
+								c1End.setTime(df.parse(c1.get(ournames.get("enddate"))));
+								c2Start.setTime(df.parse(c2.get(ournames.get("startdate"))));
+								c2End.setTime(df.parse(c2.get(ournames.get("enddate"))));
+								if (c1Start.equals(c2Start) || (c1Start.before(c2Start) && c2Start.before(c1End)) || 
+										((c2Start.before(c1Start) && c1Start.before(c2End)))){
+									rval = true;
+									break;
+								}
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+		}
+		return rval;
+	}
 
 }
