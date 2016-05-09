@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 /**
  * Servlet Filter implementation class adminFilter
+ * Ensures only able to access to paths that start with /Admin/ if the user is logged in as an admin
  */
 public class adminFilter implements Filter {
 

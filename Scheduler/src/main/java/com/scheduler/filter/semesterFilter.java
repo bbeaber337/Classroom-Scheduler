@@ -14,6 +14,8 @@ import javax.servlet.http.HttpSession;
 
 /**
  * Servlet Filter implementation class semesterFilter
+ * Ensures a semester is chosen before allowing access to pages that require semester specific information.
+ * If a semester hasn't been chosen, they will be redirected to the home page to choose a semester
  */
 public class semesterFilter implements Filter {
 

@@ -5,8 +5,17 @@ import java.sql.*;
 import com.scheduler.dbconnector.*;
 import com.scheduler.valueObjects.*;
 
+/**
+ * class for verifying login credentials
+ */
 public class adminServices {
 	
+	/**
+	 * Takes a username and password and returns the associated User
+	 * @param username - username to match in database
+	 * @param password - password to match in database
+	 * @return User - a User class representing the user's info from the login parameters.  Class values will not be set if user not found.
+	 */
 	public static User validLogin(String username, String password){
 		Connection conn = null;
 		PreparedStatement stmt = null;

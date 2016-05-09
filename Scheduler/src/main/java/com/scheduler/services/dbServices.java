@@ -10,6 +10,10 @@ import java.util.Set;
 import com.scheduler.dbconnector.*;
 import com.scheduler.valueObjects.*;
 
+/**
+ * Handles all the database queries and updates
+ *
+ */
 public class dbServices {
 	
 /*
@@ -17,6 +21,12 @@ public class dbServices {
  * 								Change Report Functions
  * ===============================================================================================================
  */
+	
+	/**
+	 * checks for classes listed in the original upload database that aren't in the working database
+	 * @param semester - the semester to check
+	 * @return returns a classlist populated with classes deleted from the original upload
+	 */
 	public static Classlist getDeletedClasses(String semester){
 		Classlist classlist = new Classlist();
 		if (Semester.SEMESTERS.contains(semester)){
@@ -47,6 +57,11 @@ public class dbServices {
 		return classlist;
 	}
 	
+	/**
+	 * checks for classes not listed in the original upload database that are in the working database
+	 * @param semester - the semester to check
+	 * @return returns a classlist populated with classes deleted from the original upload
+	 */
 	public static Classlist getAddedClasses(String semester){
 		Classlist classlist = new Classlist();
 		if (Semester.SEMESTERS.contains(semester)){
@@ -77,6 +92,11 @@ public class dbServices {
 		return classlist;
 	}
 	
+	/**
+	 * checks for classes that have different values in the working database than in the initial uploaded database
+	 * @param semester - the semester to check
+	 * @return a Classlist populated by classes that have been changed since the initial upload, classes have parameters for both the initial upload and working directory
+	 */
 	public static Classlist getChangedClasses(String semester){
 		Classlist classlist = new Classlist();
 		List<String> headers = getHeaders(semester);
@@ -117,6 +137,10 @@ public class dbServices {
  * 								Misc Functions
  * ===============================================================================================================
  */
+	/**
+	 * get which semesters have had a document uploaded
+	 * @return List of Strings, each String is a semester that has an uploaded database
+	 */
 	public static List<String> getUploadedSemesters(){
 		List<String> list = new ArrayList<String>();
 		
@@ -141,6 +165,11 @@ public class dbServices {
 		return list;
 	}
 	
+	/**
+	 * get next available class group number
+	 * @param semester - the semester to check
+	 * @return the next available class group number
+	 */
 	public static int getNextCombo(String semester){
 		int rval = 1;
 		if (Semester.SEMESTERS.contains(semester)){
@@ -166,6 +195,11 @@ public class dbServices {
 		return rval;
 	}
 	
+	/**
+	 * get a list of the subjects classes in the database have
+	 * @param semester - the semester to check
+	 * @return a List of Strings, each String is a subject listed in the database
+	 */
 	public static List<String> getSubjects(String semester){
 		List<String> list = new ArrayList<String>();
 		if (Semester.SEMESTERS.contains(semester)){
@@ -191,7 +225,11 @@ public class dbServices {
 		return list;
 	}
 	
-	// return all classes part of a group over the classroom's capacity
+	/**
+	 * check for any class group that is over the classrooms capacity
+	 * @param semester - the semester to check
+	 * @return a List of Strings, each String is a classID for a Class in an overcapacity group
+	 */
 	public static List<String> getOverCapacityList(String semester){
 		List<String> classIDlist = new ArrayList<String>();
 		if (Semester.SEMESTERS.contains(semester)){
@@ -225,6 +263,10 @@ public class dbServices {
  * 								Extract Functions
  * ===============================================================================================================
  */
+	/**
+	 * extract combined classes from the database and put them into a class group
+	 * @param semester - the semester to check
+	 */
 	public static void extractCombos(String semester){
 		int comboNum = getNextCombo(semester);
 		Classlist classlist = getClasses(semester);
@@ -251,7 +293,10 @@ public class dbServices {
 		updateClasses(semester, classlist);
 	}
 	
-
+	/**
+	 * Extract classroom names and capacities from the class database and add them to the classroom database
+	 * @param semester
+	 */
 	public static void extractClassrooms(String semester){
 		if (Semester.SEMESTERS.contains(semester)){
 			Map<String, String> ournames = getOurNames(semester);
@@ -280,6 +325,11 @@ public class dbServices {
 			updateClassrooms(semester, roomlist);
 		}		
 	}
+	
+	/**
+	 * Extract Instructor names from the class database and add them to the Instructor database
+	 * @param semester
+	 */
 	public static void extractInstructors(String semester){
 		if (Semester.SEMESTERS.contains(semester)){
 			Map<String, String> ournames = getOurNames(semester);
@@ -310,6 +360,10 @@ public class dbServices {
 		}
 	}
 	
+	/**
+	 * delete duplicate classrooms and instructors from the databases
+	 * @param semester - the semester to check
+	 */
 	public static void deleteDuplicates(String semester){
 		if (Semester.SEMESTERS.contains(semester)){
 			Connection conn = null;
@@ -336,6 +390,11 @@ public class dbServices {
  * ===============================================================================================================
  */
 	
+	/**
+	 * create the classes and upload tables with columns matching the uploaded headers
+	 * @param semester - the semester to upload to
+	 * @param sizes - a Map<String,Integer>, each String is a header name, each Integer is the size for the field
+	 */
 	public static void createClassTables(String semester, Map<String,Integer> sizes){
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -389,6 +448,10 @@ public class dbServices {
 		}
 	}
 	
+	/**
+	 * drop the classes and upload tables for the given semester
+	 * @param semester - the semester to drop from
+	 */
 	public static void dropClassTables(String semester){
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -415,6 +478,11 @@ public class dbServices {
  * 								Header Functions
  * ===============================================================================================================
  */
+	/**
+	 * get the header names as listed in the initial upload
+	 * @param semester - the semester to check
+	 * @return a List of Strings, each String is a header from the initial upload
+	 */
 	public static List<String> getHeaders(String semester) {
 		ArrayList<String> list = new ArrayList<String>();
 		Connection conn = null;
@@ -440,6 +508,12 @@ public class dbServices {
 		return list;
 	}
 	
+	/**
+	 * Store the headers and associated names
+	 * @param semester - the semester to check
+	 * @param headers - a List of Strings, each String is a header name
+	 * @param ournames - a Map<String, String>, the first String is a header name, the second is the associated name
+	 */
 	public static void setHeaders(String semester, List<String> headers, Map<String,String> ournames){
 		if (Semester.SEMESTERS.contains(semester)){
 			Connection conn = null;
@@ -468,6 +542,10 @@ public class dbServices {
 		}
 	}
 	
+	/**
+	 * clear the stored headers
+	 * @param semester - the semester to check
+	 */
 	public static void clearHeaders(String semester){
 		if (Semester.SEMESTERS.contains(semester)){
 			Connection conn = null;
@@ -486,6 +564,11 @@ public class dbServices {
 		}
 	}
 	
+	/**
+	 * get the associated name map
+	 * @param semester - the semester to check
+	 * @return a Map<String, String>, the key String is the associated name, the value String is the header name as initially uploaded 
+	 */
 	public static Map<String, String> getOurNames(String semester) {
 		Map<String, String> headermap = new HashMap<String, String>();
 		if (Semester.SEMESTERS.contains(semester)){
@@ -516,7 +599,10 @@ public class dbServices {
  * 								User Functions
  * ===============================================================================================================
  */
-	
+	/**
+	 * get a list of all users
+	 * @return a List of all the Users in the database
+	 */
 	public static List<User> getUsers(){
 		List<User> users = new ArrayList<User>();
 		Connection conn = null;
@@ -550,6 +636,11 @@ public class dbServices {
 		return users;
 	}
 	
+	/**
+	 * get a user by their ID
+	 * @param userID - the ID of the user to pull info for
+	 * @return the User belonging to the ID, if the ID is not found it will be a blank user
+	 */
 	public static User getUserByID(int userID){
 		User user = new User();
 		Connection conn = null;
@@ -583,6 +674,11 @@ public class dbServices {
 		return user;
 	}
 	
+	/**
+	 * update a User in the database
+	 * @param user - new user info to update
+	 * @return True if successful, otherwise False
+	 */
 	public static Boolean updateUser(User user){
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -644,6 +740,10 @@ public class dbServices {
 		return false;
 	}
 	
+	/**
+	 * delete the user with the given ID
+	 * @param userID - the ID of the user to delete
+	 */
 	public static void deleteUser(int userID){
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -667,7 +767,12 @@ public class dbServices {
  * 								Class1 Functions
  * ===============================================================================================================
  */
-	// upload classes to database
+
+	/**
+	 * upload all classes in a classlist to the classes and upload databases
+	 * @param semester - the semester to upload to
+	 * @param classlist - the classlist to upload
+	 */
 	public static void uploadClasses(String semester, Classlist classlist){
 		if (Semester.SEMESTERS.contains(semester)){
 			if (classlist != null && classlist.size() > 0){
@@ -723,6 +828,12 @@ public class dbServices {
 	}
 	
 	// update a class group
+	/**
+	 * update information for a class group
+	 * @param semester - the semester to update
+	 * @param c - a class that has already been updated with information for the group to be updated and is part of the class group
+	 * @return True if successful, otherwise False
+	 */
 	public static Boolean updateGroup(String semester, Class1 c){
 		Classlist classlist = getClasses(semester, c.getClassID());
 		Map<String, String>ournames = classlist.getHeaders();
@@ -737,12 +848,24 @@ public class dbServices {
 		return updateClasses(semester, classlist);
 	}
 	
-	// update a class
+	/**
+	 * update a class in the database
+	 * @param semester - the semester to update
+	 * @param c - the class to be updated
+	 * @return True if successful, otherwise False
+	 */
 	public static Boolean updateClasses(String semester, Class1 c){
 		Classlist classlist = new Classlist(semester);
 		classlist.add(c);
 		return updateClasses(semester, classlist);
 	}
+	
+	/**
+	 * update a classlist in the database
+	 * @param semester - the semester to update
+	 * @param classlist - a classlist of classes to be updated
+	 * @return True if successful, otherwise False
+	 */
 	public static Boolean updateClasses(String semester, Classlist classlist){
 		boolean success = false;
 		classlist.updateClasses(semester);
@@ -784,27 +907,69 @@ public class dbServices {
 		return success;
 	}
 	
+	/**
+	 * get all classes of a given subject
+	 * @param semester - the semester to search
+	 * @param subject - the subject to search for
+	 * @return a Classlist populated with all classes of the given subject
+	 */
 	public static Classlist getClassesBySubject(String semester, String subject){
 		return getClasses(semester, 0, null, null, null, subject);
 	}
+	
+	/**
+	 * get all classes in the classroom that has the given roomID
+	 * @param semester - the semester to search
+	 * @param roomID - the ID of the classroom to search for
+	 * @return a Classlist populated with all classes assigned to the classroom with the given roomID
+	 */
 	public static Classlist getClassesByRoomID(String semester, int roomID){
 		Classroom classroom = getClassroomByID(semester, roomID);
 		return getClasses(semester, 0, classroom.getRoomName(), null, null, null);
 	}
+	
+	/**
+	 * get all classes taught by the instructor with the given ID
+	 * @param semester - the semester to search
+	 * @param instructorID - the ID of the instructor to search for
+	 * @return a Classlist populated with all classes taught by the Instructor with the given instructorID
+	 */
 	public static Classlist getClassesByInstructorID(String semester, int instructorID){
 		Instructor instructor = getInstructorByID(semester, instructorID);
 		return getClasses(semester, 0, null, instructor.getNameFirst(), instructor.getNameLast(), null);
 	}
-	// get all classes
+
+	/**
+	 * get all classes for a given semester
+	 * @param semester - the semester to search
+	 * @return - a Classlist populated by all classes of the given semester
+	 */
 	public static Classlist getClasses(String semester){
 		return getClasses(semester, 0, null, null, null, null);
 	}
-	// get class group by id, class with classID will be first on list
+	
+	/**
+	 * get a class by it's class ID, along with the other classes in it's class group
+	 * @param semester - the semester to search
+	 * @param classID - the ID of the class to search for
+	 * @return a Classlist populated by classes in the same group as the class with the given ID, the class with the given ID will be listed first
+	 */
 	public static Classlist getClasses(String semester, int classID)
 	{
 		return getClasses(semester, classID, null, null, null, null);
-	}	
-	public static Classlist getClasses(String semester, int classID, String classroom, String instructorfirst, String instructorlast, String subject){
+	}
+	
+	/**
+	 * generate a classlist based on the given parameters.  Will only match one type of search, checking each parameter in the list.  If all parameters are set to skip values, will return all classes
+	 * @param semester - the semester to search
+	 * @param classID - the ID of a class to search for, 0 otherwise
+	 * @param classroom - the classroom name of the classroom to search for, null otherwise
+	 * @param instructorfirst - the instructor's first name to search for, null otherwise
+	 * @param instructorlast - the instructor's last name to search for, null otherwise
+	 * @param subject - the subject to search for, null otherwise
+	 * @return a Classlist populated by classes that match the given parameters
+	 */
+	private static Classlist getClasses(String semester, int classID, String classroom, String instructorfirst, String instructorlast, String subject){
 		Classlist classlist = new Classlist();
 		if (Semester.SEMESTERS.contains(semester)){
 			Map<String,String> ournames = getOurNames(semester);
@@ -872,8 +1037,12 @@ public class dbServices {
 		classlist.updateClasses(semester);
 		return classlist;
 	}
-	
-	// delete class
+
+	/**
+	 * delete a class
+	 * @param semester - the semester to search
+	 * @param classID - the ID of the class to delete
+	 */
 	public static void deleteClasses(String semester, int classID){
 		if (Semester.SEMESTERS.contains(semester)){
 			Connection conn = null;
@@ -898,6 +1067,12 @@ public class dbServices {
 	 * 								Classroom Functions
 	 * ===============================================================================================================
 	 */
+	
+	/**
+	 * update a classroom in the database for each semester
+	 * @param cr - the classroom to be updated
+	 * @return True if successful, otherwise False
+	 */
 	public static boolean updateClassrooms(Classroom cr) {
 		boolean success = true;
 		for (String s : Semester.SEMESTERS){
@@ -905,11 +1080,25 @@ public class dbServices {
 		}
 		return success;
 	}
+	
+	/**
+	 * update a classroom in the database
+	 * @param semester - the semester to search
+	 * @param cr - the classroom to be updated
+	 * @return True if successful, otherwise False
+	 */
 	public static boolean updateClassrooms(String semester, Classroom cr) {
 		List<Classroom> roomlist = new ArrayList<Classroom>();
 		roomlist.add(cr);
 		return updateClassrooms(semester, roomlist);
 	}
+	
+	/**
+	 * update a list of classrooms in the database
+	 * @param semester - the semester to be updated
+	 * @param roomlist - a list of classrooms to be updated
+	 * @return True if successful, otherwise False
+	 */
 	public static boolean updateClassrooms(String semester, List<Classroom> roomlist){
 		boolean success = false;
 		if (Semester.SEMESTERS.contains(semester)){
@@ -958,6 +1147,12 @@ public class dbServices {
 		return success;
 	}
 	
+	/**
+	 * get a classroom by it's name
+	 * @param semester - the semester to search
+	 * @param className - the classroom name to search
+	 * @return a classroom with the given name or null if not found
+	 */
 	public static Classroom getClassroomByName(String semester, String className){
 		Classroom classroom = null;
 		List<Classroom> classroomlist = getClassrooms(semester, 0, className);
@@ -966,6 +1161,13 @@ public class dbServices {
 		}
 		return classroom;
 	}
+	
+	/**
+	 * get a classroom by it's ID
+	 * @param semester - the semester to search
+	 * @param roomID - the ID of the classroom to search for
+	 * @return a Classroom with the given ID or Null if not found
+	 */
 	public static Classroom getClassroomByID(String semester, int roomID){
 		Classroom classroom = null;
 		List<Classroom> classroomlist = getClassrooms(semester, roomID, null);
@@ -975,10 +1177,23 @@ public class dbServices {
 		return classroom;
 	}
 	
+	/**
+	 * get all classrooms for a given semester
+	 * @param semester - the semester to search
+	 * @return a List of all Classrooms for the given semester
+	 */
 	public static List<Classroom> getClassrooms(String semester){
 		return getClassrooms(semester, 0, null);
 	}
-	public static List<Classroom> getClassrooms(String semester, int roomID, String className){
+	
+	/**
+	 * generate a Classroom List based on given parameters, if all parameters are their skip values, all classrooms are returned
+	 * @param semester - the semester to search for
+	 * @param roomID - the ID of the room to search for, 0 otherwise
+	 * @param className - the classroom name to search for, Null otherwise
+	 * @return return a Classroom List based on the given parameters
+	 */
+	private static List<Classroom> getClassrooms(String semester, int roomID, String className){
 		List<Classroom> list = new ArrayList<Classroom>();
 		if (Semester.SEMESTERS.contains(semester)){
 			Map<String, String> ournames = getOurNames(semester);
@@ -1026,6 +1241,11 @@ public class dbServices {
 		return list;
 	}
 	
+	/**
+	 * delete a classroom with the given ID
+	 * @param semester - the semester to search
+	 * @param roomID - the ID of the classroom to delete
+	 */
 	public static void deleteClassroom(String semester, int roomID){
 		if (Semester.SEMESTERS.contains(semester)){
 			Connection conn = null;
@@ -1047,6 +1267,10 @@ public class dbServices {
 		}
 	}
 	
+	/**
+	 * clear the classrooms listed for a given semester
+	 * @param semester - the semester to clear
+	 */
 	public static void clearClassrooms(String semester) {
 		if (Semester.SEMESTERS.contains(semester)){
 			Connection conn = null;
@@ -1072,6 +1296,11 @@ public class dbServices {
 	 * 								Instructor Functions
 	 * ===============================================================================================================
 	 */
+	/**
+	 * update an instructor for all semesters
+	 * @param instructor - the instructor to update
+	 * @return True if successful, otherwise False
+	 */
 	public static boolean updateInstructors(Instructor instructor) {
 		boolean success = true;
 		for (String s : Semester.SEMESTERS){
@@ -1079,11 +1308,25 @@ public class dbServices {
 		}
 		return success;
 	}
+	
+	/**
+	 * update an instructor for a given semester
+	 * @param semester - the semester to update
+	 * @param instructor - the instructor to update
+	 * @return True if successful, otherwise False
+	 */
 	public static boolean updateInstructors(String semester, Instructor instructor) {
 		List<Instructor> instructorlist = new ArrayList<Instructor>();
 		instructorlist.add(instructor);
 		return updateInstructors(semester, instructorlist);
 	}
+	
+	/**
+	 * update a list of instructors for the given semester
+	 * @param semester - the semester to update
+	 * @param instructorlist - a list of Instructors to be updated
+	 * @return True if successful, otherwise False
+	 */
 	public static boolean updateInstructors(String semester, List<Instructor> instructorlist){
 		boolean success = false;
 		if (Semester.SEMESTERS.contains(semester)){
@@ -1129,6 +1372,13 @@ public class dbServices {
 		return success;
 	}
 	
+	/**
+	 * get an instructor based on first and last name
+	 * @param semester - the semester to search
+	 * @param instructorfirst - the Instructors first name to search for
+	 * @param instructorlast - the Instructors last name to search for
+	 * @return an Instructor of the given names of null if not found
+	 */
 	public static Instructor getInstructorByName(String semester, String instructorfirst, String instructorlast){
 		Instructor instructor = null;
 		List<Instructor> instructorlist = getInstructors(semester, 0, instructorfirst, instructorlast);
@@ -1137,6 +1387,13 @@ public class dbServices {
 		}
 		return instructor;
 	}
+	
+	/**
+	 * get an instructor by their ID
+	 * @param semester - the semester to search
+	 * @param instructorID - the ID of the instructor to search for
+	 * @return an Instructor with the given ID or Null if not found
+	 */
 	public static Instructor getInstructorByID(String semester, int instructorID){
 		Instructor instructor = null;
 		List<Instructor> instructorlist = getInstructors(semester, instructorID, null, null);
@@ -1146,10 +1403,24 @@ public class dbServices {
 		return instructor;
 	}
 	
+	/**
+	 * get a list of all Instructors listed for a given semester
+	 * @param semester - the semester to search for
+	 * @return a List of all Instructors listed for the given semester
+	 */
 	public static List<Instructor> getInstructors(String semester){
 		return getInstructors(semester, 0, null, null);
 	}
-	public static List<Instructor> getInstructors(String semester, int instructorID, String instructorfirst, String instructorlast){
+	
+	/**
+	 * get a List of Instructors based on parameters
+	 * @param semester - the semester to search
+	 * @param instructorID - the ID of the instructor to search for, otherwise 0
+	 * @param instructorfirst - the first name of the instructor to search for, otherwise null
+	 * @param instructorlast - the last name of the instructor to search for, otherwise null
+	 * @return a List of Instructors based on the given parameters, if all parameters are their skip values all instructors are returned
+	 */
+	private static List<Instructor> getInstructors(String semester, int instructorID, String instructorfirst, String instructorlast){
 		List<Instructor> list = new ArrayList<Instructor>();
 		if (Semester.SEMESTERS.contains(semester)){
 			Connection conn = null;
@@ -1195,6 +1466,11 @@ public class dbServices {
 		return list;
 	}
 	
+	/**
+	 * delete the instructor with the given ID
+	 * @param semester - the semester to delete from
+	 * @param instructorID - the ID of the instructor to delete
+	 */
 	public static void deleteInstructor(String semester, int instructorID){
 		if (Semester.SEMESTERS.contains(semester)){
 			Connection conn = null;
@@ -1216,6 +1492,10 @@ public class dbServices {
 		}
 	}
 	
+	/**
+	 * clear the instructors listed for the given semester
+	 * @param semester - the semester to clear
+	 */
 	public static void clearInstructors(String semester) {
 		if (Semester.SEMESTERS.contains(semester)){
 			Connection conn = null;

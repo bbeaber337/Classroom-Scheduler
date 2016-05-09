@@ -6,25 +6,44 @@ import java.util.List;
 import java.util.Map;
 
 import com.scheduler.services.dbServices;
-
+/**
+ * a ArrayList specifically for storing Class1's
+ *
+ */
 public class Classlist extends ArrayList<Class1>{
 	
 	Map<String, String> myheaders;
 	
 	public Classlist(){}
 	
+	/**
+	 * creates a classlist, stores the associated names from the given semester this list should represent classes from
+	 * @param semester - the semester to get associated values names
+	 */
 	public Classlist(String semester){
 		setHeaders(dbServices.getOurNames(semester));
 	}
 	
+	/**
+	 * get the associated name map for this classlist
+	 * @return the associated name map for this classlist
+	 */
 	public Map<String, String> getHeaders(){
 		return myheaders;
 	}
 	
+	/**
+	 * set the associated name map for this classlist
+	 * @param headers - the associated name map for this classlist
+	 */
 	public void setHeaders(Map<String,String> headers){
 		this.myheaders = headers;
 	}
 	
+	/**
+	 * get the total enrollment for all classes in this Classlist
+	 * @return the combined total enrollment for all classes in this Classlist
+	 */
 	public int getTotEnrolled(){
 		int sum = 0;
 		for (Class1 c : this){
@@ -36,6 +55,10 @@ public class Classlist extends ArrayList<Class1>{
 		return sum;
 	}
 	
+	/**
+	 * get the combined capacity for all classes in this Classlist
+	 * @return the combined capacity for all classes in this Classlist
+	 */
 	public int getCapEnrolled(){
 		int sum = 0;
 		for (Class1 c : this){
@@ -47,6 +70,12 @@ public class Classlist extends ArrayList<Class1>{
 		return sum;
 	}
 	
+	/**
+	 * update each class in the classlist by
+	 * 	- parsing meeting day field and setting appropriate class*** attributes
+	 *  - updating the capacity to match the current classroom capacity from the classroom table
+	 * @param semester - the semester to search
+	 */
 	public void updateClasses(String semester){
 		for (Class1 c : this){
 			// set room capacity

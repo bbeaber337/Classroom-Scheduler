@@ -14,15 +14,31 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 
 import com.scheduler.valueObjects.*;
-
+/**
+ * This class contains all the methods for generating the JSON objects for AJAX calls
+ *
+ */
 public class jsonServices {
-	
+	/**
+	 * create a JSON Object as a String that contains whether a given class has conflicts
+	 * @param semester - the semester to search
+	 * @param c - the class to compare
+	 * @return a JSON Object as a String that contains whether a given class has conflicts
+	 */
 	public static String buildClassChangeConflicts(String semester, Class1 c){
 		JsonObject json = Json.createObjectBuilder()
 				.add("data", conflictServices.findPotentialChangeConflicts(semester, c)).build();
 		return json.toString();
 	}
 	
+	/**
+	 * create a JSON Object as a String that contains all classes for a given semester
+	 * @param semester - the semester to search
+	 * @param context - the server context
+	 * @param response - the server response
+	 * @param userlevel - the signed in user's access level
+	 * @return a JSON Object as a String that contains all classes for a given semester
+	 */
 	public static String buildClasses(String semester, ServletContext context, HttpServletResponse response, int userlevel){
 		Classlist items = dbServices.getClasses(semester);
 		Map<String, String> headermap = items.getHeaders();
@@ -51,6 +67,14 @@ public class jsonServices {
 		return json.toString();
 	}
 	
+	/**
+	 * create a JSON Object as a String that contains all Classrooms for a given semester
+	 * @param semester - the semester to search
+	 * @param context - the server context
+	 * @param response - the server response
+	 * @param userlevel - the signed in user's access level
+	 * @return a JSON Object as a String that contains all Classrooms for a given semester
+	 */
 	public static String buildClassrooms(String semester, ServletContext context, HttpServletResponse response, int userlevel){
 		List<Classroom> items = dbServices.getClassrooms(semester);
 		JsonArrayBuilder classBuilder = Json.createArrayBuilder();
@@ -76,6 +100,14 @@ public class jsonServices {
 		return json.toString();
 	}
 	
+	/**
+	 * create a JSON Object as a String that contains all Instructors for a given semester
+	 * @param semester - the semester to search
+	 * @param context - the server context
+	 * @param response - the server response
+	 * @param userlevel - the signed in user's access level
+	 * @return a JSON Object as a String that contains all Instructors for a given semester
+	 */
 	public static String buildInstructors(String semester, ServletContext context, HttpServletResponse response, int userlevel){
 		List<Instructor> items = dbServices.getInstructors(semester);
 		JsonArrayBuilder classBuilder = Json.createArrayBuilder();
@@ -99,6 +131,13 @@ public class jsonServices {
 		return json.toString();
 	}
 	
+	/**
+	 * create a JSON Object as a String that contains information from a given Classlist to display that class on a week view schedule
+	 * @param classlist - the Classlist to convert to JSON
+	 * @param context - the server context
+	 * @param response - the server response
+	 * @return a JSON Object as a String that contains information from a given Classlist to display that class on a week view schedule
+	 */
 	public static String buildWeek(Classlist classlist, ServletContext context, HttpServletResponse response){
 		JsonArrayBuilder classBuilder = Json.createArrayBuilder();
 		try {
@@ -139,6 +178,12 @@ public class jsonServices {
 	    return json.toString();
 	}
 
+	/**
+	 * create a Classlist of all classes taught by a given instructor
+	 * @param semester - the semester to search
+	 * @param instructorID - the ID of the instructor to search for
+	 * @return a Classlist of all classes taught by a given instructor
+	 */
 	public static Classlist buildClasslistByInstructor(String semester, int instructorID) {
 		Classlist allClasses = dbServices.getClasses(semester);
 		Map<String, String> ournames = allClasses.getHeaders();
@@ -154,6 +199,12 @@ public class jsonServices {
 		return returnList;
 	}
 	
+	/**
+	 * create a Classlist of all classes taught by a given classroom
+	 * @param semester - the semester to search
+	 * @param roomID - the ID of the classroom to search for
+	 * @return a Classlist of all classes taught by a given classroom
+	 */
 	public static Classlist buildClasslistByClassroom(String semester, int roomID) {
 		Classlist classlist = dbServices.getClasses(semester);
 		Map<String,String> ournames = classlist.getHeaders();

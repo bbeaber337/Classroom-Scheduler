@@ -16,6 +16,8 @@ import javax.servlet.http.HttpSession;
 
 /**
  * Servlet Filter implementation class loginFilter
+ * Ensures user is logged in unless on the log in page.
+ * If the user is not logged in and trying to access another page besides login, they will be redirected to the login page
  */
 public class loginFilter implements Filter {
 	

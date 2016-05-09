@@ -11,7 +11,8 @@ import javax.servlet.http.HttpServlet;
 import com.scheduler.valueObjects.Semester;
 
 /**
- * Servlet implementation class DBSetup
+ * Initializes the user table if it doesn't already exists and populates it with a generic admin/admin login.
+ * Initializes the instructor, classroom, and header tables for each classroom if they don't already exist.
  */
 public class DBSetup extends HttpServlet {
 	private static final long serialVersionUID = 1L;

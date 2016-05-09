@@ -3,6 +3,10 @@ import java.sql.*;
 import javax.sql.*;
 import javax.naming.*;
 
+/**
+ * Handles creating connections to the database as a DataSource
+ * if the DataSource isn't found, it defaults to initial testing connection.
+ */
 public class JdbcManager{
 
 	private static InitialContext context = null;

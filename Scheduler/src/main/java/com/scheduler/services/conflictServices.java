@@ -7,12 +7,26 @@ import java.util.List;
 import java.util.Map;
 
 import com.scheduler.valueObjects.*;
-
+/**
+ * contains methods for detecting conflicts in the schedule
+ */
 public class conflictServices {
 	
+	/**
+	 * generates a list of all conflicts for the given semester
+	 * @param semester - the semester to check
+	 * @return return a list of all conflicts for the given semester
+	 */
 	public static List<Conflict> getConflicts(String semester){
 		return getConflicts(semester, 0);
 	}
+	
+	/**
+	 * Generates a list of conflicts for the given semester for the given classID, if the classID = 0 the list contains all conflicts for the semester
+	 * @param semester - the semester to check
+	 * @param classID - classID to return conflicts for, if 0 returns all conflicts
+	 * @return returns a list of conflicts for the given semester and classID
+	 */
 	public static List<Conflict> getConflicts(String semester, int classID){
 		List<Conflict> list = new ArrayList<Conflict>();
 		list.addAll(checkClassrooms(semester));
@@ -28,6 +42,11 @@ public class conflictServices {
 		return list;
 	}
 	
+	/**
+	 * Checks classrooms of the given semester for classes with overlapping time frames
+	 * @param semester - the semester to check
+	 * @return  returns a list of all conflicts for a semester where two classes are in the same classroom and have overlapping times.
+	 */
 	private static List<Conflict> checkClassrooms(String semester){
 		List<Conflict> list = new ArrayList<Conflict>();
 		for (Classroom room : dbServices.getClassrooms(semester)){
@@ -37,6 +56,11 @@ public class conflictServices {
 		return list;
 	}
 	
+	/**
+	 * Checks instructors of the given semester for classes with overlapping time frames
+	 * @param semester - the semester to check
+	 * @return returns a list of all conflicts for a semester where two classes have the same instructor and have overlapping times
+	 */
 	private static List<Conflict> checkInstructors(String semester){
 		List<Conflict> list = new ArrayList<Conflict>();
 		for (Instructor instructor : dbServices.getInstructors(semester)){
@@ -45,6 +69,12 @@ public class conflictServices {
 		return list;
 	}
 	
+	/**
+	 * Checks the given classlist for overlapping time frames
+	 * @param semester - the semester to check
+	 * @param classlist - the classlist to check for time conflicts
+	 * @return a list of conflicts where two classes from the given classlist have overlapping timeframes
+	 */
 	private static List<Conflict> findTimeConflicts(String semester, Classlist classlist){
 		SimpleDateFormat df = new SimpleDateFormat("M/d/yyyy");
 		SimpleDateFormat tf = new SimpleDateFormat("hh:mm:ss a");
@@ -96,6 +126,11 @@ public class conflictServices {
 		return list;
 	}
 	
+	/**
+	 * Checks that all classes for the given semester have an assigned teacher and classroom.  Also checks if the class if over class capacity
+	 * @param semester - the semester to check
+	 * @return a list of conflicts where a class is not assigned a teacher or classroom or is over class capacity.
+	 */
 	private static List<Conflict> checkClasses(String semester){
 		List<Conflict> list = new ArrayList<Conflict>();
 		Classlist classlist = dbServices.getClasses(semester);
@@ -123,6 +158,11 @@ public class conflictServices {
 		return list;
 	}
 	
+	/**
+	 * Checks the given semester for classes that are over classroom capacity
+	 * @param semester - the given semester to check
+	 * @return a list of conflicts where a class has exceeded classroom capacity
+	 */
 	private static List<Conflict> findCapacityConflicts(String semester){
 		List<Conflict> list = new ArrayList<Conflict>();
 		List<String> capIDlist = dbServices.getOverCapacityList(semester);
@@ -135,6 +175,12 @@ public class conflictServices {
 		return list;		
 	}
 	
+	/**
+	 * Checks a given semester for classrooms that have classes at the same time as the given class
+	 * @param semester - the semester to check
+	 * @param c1 - the class to check for conflicts
+	 * @return returns a list of classrooms that have other classes scheduled at the same time as the given class
+	 */
 	public static List<String> findPotentialTimeConflicts(String semester, Class1 c1){
 		Map<String,String> ournames = dbServices.getOurNames(semester);
 		List<String> list = new ArrayList<String>();
@@ -182,6 +228,12 @@ public class conflictServices {
 		return list;
 	}
 	
+	/**
+	 * Checks a semester for conflicts with a given class
+	 * @param semester - the semester to check
+	 * @param c - the class to check against
+	 * @return returns true if the class has conflicts, otherwise false
+	 */
 	public static Boolean findPotentialChangeConflicts(String semester, Class1 c){
 		Classlist cl = new Classlist(semester);
 		cl.add(c);
