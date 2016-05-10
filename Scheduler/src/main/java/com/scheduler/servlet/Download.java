@@ -223,30 +223,7 @@ public class Download extends HttpServlet {
 			run.addBreak();
 			run.setText("Information Science & Technology - Computer Science - Subject: Computer Science");
 			run.addBreak();
-			run.addBreak();
-			
-			/*  REMOVED HEADING AND ADDED IT TO EACH PARAPGRAPH INSTEAD
-			paragraph = document.createParagraph();
-			paragraph.setAlignment(ParagraphAlignment.LEFT);
-			run = paragraph.createRun();
-			run.setBold(true);
-			//run.setUnderline(null);
-			run.setText("Subject");
-			run.addTab();
-			run.addTab();
-			run.setText("Catalog Nbr");
-			run.addTab();
-			run.setText("Section");
-			run.addTab();
-			run.setText("Class Nbr");
-			run.addTab();
-			run.setText("Course Title");
-			run.addTab();
-			run.addTab();
-			run.addTab();
-			run.setText("Component");
-			run.addBreak();*/
-			
+			run.addBreak();			
 			
 			for (Class1 c : items){
 				addSpacer(document);
@@ -264,14 +241,16 @@ public class Download extends HttpServlet {
 					run.setText("Catalog Nbr: " + c.get(ournames.get("catalog")));
 				} else {run.setText("Catalog Nbr: Not set");}
 				run.addTab();
+				run.addTab();
 				if (c.get(ournames.get("section")) != null){
 					run.setText("Section: " + c.get(ournames.get("section")));
 				} else {run.setText("Section: Not set");}
 				run.addTab();
+				run.addTab();
 				if (c.get(ournames.get("classnumber")) != null){
 					run.setText("Class Nbr: " + c.get(ournames.get("classnumber")));
 				} else {run.setText("Class Nbr: Not set");}
-				run.addTab();
+				run.addBreak();
 				if (c.get(ournames.get("classname")) != null){
 					run.setText("Course Title: " + c.get(ournames.get("classname")));
 				} else {run.setText("Course Title: Not set");}
@@ -296,24 +275,20 @@ public class Download extends HttpServlet {
 				if (c.get(ournames.get("starttime")) != null || c.get(ournames.get("endtime")) != null){
 					run.setText("Time: " + c.get(ournames.get("starttime")) + "-" + c.get(ournames.get("endtime")));
 				} else {run.setText("Time: Not set");}
-				run.addTab();
-				run.addTab();
+				run.addBreak();
 				if (c.get(ournames.get("instructorfirst")) != null || c.get(ournames.get("instructorlast")) != null){
 					run.setText("Instructor: " + c.get(ournames.get("instructorfirst")) + " " + c.get(ournames.get("instructorlast")));
 				} else {run.setText("Instructor: Not set");}
-				run.addBreak();
-
-				if (c.get(ournames.get("capcapacity")) != null){
-					run.setText("Class Enr Cap: " + c.get(ournames.get("capcapacity")));
+				run.addTab();
+				run.addTab();
+				if (c.get(ournames.get("capenrolled")) != null){
+					run.setText("Class Enr Cap: " + c.get(ournames.get("capenrolled")));
 				} else {run.setText("Class Enr Cap: Not set");}
 				run.addTab();
 				run.addTab();
 				if (c.get(ournames.get("totenrolled")) != null){
 					run.setText("Class Enr Tot: " + c.get(ournames.get("totenrolled")));
 				} else {run.setText("Class Enr Tot: Not set");}
-				run.addTab();
-				run.addTab();
-				//run.setText("Combined Section: ");
 
 			}
 
@@ -468,13 +443,14 @@ public class Download extends HttpServlet {
 				run.setFontSize(12);
 				run.setText(ournames.get("classnumber") + ": " + c.get(ournames.get("classnumber")));
 				run.addTab();
+				run.addTab();
 				run.setText(ournames.get("subject") + ": " + c.get(ournames.get("subject")));
+				run.addTab();
 				run.addTab();
 				run.setText(ournames.get("catalog") + ": " + c.get(ournames.get("catalog")));
 				run.addTab();
-				run.setText(ournames.get("section") + ": " + c.get(ournames.get("section")));
 				run.addTab();
-				run.setText(ournames.get("capenrolled") + ": " + c.get(ournames.get("capenrolled")));
+				run.setText(ournames.get("section") + ": " + c.get(ournames.get("section")));
 				run.addBreak();
 				run.setText(ournames.get("classname") + ": " + c.get(ournames.get("classname")));
 				run.addTab();
@@ -490,6 +466,8 @@ public class Download extends HttpServlet {
 				run.setText(ournames.get("startdate") + ": " + c.get(ournames.get("startdate")));
 				run.addTab();
 				run.setText(ournames.get("enddate") + ": " + c.get(ournames.get("enddate")));
+				run.addTab();
+				run.setText(ournames.get("capenrolled") + ": " + c.get(ournames.get("capenrolled")));
 				run.addBreak();
 				run.setText(ournames.get("instructorfirst") + ": " + c.get(ournames.get("instructorfirst")));
 				run.addTab();

@@ -293,6 +293,46 @@
 			<% } %>
 		</div>
 	</div>
+	
+	<script>
+	$(document).ready( function () {
+	    
+	    $('.conflictCheck').each(function(){
+	    	$(this).blur(function(){
+				var formData = $('#editForm').serializeArray();
+	    		$.ajax({
+	   				dataType:"json",
+	   				url:"<%= response.encodeURL(context.getContextPath()+"/Classes/Check") %>",
+	   			  	data: formData,
+	   				success: function (json) {
+						if (json.data == true){
+							$('.conflictDisplay').show();
+						} else {
+							$('.conflictDisplay').hide();
+						}
+	   				},
+	   				type: "POST"
+	   			});
+	    	});
+	    });
+	    
+	    $('#applyall').blur(function(){
+	    		if (!$('#applyall').prop("checked")){
+	    			$('#groupnum').val("");
+	    		} else if ($.trim($('#groupnum').val()) == ""){
+	    			$('#groupnum').val(<%if(c!=null && c.getGroupNumber() != 0){ %><%= c.getGroupNumber() %><% } else { %><%= dbServices.getNextCombo(semester) %><% } %>);    			
+	    		}
+	    });
+	    
+	    $('#groupnum').blur(function(){
+	    	if ($.trim($('#groupnum').val()) == ""){
+				$('#applyall').prop("checked", false);    		
+	    	} else {
+	    		$('#applyall').prop("checked", true);
+	    	}
+	    });
+	});
+	</script>
 	<% } else if (pathinfo.equalsIgnoreCase("Select")){
 			Classlist classlist = dbServices.getClasses(semester, Integer.parseInt(request.getParameter("classID")));
 			Class1 c = null;
@@ -451,30 +491,12 @@ $(document).ready( function () {
                 "order": [[ <%= Class1.OURNAMES.indexOf("classroom") + val %>, "asc" ]]
     });
     
-    $('.conflictCheck').each(function(){
-    	$(this).blur(function(){
-			var formData = $('#editForm').serializeArray();
-    		$.ajax({
-   				dataType:"json",
-   				url:"<%= response.encodeURL(context.getContextPath()+"/Classes/Check") %>",
-   			  	data: formData,
-   				success: function (json) {
-					if (json.data == true){
-						$('.conflictDisplay').show();
-					} else {
-						$('.conflictDisplay').hide();
-					}
-   				},
-   				type: "POST"
-   			});
-    	});
-    });
 <% if(userlevel == User.USER_ADMIN){ %>
     $("#add > a").attr("href","<%= response.encodeURL(context.getContextPath()+"/Classes/Add") %>");
     $("#add > a").append(" Class");
     $("#add").show();
 <% } %>
-} );
+});
 </script>
 </body>
 </html>
